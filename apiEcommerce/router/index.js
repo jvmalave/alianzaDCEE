@@ -1,0 +1,15 @@
+import routerx from "express-promise-router"
+import User from './User';
+import router from './User';
+import Categorie from './Categorie';
+import Product from "./Product";
+
+
+const mainrouter = routerx();
+
+router.use('/users', User);
+router.use('/categories', Categorie);
+router.use('/products', Product);
+
+
+export default router;

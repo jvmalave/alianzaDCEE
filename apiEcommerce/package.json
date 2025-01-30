@@ -1,0 +1,30 @@
+{
+  "name": "api-ecommerce",
+  "version": "1.0.0",
+  "description": "ecommerce de la alianza digital comunitaria El Encantado",
+  "license": "ISC",
+  "author": "Grupo 4 PST III Uneti 2024-2025",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js",
+    "build": "babel index.js -d dist"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parse": "^0.1.0",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-promise-router": "^4.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.3",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0"
+  }
+}
