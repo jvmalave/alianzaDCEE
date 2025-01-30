@@ -1,15 +1,17 @@
-import routerx from "express-promise-router"
-import User from './User';
-import router from './User';
-import Categorie from './Categorie';
-import Product from "./Product";
+import routerx from 'express-promise-router'
+import User from './User'
+import Categorie from './Categorie'
+import Product from './Product'
+import Slider from './Slider'
+import Cupone from './Cupone'
+import Discount from './Discount'
 
-
-const mainrouter = routerx();
-
+const router = routerx();
 router.use('/users', User);
 router.use('/categories', Categorie);
 router.use('/products', Product);
-
+router.use('/sliders', Slider);
+router.use('/cupones', Cupone);
+router.use('/discount', Discount);
 
 export default router;

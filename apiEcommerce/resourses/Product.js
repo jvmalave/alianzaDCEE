@@ -1,5 +1,5 @@
 export default{
-  product_list: (product) => {
+  product_list: (product, variedades = []) => {
     return{
       _id: product._id,
       title: product.title,
@@ -16,6 +16,11 @@ export default{
       tags:product.tags? JSON.parse(product.tags) : [],
       type_inventario:product.type_inventario,
       condition:product.condition,
+      variedades: variedades,
+      galerias:product.galerias.map((galeria) =>{
+        galeria.imagen = "http://localhost:3000"+"/api/products/uploads/product/"+galeria.imagen;
+        return galeria;
+      })
     }
   }
 }

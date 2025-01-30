@@ -9,7 +9,7 @@ const ProductSchema = new Schema({
   price_usd: {type:Number, required:true},
   portada:{type:String, required:true, maxlength:250},
   galerias:[{type:Object, required:false}],
-  state:{type:Number, default:1}, //(1 es en prueba o desarrollo, 2 va ser publico, 3 va ser anulado)
+  state:{type:Number, default:1}, //(1: Demo, 2:publico, 3: anulado)
   stock: {type:Number, default:0},
   description:{type:String, required:true},
   resumen:{type:String, required:true},
@@ -21,4 +21,5 @@ const ProductSchema = new Schema({
 });
 
 const Product = mongoose.model('product',ProductSchema);
+
 export default Product;

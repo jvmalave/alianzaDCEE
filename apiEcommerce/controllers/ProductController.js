@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 
 export default{
-  register: async(req,res) => {
+  register: async(req,res) =>{
     try {
       let data = req.body;
     
@@ -52,14 +52,14 @@ export default{
         });
         return;
       }
-      data.slug = data.title.tolowerCase().replace(/ /g,"-").replace(/[^\w-]+/g,'');
+      data.slug = data.title.toLowerCase().replace(/ /g,"-").replace(/[^\w-]+/g,'');
 
-      if(req.files && files.imagen){
+      if(req.files && req.files.imagen){
         var img_path = req.files.imagen.path;
         var name = img_path.split('/');
         var portada_name = name[2];
         //console.log(portada_name)
-        req.data.portada = portada_name;
+        data.portada = portada_name;
       }
 
      await models.Product.findByIdAndUpdate({_id:data._id}, data);
@@ -69,6 +69,7 @@ export default{
       });
 
     } catch (error) {
+      console.log('mi falla es:', error)
       res.status(500).send({
         message: "OCURRIO UN PROBLEMA"
       });
@@ -76,20 +77,30 @@ export default{
 
   },
 
+
   list: async(req,res) =>{
     try {
-      var search = req.query.search;
-      var categorie = req.query.categorie;
-      var condition = req.query.condition;
-
+      var filter = [];
+      if(req.query.search){
+        filter.push(
+          {"title": RegExp(req.query.search, "i")},
+        );
+      }
+      if(req.query.categorie){
+        filter.push(
+          {"categorie": req.query.categorie},
+        );
+      }
+      if(req.query.condition){
+        filter.push(
+          {"condition": req.query.condition},
+        );
+      }
+  
       let products = await models.Product.find({
-        $or:[
-          {"title": RegExp(search, "i")},
-          {"categorie": categorie},
-          {"condition": condition},
-        ]
+        $and: filter,
       }).populate("categorie")
-
+  
       products = products.map(product => {
         return resourses.Product.product_list(product);
       })
@@ -101,14 +112,12 @@ export default{
         message: "OCURRIO UN PROBLEMA"
       });
     }
-
-
-
   },
+  
 
   remove: async(req,res) =>{
     try {
-      let _id = req.params._id;
+      let _id = req.query._id;
       await models.Product.findByIdAndDelete({_id:_id});
 
       res.status(200).json({
@@ -143,13 +152,15 @@ export default{
         }
   },
 
-  show: async(req,res) => {
+  show: async(req,res) =>{
     try {
       var product_id = req.params.id;
       let PRODUCT = await models.Product.findById({_id: product_id});
 
+      let VARIEDADES = await models.Variedad.find({product: product_id});
+
       res.status(200).json({
-        product: resourses.Product.product_list(PRODUCT),
+        product: resourses.Product.product_list(PRODUCT, VARIEDADES),
       })
       
     } catch (error) {
@@ -171,16 +182,14 @@ export default{
           $push: {
             galerias:{
               imagen: imagen_name,
-              _id: req.body.__id,
+              _id: req.body.__id
             }
           }
         })
-
         res.status(200).json({
           message: "LA IMAGEN SE SUBIO CORRECTAMENTE",
           imagen: {
-            imagen: imagen_name,
-            imagen_path: "http://localhost:3000"+"/uploads/product/"+imagen_name,
+            imagen: "http://localhost:3000"+"/api/products/uploads/product/"+imagen_name,
               _id: req.body.__id,
           }
         })
