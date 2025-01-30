@@ -30,10 +30,10 @@ export class DiscountService {
     );
   }
 
-  showDiscount(cupone_id=''){
+  showDiscount(discount_id=''){
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'token': this.authservice.token});
-    let URL = URL_SERVICIOS+"/discount/show?cupone_id="+cupone_id;
+    let URL = URL_SERVICIOS+"/discount/show?discount_id="+discount_id;
     return this.http.get(URL,{headers: headers}).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );

@@ -25,30 +25,47 @@
       </ng-container>
 
       <div class="form-group row">
-          <div class="col-4">
-              <div class="form-group">
-                  <label>Tipo de descuento: <span class="text-danger">*</span></label>
-                  <div class="radio-list">
-                      <label class="radio">
-                          <input type="radio" [checked]="type_discount == 1" (click)="checkedTypeDiscount(1)" name="radios1">
-                          <span></span>
-                          Por Porcentaje
-                      </label>
-                      <label class="radio">
-                          <input type="radio" [checked]="type_discount == 2" (click)="checkedTypeDiscount(2)" name="radios1">
-                          <span></span>
-                          Por Moneda
-                      </label>
-                  </div>
+        <div class="col-4">
+          <div class="form-group">
+              <label>Tipo de Campaña: <span class="text-danger">*</span></label>
+              <div class="radio-list">
+                  <label class="radio">
+                    <input type="radio" [checked]="type_campaign == 1" (click)="checkedtypeCampaign(1)" name="radiosC">
+                    <span></span>
+                    Campaña de Descuento
+                  </label>
+                  <label class="radio">
+                    <input type="radio" [checked]="type_campaign == 2" (click)="checkedtypeCampaign(2)" name="radiosC">
+                    <span></span>
+                    Venta Flash
+                  </label>
               </div>
           </div>
-          <div class="col-4">
-              <div class="form-group">
-                  <label>Descuento: <span class="text-danger">*</span></label>
-                  <input type="number" class="form-control" placeholder="" [(ngModel)]="discount" name="discount">
-                  <span class="form-text text-muted">Ingresa la cantidad.</span>
-              </div>
-          </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Tipo de descuento: <span class="text-danger">*</span></label>
+                <div class="radio-list">
+                    <label class="radio">
+                        <input type="radio" [checked]="type_discount == 1" (click)="checkedTypeDiscount(1)" name="radios1">
+                        <span></span>
+                        Por Porcentaje
+                    </label>
+                    <label class="radio">
+                        <input type="radio" [checked]="type_discount == 2" (click)="checkedTypeDiscount(2)" name="radios1">
+                        <span></span>
+                        Por Moneda
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Descuento: <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" placeholder="" [(ngModel)]="discount" name="discount">
+                <span class="form-text text-muted">Ingresa la cantidad.</span>
+            </div>
+        </div>
       </div>
       <div class="form-group row">
         <div class="col-4">
@@ -80,7 +97,7 @@
                           <span></span>
                           Aplicado a Producto
                       </label>
-                      <label class="radio">
+                      <label class="radio" *ngIf="type_campaign == 1">
                           <input type="radio" [checked]="type_segment == 2" (click)="checkedTypeSegment(2)" name="radios3">
                           <span></span>
                           Aplicado a Categoría

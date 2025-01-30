@@ -25,10 +25,12 @@ export default {
             }
 
             filter_a.push({
+              type_campaign: data.type_campaign,
               start_date_num: {$gte: data.start_date_num, $lte: data.end_date_num}
             })
 
             filter_b.push({
+              type_campaign: data.type_campaign,
               end_date_num: {$gte: data.start_date_num, $lte: data.end_date_num}
             })
 
@@ -82,18 +84,20 @@ export default {
           };
 
           filter_a.push({
+            type_campaign: data.type_campaign,
             _id: {$ne: data._id},
             start_date_num: {$gte: data.start_date_num, $lte: data.end_date_num}
           })
 
           filter_b.push({
+            type_campaign: data.type_campaign,
             _id: {$ne: data._id},
             end_date_num: {$gte: data.start_date_num, $lte: data.end_date_num}
           })
 
           let exits_start_date = await models.Discount.find({$and: filter_a});
 
-          let exits_end_date = await models.Discount.findOne({$and: filter_b});
+          let exits_end_date = await models.Discount.find({$and: filter_b});
 
           if( exits_start_date.length > 0 || exits_end_date.length > 0 ){
               res.status(200).json({
@@ -107,7 +111,7 @@ export default {
 
           res.status(200).json({
               message: 200,
-              message_text: "El descuento se registró satisfactoriamente",
+              message_text: "El descuento se actualizó satisfactoriamente",
               discount:discount
           });
 
@@ -156,7 +160,7 @@ export default {
         try {
             let discount_id = req.query.discount_id;
 
-            let cupon = await models.Discount.findOne({_id: discount_id});
+            let discount = await models.Discount.findOne({_id: discount_id});
 
             res.status(200).json({
                 message: 200,
