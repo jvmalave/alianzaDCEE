@@ -8,6 +8,10 @@ export const routes: Routes = [
     loadChildren: () => import("./modules/home/home.module").then(m => m.HomeModule),
   },
   {
+    path: '',
+    loadChildren: () => import("./modules/ecommerce-guest/ecommerce-guest.module").then(m => m.EcommerceGuestModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import("./modules/auth-profile/auth-profile.module").then(m => m.AuthProfileModule),
   },

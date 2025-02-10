@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CuponeService } from '../../cupone/_services/cupone.service';
-import { DeleteNewCuponeComponent } from '../../cupone/delete-new-cupone/delete-new-cupone.component';
 import { DiscountService } from '../_services/discount.service';
 import { DeleteNewDiscountComponent } from '../delete-new-discount/delete-new-discount.component';
 import { DatePipe } from '@angular/common';

@@ -82,235 +82,45 @@
                 <div class="d-md-flex align-items-end flash-sale-section">
                     <div class="section-title-wrapper">
                         <span class="title-highlighter highlighter-primary"><i class="fas fa-fire"></i> Today's</span>
-                        <h2 class="title">Flash Sales</h2>
+                        <h2 class="title">Ventas Flash</h2>
                     </div>
                     <div class="sale-countdown countdown"></div>
                 </div>
                 <div class="new-arrivals-product-activation slick-layout-wrapper--15 axil-slick-arrow  arrow-top-slide">
+                  <ng-container *ngFor="let product of FlashPrductList">
                     <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="100" data-sal-duration="1500" src="assets/images/product/electric/product-02.png" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">20% OFF</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
+                      <div class="axil-product product-style-four">
+                          <div class="thumbnail">
+                              <a href="single-product.html">
+                                  <img data-sal="zoom-out" style="width: 255px; height: 255px; object-fit: cover;" data-sal-delay="100" data-sal-duration="1500" [src]="product.imagen" alt="Product Images">
+                              </a>
+                              <div class="label-block label-right" *ngIf="FlashSale.type_discount == 1">
+                                  <div class="product-badget">{{ FlashSale.discount }} %OFF</div>
+                              </div>
+                              <div class="label-block label-right" *ngIf="FlashSale.type_discount == 2">
+                                <div class="product-badget">{{ FlashSale.discount }} USD OFF</div>
                             </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Level 20 RGB Cherry</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$80</span>
-                                        <span class="price current-price">$60</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                              <div class="product-hover-action">
+                                  <ul class="cart-action">
+                                      <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
+                                      <li class="select-option"><a href="cart.html">Add to Cart</a></li>
+                                      <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(product, FlashSale)"><i class="far fa-eye"></i></a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                          <div class="product-content">
+                              <div class="inner">
+                                  <h5 class="title"><a href="single-product.html">{{ product.title }}</a></h5>
+                                  <div class="product-price-variant">
+                                      <span class="price old-price">$ {{ product.price_usd}}</span>
+                                      <span class="price current-price">$ {{ getCalNewPrice(product)}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                     <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="1500" src="assets/images/product/fashion/product-19.png" alt="Product Images">
-                                </a>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Sky Blue T-shirt</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$40</span>
-                                        <span class="price current-price">$40</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="300" data-sal-duration="1500" src="assets/images/product/fashion/product-6.png" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">50% OFF</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Women's Stylish Hat</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$30</span>
-                                        <span class="price current-price">$24</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="400" data-sal-duration="1500" src="assets/images/product/jewellery/product-4.png" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">30% OFF</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Diamond Ring</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$50</span>
-                                        <span class="price current-price">$40</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="100" data-sal-duration="1500" src="assets/images/product/furniture/product-5.png" alt="Product Images">
-                                </a>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Neue Sofa Chair</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$60</span>
-                                        <span class="price current-price">$50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="1500" src="assets/images/product/electric/product-04.png" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">50% OFF</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">3D™ wireless headset</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$30</span>
-                                        <span class="price current-price">$24</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="300" data-sal-duration="1500" src="assets/images/product/furniture/product-4.png" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">30% OFF</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Men's Winter Jacket</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$50</span>
-                                        <span class="price current-price">$40</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
-                    <div class="slick-single-layout">
-                        <div class="axil-product product-style-four">
-                            <div class="thumbnail">
-                                <a href="single-product.html">
-                                    <img data-sal="zoom-out" data-sal-delay="400" data-sal-duration="1500" src="assets/images/product/fashion/product-3.png" alt="Product Images">
-                                </a>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">Leather Hand Bag</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price old-price">$60</span>
-                                        <span class="price current-price">$50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End .slick-single-layout -->
+                  </ng-container>
                 </div>
             </div>
         </div>
@@ -356,14 +166,14 @@
                     <div class="slick-single-layout">
                       <div class="axil-product product-style-three">
                           <div class="thumbnail">
-                              <a href="single-product.html">
+                              <a [routerLink]="['/landing-producto', bestProduct.slug]">
                                   <img data-sal="fade" style="width: 255px; height: 255px; object-fit:cover;" data-sal-delay="100" data-sal-duration="1500" [src]="bestProduct.imagen" alt="Product Images">
                               </a>
                               <div class="product-hover-action">
                                   <ul class="cart-action">
                                       <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
                                       <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                      <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                      <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                                   </ul>
                               </div>
                           </div>
@@ -379,7 +189,7 @@
                               </span>
                                       <span class="rating-number">(18)</span>
                                   </div>
-                                  <h5 class="title"><a href="single-product.html">{{bestProduct.title }}</a></h5>
+                                  <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{bestProduct.title }}</a></h5>
                                   <div class="product-price-variant">
                                       <span class="price current-price">$ {{ bestProduct.price_usd }} </span>
                                       <!-- <span class="price old-price">$50</span> -->
@@ -490,6 +300,55 @@
                 <!-- End .slick-single-layout -->
                 <div class="slick-single-layout">
                   <div class="row row--15">
+                      <ng-container *ngFor="let our_product of our_products">
+                          <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                              <div class="axil-product product-style-one">
+                                  <div class="thumbnail">
+                                      <a href="single-product.html">
+                                          <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="our_product.imagen" alt="Product Images">
+                                          <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="our_product.imagen_two" alt="Product Images">
+                                      </a>
+                                      <div class="label-block label-right">
+                                          <div class="product-badget">{{ our_product.condition == 1 ? "Nuevo" : "Usado" }}</div>
+                                      </div>
+                                      <div class="product-hover-action">
+                                          <ul class="cart-action">
+                                            <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(our_product)"><i class="far fa-eye"></i></a></li>
+                                              <li class="select-option">
+                                                  <a href="single-product.html">
+                                                      Add to Cart
+                                                  </a>
+                                              </li>
+                                              <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                                  <div class="product-content">
+                                      <div class="inner">
+                                          <div class="product-rating">
+                                              <span class="icon">
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                      </span>
+                                              <span class="rating-number">(64)</span>
+                                          </div>
+                                          <h5 class="title"><a href="single-product.html">{{ our_product.title }}</a></h5>
+                                          <div class="product-price-variant">
+                                              <span class="price current-price"> $ {{ our_product.price_usd }} </span>
+                                              <!-- <span class="price old-price">$49.99</span> -->
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </ng-container>
+                  </div>
+                </div>
+                <div class="slick-single-layout">
+                  <div class="row row--15">
                       <ng-container *ngFor="let best_product of bestProducts">
                           <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                               <div class="axil-product product-style-one">
@@ -498,12 +357,12 @@
                                           <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="best_product.imagen" alt="Product Images">
                                           <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="best_product.imagen_two" alt="Product Images">
                                       </a>
-                                      <div class="label-block label-right">
-                                          <div class="product-badget">{{ best_product.condition == 1 ? "Nuevo" : "Usado" }}</div>
-                                      </div>
+                                      <!-- <div class="label-block label-right">
+                                          <div class="product-badget">20% Off</div>
+                                      </div> -->
                                       <div class="product-hover-action">
                                           <ul class="cart-action">
-                                              <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                              <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(best_product)"><i class="far fa-eye"></i></a></li>
                                               <li class="select-option">
                                                   <a href="single-product.html">
                                                       Add to Cart
@@ -527,7 +386,7 @@
                                           </div>
                                           <h5 class="title"><a href="single-product.html">{{ best_product.title }}</a></h5>
                                           <div class="product-price-variant">
-                                              <span class="price current-price"> $ {{ best_product.price_usd }} </span>
+                                              <span class="price current-price">{{ best_product.price_soles }} PEN</span>
                                               <!-- <span class="price old-price">$49.99</span> -->
                                           </div>
                                       </div>
@@ -535,10 +394,8 @@
                               </div>
                           </div>
                       </ng-container>
-                      
-                      
                   </div>
-                </div>
+              </div>
               <!-- End .slick-single-layout -->
             </div>
             <div class="row">
@@ -555,7 +412,7 @@
     <div class="axil-product-area bg-color-white axil-section-gap">
       <div class="container">
           <div class="section-title-wrapper">
-              <span class="title-highlighter highlighter-secondary"> <i class="far fa-heart"></i>Donación</span>
+              <span class="title-highlighter highlighter-secondary"> <i class="far fa-heart"></i>Centro de Donaciones</span>
               <h2 class="title">Explore productos en donación</h2>
           </div>
           <div class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
@@ -574,7 +431,7 @@
                                 </div> -->
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(donation_product)"><i class="far fa-eye"></i></a></li>
                                         <li class="select-option">
                                             <a href="single-product.html">
                                                 Add to Cart
@@ -809,7 +666,7 @@
                               <ul class="cart-action justify-content-center">
                                   <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
                                   <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                  <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                  <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                               </ul>
                           </div>
                       </div>
@@ -822,29 +679,36 @@
     </div>
     <!-- End New Arrivals Product Area  -->
 
-    <!-- Start Axil Newsletter Area  -->
+    <!-- Start register seller Area  -->
     <div class="axil-newsletter-area axil-section-gap pt--0">
         <div class="container">
             <div class="etrade-newsletter-wrapper bg_image bg_image--12">
                 <div class="newsletter-content">
-                    <span class="title-highlighter highlighter-primary2"><i class="fas fa-envelope-open"></i>Newsletter</span>
-                    <h2 class="title mb--40 mb_sm--30">Get weekly update</h2>
-                    <div class="input-group newsletter-form">
-                        <div class="position-relative newsletter-inner mb--15">
+                    <span class="title-highlighter highlighter-primary2 mb-3"><i class="fas fa-plus"></i>Afiliate a ALI</span><i class="fa-solid "></i>
+                    <h2 class="title mb--40 mb_sm--30">Registra tu emprendimiento</h2>
+                    <h4 class="title mb--40 mb_sm--30">Promociona y vende tus productos</h4>
+                    <div class="col-6">
+                        <!-- <div class="position-relative newsletter-inner mb--15">
                             <input placeholder="example@gmail.com" type="text">
-                        </div>
-                        <button type="submit" class="axil-btn mb--15">Subscribe</button>
+                        </div> -->
+
+                        <a
+                        type="button"
+                        class="axil-btn btn-bg-primary" 
+                        routerLink=""
+                        >  Registrate ahora  </a
+                      >
                     </div>
                 </div>
             </div>
         </div>
         <!-- End .container -->
     </div>
-    <!-- End Axil Newsletter Area  -->
+    <!-- Start register seller Area  -->
 
 </main>
 
-
+<!-- Start Service Area  -->
 <div class="service-area">
     <div class="container">
         <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
@@ -895,6 +759,8 @@
         </div>
     </div>
 </div>
+<!-- End Service Area  -->
+
 <!-- Start Footer Area  -->
 <app-footer></app-footer>
 <!-- End Footer Area  -->
@@ -906,59 +772,41 @@
             <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" *ngIf="product_selected">
                 <div class="single-product-thumb">
                     <div class="row">
                         <div class="col-lg-7 mb--40">
                             <div class="row">
                                 <div class="col-lg-10 order-lg-2">
                                     <div class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
+                                      <ng-container *ngFor="let galeria of product_selected.galerias">
                                         <div class="thumbnail">
-                                            <img src="assets/images/product/product-big-01.png" alt="Product Images">
-                                            <div class="label-block label-right">
-                                                <div class="product-badget">20% OFF</div>
+                                          <img [src]="galeria.imagen" alt="Product Images">
+                                          <ng-container *ngIf="product_selected.FlashSale">
+                                            <div class="label-block label-right" *ngIf="product_selected.FlashSale.type_discount == 1">
+                                              <div class="product-badget"> {{ product_selected.FlashSale.discount }}% OFF</div>
                                             </div>
-                                            <div class="product-quick-view position-view">
-                                                <a href="assets/images/product/product-big-01.png" class="popup-zoom">
-                                                    <i class="far fa-search-plus"></i>
-                                                </a>
+                                            <div class="label-block label-right" *ngIf="product_selected.FlashSale.type_discount == 2">
+                                              <div class="product-badget">${{ product_selected.FlashSale.discount }} OFF</div>
                                             </div>
+                                          </ng-container>
+                                          
+                                          <div class="product-quick-view position-view">
+                                              <a [href]="galeria.imagen" class="popup-zoom">
+                                                  <i class="far fa-search-plus"></i>
+                                              </a>
+                                          </div>
                                         </div>
-                                        <div class="thumbnail">
-                                            <img src="assets/images/product/product-big-02.png" alt="Product Images">
-                                            <div class="label-block label-right">
-                                                <div class="product-badget">20% OFF</div>
-                                            </div>
-                                            <div class="product-quick-view position-view">
-                                                <a href="assets/images/product/product-big-02.png" class="popup-zoom">
-                                                    <i class="far fa-search-plus"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail">
-                                            <img src="assets/images/product/product-big-03.png" alt="Product Images">
-                                            <div class="label-block label-right">
-                                                <div class="product-badget">20% OFF</div>
-                                            </div>
-                                            <div class="product-quick-view position-view">
-                                                <a href="assets/images/product/product-big-03.png" class="popup-zoom">
-                                                    <i class="far fa-search-plus"></i>
-                                                </a>
-                                            </div>
-                                        </div>
+                                      </ng-container>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 order-lg-1">
                                     <div class="product-small-thumb small-thumb-wrapper">
+                                      <ng-container  *ngFor="let galeria of product_selected.galerias">
                                         <div class="small-thumb-img">
-                                            <img src="assets/images/product/product-thumb/thumb-08.png" alt="thumb image">
+                                          <img [src]="galeria.imagen" alt="thumb image">
                                         </div>
-                                        <div class="small-thumb-img">
-                                            <img src="assets/images/product/product-thumb/thumb-07.png" alt="thumb image">
-                                        </div>
-                                        <div class="small-thumb-img">
-                                            <img src="assets/images/product/product-thumb/thumb-09.png" alt="thumb image">
-                                        </div>
+                                      </ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -974,19 +822,21 @@
                                             <a href="#">(<span>1</span> customer reviews)</a>
                                         </div>
                                     </div>
-                                    <h3 class="product-title">Serif Coffee Table</h3>
-                                    <span class="price-amount">$155.00 - $255.00</span>
+                                    <h3 class="product-title"> {{ product_selected.title }}</h3>
+                                    <span class="price-amount" *ngIf="!product_selected.FlashSale">$ {{ product_selected.price_usd }}</span>
+                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ <del>{{ product_selected.price_usd }}</del></span>
+                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ {{ getCalNewPrice(product_selected) }}</span>
                                     <ul class="product-meta">
                                         <li><i class="fal fa-check"></i>In stock</li>
                                         <li><i class="fal fa-check"></i>Free delivery available</li>
                                         <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
                                     </ul>
-                                    <p class="description">In ornare lorem ut est dapibus, ut tincidunt nisi pretium. Integer ante est, elementum eget magna. Pellentesque sagittis dictum libero, eu dignissim tellus.</p>
+                                    <p class="description"> {{ product_selected.resumen}}</p>
 
                                     <div class="product-variations-wrapper">
 
                                         <!-- Start Product Variation  -->
-                                        <div class="product-variation">
+                                        <!-- <div class="product-variation">
                                             <h6 class="title">Colors:</h6>
                                             <div class="color-variant-wrapper">
                                                 <ul class="color-variant mt--0">
@@ -998,18 +848,16 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- End Product Variation  -->
 
                                         <!-- Start Product Variation  -->
-                                        <div class="product-variation">
-                                            <h6 class="title">Size:</h6>
+                                        <div class="product-variation" *ngIf="product_selected.type_inventario == 2">
+                                            <h6 class="title">Tamaños:</h6>
                                             <ul class="range-variant">
-                                                <li>xs</li>
-                                                <li>s</li>
-                                                <li>m</li>
-                                                <li>l</li>
-                                                <li>xl</li>
+                                              <ng-container *ngFor="let variedad of product_selected.variedades">
+                                                <li>{{ variedad.valor }}</li>
+                                              </ng-container>
                                             </ul>
                                         </div>
                                         <!-- End Product Variation  -->
@@ -1042,177 +890,6 @@
 </div>
 <!-- Product Quick View Modal End -->
 
-<!-- Header Search Modal End -->
-<div class="header-search-modal" id="header-search-modal">
-    <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
-    <div class="header-search-wrap">
-        <div class="card-header">
-            <form action="#">
-                <div class="input-group">
-                    <input type="search" class="form-control" name="prod-search" id="prod-search" placeholder="Write Something....">
-                    <button type="submit" class="axil-btn btn-bg-primary"><i class="far fa-search"></i></button>
-                </div>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="search-result-header">
-                <h6 class="title">24 Result Found</h6>
-                <a href="shop.html" class="view-all">View All</a>
-            </div>
-            <div class="psearch-results">
-                <div class="axil-product-list">
-                    <div class="thumbnail">
-                        <a href="single-product.html">
-                            <img src="./assets/images/product/electric/product-09.png" alt="Yantiti Leather Bags">
-                        </a>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-rating">
-                            <span class="rating-icon">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fal fa-star"></i>
-                        </span>
-                            <span class="rating-number"><span>100+</span> Reviews</span>
-                        </div>
-                        <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
-                        <div class="product-price-variant">
-                            <span class="price current-price">$29.99</span>
-                            <span class="price old-price">$49.99</span>
-                        </div>
-                        <div class="product-cart">
-                            <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                            <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="axil-product-list">
-                    <div class="thumbnail">
-                        <a href="single-product.html">
-                            <img src="./assets/images/product/electric/product-09.png" alt="Yantiti Leather Bags">
-                        </a>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-rating">
-                            <span class="rating-icon">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fal fa-star"></i>
-                        </span>
-                            <span class="rating-number"><span>100+</span> Reviews</span>
-                        </div>
-                        <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
-                        <div class="product-price-variant">
-                            <span class="price current-price">$29.99</span>
-                            <span class="price old-price">$49.99</span>
-                        </div>
-                        <div class="product-cart">
-                            <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                            <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Header Search Modal End -->
 
-
-<div class="cart-dropdown" id="cart-dropdown">
-  <div class="cart-content-wrap">
-      <div class="cart-header">
-          <h2 class="header-title">Cart review</h2>
-          <button class="cart-close sidebar-close"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="cart-body">
-          <ul class="cart-item-list">
-              <li class="cart-item">
-                  <div class="item-img">
-                      <a href="single-product.html"><img src="assets/images/product/electric/product-01.png" alt="Commodo Blown Lamp"></a>
-                      <button class="close-btn"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div class="item-content">
-                      <div class="product-rating">
-                          <span class="icon">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </span>
-                          <span class="rating-number">(64)</span>
-                      </div>
-                      <h3 class="item-title"><a href="single-product-3.html">Wireless PS Handler</a></h3>
-                      <div class="item-price"><span class="currency-symbol">$</span>155.00</div>
-                      <div class="pro-qty item-quantity">
-                          <input type="number" class="quantity-input" value="15">
-                      </div>
-                  </div>
-              </li>
-              <li class="cart-item">
-                  <div class="item-img">
-                      <a href="single-product-2.html"><img src="assets/images/product/electric/product-02.png" alt="Commodo Blown Lamp"></a>
-                      <button class="close-btn"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div class="item-content">
-                      <div class="product-rating">
-                          <span class="icon">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </span>
-                          <span class="rating-number">(4)</span>
-                      </div>
-                      <h3 class="item-title"><a href="single-product-2.html">Gradient Light Keyboard</a></h3>
-                      <div class="item-price"><span class="currency-symbol">$</span>255.00</div>
-                      <div class="pro-qty item-quantity">
-                          <input type="number" class="quantity-input" value="5">
-                      </div>
-                  </div>
-              </li>
-              <li class="cart-item">
-                  <div class="item-img">
-                      <a href="single-product-3.html"><img src="assets/images/product/electric/product-03.png" alt="Commodo Blown Lamp"></a>
-                      <button class="close-btn"><i class="fas fa-times"></i></button>
-                  </div>
-                  <div class="item-content">
-                      <div class="product-rating">
-                          <span class="icon">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </span>
-                          <span class="rating-number">(6)</span>
-                      </div>
-                      <h3 class="item-title"><a href="single-product.html">HD CC Camera</a></h3>
-                      <div class="item-price"><span class="currency-symbol">$</span>200.00</div>
-                      <div class="pro-qty item-quantity">
-                          <input type="number" class="quantity-input" value="100">
-                      </div>
-                  </div>
-              </li>
-          </ul>
-      </div>
-      <div class="cart-footer">
-          <h3 class="cart-subtotal">
-              <span class="subtotal-title">Subtotal:</span>
-              <span class="subtotal-amount">$610.00</span>
-          </h3>
-          <div class="group-btn">
-              <a href="cart.html" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
-              <a href="checkout.html" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
-          </div>
-      </div>
-  </div>
-</div>
 
  

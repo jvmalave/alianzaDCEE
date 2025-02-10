@@ -31,8 +31,8 @@ function HOMEINITTEMPLATE($, undefined) {
           axilInit.countdownInit('.coming-countdown', '2022/10/01');
           axilInit.campaignCountdown('.campaign-countdown', '2022/10/01');
           axilInit.countdownInit('.poster-countdown', '2022/10/01');
-          axilInit.countdownInit('.sale-countdown', '2022/10/31');
-          axilInit.sideOffcanvasToggle('.cart-dropdown-btn', '#cart-dropdown');
+          // axilInit.countdownInit('.sale-countdown', '2025/10/31');
+          //axilInit.sideOffcanvasToggle('.cart-dropdown-btn', '#cart-dropdown');
           axilInit.sideOffcanvasToggle('.mobile-nav-toggler', '.header-main-nav');
           axilInit.sideOffcanvasToggle('.department-side-menu', '.department-nav-menu');
           axilInit.sideOffcanvasToggle('.filter-toggle', '.axil-shop-sidebar');
@@ -991,4 +991,201 @@ function HOMEINITTEMPLATE($, undefined) {
   }
   axilInit.i();
 
+}
+
+function ModalProductDetail(){
+  $('.product-large-thumbnail').slick({
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    speed: 800,
+    draggable: false,
+    asNavFor: '.product-small-thumb'
+  });
+
+  $('.product-small-thumb').slick({
+    infinite: false,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    focusOnSelect: true,
+    vertical: true,
+    speed: 800,
+    asNavFor: '.product-large-thumbnail',
+    responsive: [{
+            breakpoint: 992,
+            settings: {
+                vertical: false,
+            }
+        },
+        {
+            breakpoint: 768,
+            settings: {
+                vertical: false,
+                slidesToShow: 4,
+            }
+        }
+    ]
+  });
+
+  if ($('.zoom-gallery').length) {
+    $('.zoom-gallery').each(function() {
+        $('.zoom-gallery').magnificPopup({
+            delegate: 'a.popup-zoom',
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
+    });
+  };
+
+  $('.modal-product .pro-qty').prepend('<span class="dec qtybtn">-</span>');
+  $('.modal-product .pro-qty').append('<span class="inc qtybtn">+</span>');
+  $('.modal-product .qtybtn').on('click', function() {
+      var $button = $(this);
+      var oldValue = $button.parent().find('input').val();
+      if ($button.hasClass('inc')) {
+          var newVal = parseFloat(oldValue) + 1;
+      } else {
+          // Don't allow decrementing below zero
+          if (oldValue > 0) {
+              var newVal = parseFloat(oldValue) - 1;
+          } else {
+              newVal = 0;
+          }
+      }
+      $button.parent().find('input').val(newVal);
+  });
+
+}
+
+function LandingProductDetail(){
+  $('.product-small-thumb-2').slick({
+    infinite: true,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    focusOnSelect: true,
+    speed: 800,
+    asNavFor: '.product-large-thumbnail-2',
+    responsive: [{
+            breakpoint: 768,
+            settings: {
+                slidesToShow: 5,
+            }
+        },
+        {
+            breakpoint: 479,
+            settings: {
+                slidesToShow: 4,
+            }
+        }
+    ]
+
+});
+
+$('.product-large-thumbnail-2').slick({
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    speed: 800,
+    draggable: false,
+    asNavFor: '.product-small-thumb-2',
+    prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-long-arrow-left"></i></button>',
+    nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-long-arrow-right"></i></button>'
+});
+
+  $('.landing-product .pro-qty').prepend('<span class="dec qtybtn">-</span>');
+  $('.landing-product .pro-qty').append('<span class="inc qtybtn">+</span>');
+  $('.landing-product .qtybtn').on('click', function() {
+      var $button = $(this);
+      var oldValue = $button.parent().find('input').val();
+      if ($button.hasClass('inc')) {
+          var newVal = parseFloat(oldValue) + 1;
+      } else {
+          // Don't allow decrementing below zero
+          if (oldValue > 0) {
+              var newVal = parseFloat(oldValue) - 1;
+          } else {
+              newVal = 0;
+          }
+      }
+      $button.parent().find('input').val(newVal);
+  });
+
+  $('.recent-product-activation').slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    arrows: true,
+    dots: false,
+    prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-long-arrow-left"></i></button>',
+    nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-long-arrow-right"></i></button>',
+    responsive: [{
+            breakpoint: 1199,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+            }
+        },
+        {
+            breakpoint: 991,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+        },
+        {
+            breakpoint: 479,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+    ]
+});
+
+}
+
+function sideOffcanvasToggle (selectbtn, openElement) {
+
+  $('body').on('click', selectbtn, function(e) {
+      e.preventDefault();
+      console.log("CLICK");
+      var $this = $(this),
+          wrapp = $this.parents('body'),
+          wrapMask = $('<div / >').addClass('closeMask'),
+          cartDropdown = $(openElement);
+
+      if (!(cartDropdown).hasClass('open')) {
+          wrapp.addClass('open');
+          cartDropdown.addClass('open');
+          cartDropdown.parent().append(wrapMask);
+          wrapp.css({
+              'overflow': 'hidden'
+
+          });
+
+      } else {
+          removeSideMenu();
+      }
+
+      function removeSideMenu() {
+          wrapp.removeAttr('style');
+          wrapp.removeClass('open').find('.closeMask').remove();
+          cartDropdown.removeClass('open');
+      }
+
+      $('.sidebar-close, .closeMask').on('click', function() {
+          removeSideMenu();
+      });
+
+  });
 }

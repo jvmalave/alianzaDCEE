@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from 'src/app/config/config';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
+export class EcommerceGuestService {
 
   constructor(
     public http: HttpClient,
-
   ) { }
 
-  listHome(TIME_NOW:any = ""){
-    let URL = URL_SERVICIOS+"/home/list?TIME_NOW="+TIME_NOW;
+  showLandingProduct(slug:string){
+    let URL = URL_SERVICIOS+"/home/landing-product/"+slug;
     return this.http.get(URL);
   }
 }

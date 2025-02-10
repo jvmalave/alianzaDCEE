@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeRoutingModule } from './home-routing.module';
-import { HomeComponent } from './home.component';
+import { EcommerceGuestRoutingModule } from './ecommerce-guest-routing.module';
+import { EcommerceGuestComponent } from './ecommerce-guest.component';
+import { LandingProductComponent } from './landing-product/landing-product.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,11 +12,12 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    EcommerceGuestComponent,
+    LandingProductComponent
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule,
+    EcommerceGuestRoutingModule,
     SharedModule,
     //
     FormsModule,
@@ -24,4 +26,4 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ]
 })
-export class HomeModule { }
+export class EcommerceGuestModule { }
