@@ -29,7 +29,7 @@ export default{
       let product = await models.Product.create(data);
 
       res.status(200).json({
-        message: "EL PRODUCTO SE REGISTRO SATISFACTORIAMENTE"
+        message: "Super! El producto se registró satisfactoriamente"
       });
 
     } catch (error) {
@@ -65,7 +65,7 @@ export default{
      await models.Product.findByIdAndUpdate({_id:data._id}, data);
 
       res.status(200).json({
-        message: "EL PRODUCTO SE ACTUALIZO SATISFACTORIAMENTE"
+        message: "Super! El producto se actualizó satisfactoriamente"
       });
 
     } catch (error) {
@@ -121,7 +121,7 @@ export default{
       await models.Product.findByIdAndDelete({_id:_id});
 
       res.status(200).json({
-        massage: "EL PRODUCTO SE ELIMINÓ SATISFACTORIAMENTE"
+        massage: "Super! El producto se eliminó satisfactoriamente"
       });
 
       

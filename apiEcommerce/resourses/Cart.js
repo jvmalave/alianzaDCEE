@@ -1,18 +1,19 @@
 export default{
   cart_list: (cart) => {
     return{
+      _id:cart._id,
       user: cart.user,
       product:{
-        _id: cart._id,
-        title: cart.title,
+        _id: cart.product._id,
+        title: cart.product.title,
         imagen:"http://localhost:3000"+"/api/products/uploads/product/"+cart.product.portada, 
-        state: cart.state,
-        slug: cart.slug,
-        sku: cart.sku,
-        categorie:cart.categorie,
-        price_bs:cart.price_bs,
-        price_usd:cart.price_usd,
-        condition:cart.condition,
+        state: cart.product.state,
+        slug: cart.product.slug,
+        sku: cart.product.sku,
+        categorie: cart.product.categorie,
+        price_bs: cart.product.price_bs,
+        price_usd: cart.product.price_usd,
+        condition: cart.product.condition,
       },
       type_discount: cart.type_discount,
       discount: cart.discount,

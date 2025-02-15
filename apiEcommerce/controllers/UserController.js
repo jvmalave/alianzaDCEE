@@ -5,6 +5,7 @@ import resourses from "../resourses";
 
 
 export default{
+  
   register: async(req,res) => {
     try {
       req.body.password = await bcrypt.hash(req.body.password,10);
@@ -53,6 +54,7 @@ export default{
                 const USER_FRONTED = {
                     token:tokenT,
                     user: {
+                        _id: user._id,
                         name: user.name,
                         email: user.email,
                         surname: user.surname,
@@ -92,6 +94,7 @@ login_admin: async(req,res) => {
               const USER_FRONTED = {
                   token:tokenT,
                   user: {
+                      _id: user._id,
                       name: user.name,
                       email: user.email,
                       surname: user.surname,

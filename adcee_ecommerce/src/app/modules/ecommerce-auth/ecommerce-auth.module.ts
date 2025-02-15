@@ -1,27 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeRoutingModule } from './home-routing.module';
-import { HomeComponent } from './home.component';
+import { EcommerceAuthRoutingModule } from './ecommerce-auth-routing.module';
+import { EcommerceAuthComponent } from './ecommerce-auth.component';
+import { ListCartsComponent } from './list-carts/list-carts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
+
 @NgModule({
   declarations: [
-    HomeComponent
+    EcommerceAuthComponent,
+    ListCartsComponent
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule,
-    SharedModule,
+    EcommerceAuthRoutingModule,
     //
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule
   ]
 })
-export class HomeModule { }
+export class EcommerceAuthModule { }

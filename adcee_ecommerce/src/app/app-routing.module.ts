@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EcommerceAuthModule } from './modules/ecommerce-auth/ecommerce-auth.module';
+import { AuthGuard } from './modules/auth-profile/_service/auth.guard';
 
 
 export const routes: Routes = [
@@ -10,6 +12,11 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import("./modules/ecommerce-guest/ecommerce-guest.module").then(m => m.EcommerceGuestModule),
+  },
+  {
+    path: '',
+    canActivate:[AuthGuard],
+    loadChildren: () => import("./modules/ecommerce-auth/ecommerce-auth.module").then(m => m.EcommerceAuthModule),
   },
   {
     path: 'auth',

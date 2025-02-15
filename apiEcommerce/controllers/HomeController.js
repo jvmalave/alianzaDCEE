@@ -71,7 +71,7 @@ export default {
           }
         }
   
-          console.log(FlashSale);
+          //console.log(FlashSale);
           // console.log(TIME_NOW);
         
         res.status(200).json({
