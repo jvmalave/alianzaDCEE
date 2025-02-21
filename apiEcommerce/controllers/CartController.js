@@ -1,7 +1,7 @@
 
 import models from "../models";
 import resourse from "../resourses"
-import Cart from "../resourses/Cart";
+
 
 export default {
   list: async(req,res) => {

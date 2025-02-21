@@ -8,9 +8,12 @@ import router from "./router";
 
 const dburl = "mongodb://127.0.0.1:27017/db_adcee";
 
+
+
 mongoose.connect(dburl)
   .then(() => console.log("CONECTADO A LA BD db_adcee en el puerto 27017"))
   .catch(err => console.log(err));
+
 
 
 //DECLARACION EXPRESS
@@ -23,5 +26,5 @@ app.use('/api/', router);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => { 
-  console.log("EL SERVIDOR SE EJECUTO PERFECTAMENTE EN EL PUERTO 3000");
+  console.log("EL SERVIDOR SE EJECUTA PERFECTAMENTE EN EL PUERTO 3000");
 });
