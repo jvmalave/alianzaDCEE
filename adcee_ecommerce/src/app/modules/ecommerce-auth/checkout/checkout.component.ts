@@ -48,6 +48,7 @@ export class CheckoutComponent implements OnInit {
       this.listCarts = resp;
       this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
     })
+    
     paypal.Buttons({
       // optional styling for buttons
       // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
@@ -92,7 +93,6 @@ export class CheckoutComponent implements OnInit {
           // Order.purchase_units[0].payments.captures[0].id
 
           let sale = {
-
             user: this.authEcommerce.authService.user._id,
             currency_payment: 'USD',
             method_payment: 'PAYPAL',
@@ -101,7 +101,6 @@ export class CheckoutComponent implements OnInit {
           };
 
           let sale_address = {
-
             name:this.name,
             surname:this.surname,
             country:this.country,
@@ -131,8 +130,6 @@ export class CheckoutComponent implements OnInit {
       }
     }).render(this.paypalElement?.nativeElement);
   }
-
-
 
   store(){
     if(this.address_client_selected){
@@ -177,8 +174,6 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-  
-
   updateAddress(){
     if(!this.name ||
       !this.surname
@@ -215,7 +210,6 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-
   resetFormulario(){
   this.name = null;
   this.surname = null;
@@ -229,7 +223,6 @@ export class CheckoutComponent implements OnInit {
   this.email = null;
   this.note = null;
   }
-
 
   newAddress(){
     this.resetFormulario();

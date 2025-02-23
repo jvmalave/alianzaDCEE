@@ -1,5 +1,6 @@
 import models from "../models";
 import resourse from "../resourses";
+import bcrypt from "bcryptjs"
 
 
 
@@ -90,7 +91,6 @@ export default {
       });
     }
   },
-
   show_landing_product: async(req, res) =>{
     try {
       let SLUG = req.params.slug;
@@ -120,5 +120,116 @@ export default {
       });
     }
 
-  }
+  },
+  profile_client: async(req, res) =>{
+    try {
+      let user_id = req.body.user_id;
+
+      let Orders =  await models.Sale.find({user: user_id});
+
+      let sale_orders = [];
+
+      for (const order of Orders) {
+        let detail_orders = await models.SaleDetail.find({sale: order._id}).populate({
+          path: "product",
+          populate: {
+             path: "categorie"
+          },
+        }).populate("variedad");
+        let sale_address = await models.SaleAddress.find({sale: order._id});
+        let collection_detail_orders = [];
+        for (const detail_order of detail_orders) {
+          let reviewS = await models.Review.findOne({sale_detail: detail_order._id});
+          collection_detail_orders.push({
+              _id:detail_order._id,
+              product:{
+                _id: detail_order.product._id,
+                title: detail_order.product.title,
+                imagen:"http://localhost:3000"+"/api/products/uploads/product/"+detail_order.product.portada, 
+                state: detail_order.product.state,
+                slug: detail_order.product.slug,
+                sku: detail_order.product.sku,
+                categorie: detail_order.product.categorie,
+                price_bs: detail_order.product.price_bs,
+                price_usd: detail_order.product.price_usd,
+                condition: detail_order.product.condition,
+              },
+              type_discount: detail_order.type_discount,
+              discount: detail_order.discount,
+              cantidad: detail_order.cantidad,
+              variedad: detail_order.variedad,
+              code_cupon: detail_order.code_cupon,
+              code_discount: detail_order.code_discount,
+              price_unit: detail_order.price_unit,
+              subtotal: detail_order.subtotal,
+              total: detail_order.total,
+              review: reviewS,
+          })
+        }
+        sale_orders.push({
+          sale: order,
+          sale_details:collection_detail_orders,
+          sale_address: sale_address,
+        })
+      }
+      let ADDRESS_CLIENT  = await models.AddressClient.find({user:user_id}).sort({'createdAt':-1});
+      res.status(200).json({
+        sale_orders: sale_orders,
+        address_client: ADDRESS_CLIENT
+      })
+
+      
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        message: "OCURRIÓ UN PROBLEMA",
+      });
+      
+    }
+  },
+   update_client: async (req, res) => {
+     try {
+       if (req.files) {
+         var img_path = req.files.avatar.path;
+         var name = img_path.split('/');
+         var avatar_name = name[2];
+         console.log(avatar_name)
+       }
+
+      //  console.log(req.body);
+  
+       const updateData = {};
+  
+       // Verifica cada campo y solo actualiza si tiene valor
+       if (req.body.name) updateData.name = req.body.name;
+       if (req.body.surname) updateData.surname = req.body.surname;
+       if (req.body.email) updateData.email = req.body.email;
+  
+       // Solo actualiza el password si se proporciona uno nuevo
+       if (req.body.password && req.body.password !== "") {
+         updateData.password = await bcrypt.hash(req.body.password, 10);
+       }
+  
+       await models.User.findByIdAndUpdate({ _id: req.body._id }, updateData);
+  
+       let User = await models.User.findOne({ _id: req.body._id });
+  
+       res.status(200).json({
+         message: "Super! Su información se actualizó satisfactoriamente",
+         user: {
+           name: User.name,
+           surname: User.surname,
+           email: User.email,
+           _id: User._id,
+         }
+       })
+  
+     } catch (error) {
+       console.log(error);
+       res.status(500).send({
+         message: "OCURRIÓ UN PROBLEMA"
+       });
+     }
+   },
+
 }

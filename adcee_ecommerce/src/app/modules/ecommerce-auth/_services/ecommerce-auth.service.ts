@@ -13,7 +13,7 @@ export class EcommerceAuthService {
     public http: HttpClient,
   ) {}
 
-// Start Dirección de cliente
+// Dirección de cliente
   listAddressClient(user_id:any){
     let headers = new HttpHeaders({'token': this.authService.token});
     let URL = URL_SERVICIOS+"address_client/list?user_id="+user_id;
@@ -37,21 +37,42 @@ export class EcommerceAuthService {
     let URL = URL_SERVICIOS+"address_client/delete/"+address_client_id;
     return this.http.delete(URL,{headers:headers});
   }
-// End Dirección de cliente
+
+  // Ordenes de ventas
 
   registerSale(data:any ){
     let headers = new HttpHeaders({'token': this.authService.token});
     let URL = URL_SERVICIOS+"sale/register";
     return this.http.post(URL,data,{headers:headers});
 }
-//
+
+// Perfil de cliente
 
   showProfileClient(data:any){
     let headers = new HttpHeaders({'token': this.authService.token});
-    let URL = URL_SERVICIOS+"home/profile_cliente";
+    let URL = URL_SERVICIOS+"home/profile_client";
     return this.http.post(URL,data,{headers:headers});
-
 }
+
+  updateProfileClient(data:any){
+    let headers = new HttpHeaders({'token': this.authService.token});
+    let URL = URL_SERVICIOS+"home/update_client";
+    return this.http.post(URL,data,{headers:headers});
+  }
+  
+  // Review 
+
+  registerProfileClientReview(data:any){
+    let headers = new HttpHeaders({'token': this.authService.token});
+    let URL = URL_SERVICIOS+"review/register";
+    return this.http.post(URL,data,{headers:headers});
+}
+
+  updateProfileClientReview(data:any){
+    let headers = new HttpHeaders({'token': this.authService.token});
+    let URL = URL_SERVICIOS+"review/update";
+    return this.http.put(URL,data,{headers:headers});
+  }
 
 
 }

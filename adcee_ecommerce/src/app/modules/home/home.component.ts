@@ -64,15 +64,11 @@ export class HomeComponent implements OnInit {
   }
 
 
- 
-
   OpenModal(bestProduct:any, FlashSale:any = null){
     this.product_selected = null;
   
 
     setTimeout(() => {
-
-
     this.product_selected = bestProduct;
     this.product_selected.FlashSale = FlashSale;
 
