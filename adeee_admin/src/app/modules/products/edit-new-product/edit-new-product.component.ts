@@ -137,16 +137,23 @@ export class EditNewProductComponent implements OnInit {
     this.tags.splice(i,1);
   }
   update(){
-    if(!this.title || !this.categorie || !this.price_bs || !this.price_usd || !this.condition || !this.description || !this.resumen || !this.sku || this.tags.length == 0) {
+    if(!this.title || !this.categorie || (this.condition !== "3" && (!this.price_bs || !this.price_usd)) || !this.description || !this.resumen || !this.sku || this.tags.length == 0) {
       this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
       return;
     }
+
+    // Verifica si la condición es "Donación" (3)
+    if (this.condition === "3") {
+      this.price_bs = 0;
+      this.price_usd = 0;
+    }
+
     let formData = new FormData();
     formData.append("_id", this.product_id);
     formData.append("title", this.title);
     formData.append("categorie", this.categorie);
-    formData.append("price_bs", this.price_bs);
-    formData.append("price_usd", this.price_usd);
+    formData.append("price_bs", String(this.price_bs)); // Convertir a String
+    formData.append("price_usd", String(this.price_usd)); // Convertir
     formData.append("condition", this.condition);
     formData.append("description", this.description);
     formData.append("resumen", this.resumen);

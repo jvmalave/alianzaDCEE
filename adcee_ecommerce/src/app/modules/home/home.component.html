@@ -26,7 +26,7 @@
                                       </div>
                                   </div>
                                   <div class="main-slider-thumb">
-                                      <img [src]="slider.imagen_home" alt="Product">
+                                      <img [src]="slider.imagen_home" width="250px" height="250px" alt="Product">
                                   </div>
                                 </div>
                               </ng-container>
@@ -58,15 +58,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3" *ngIf="productPromo && productPromo.length > 0">
                         <div class="slider-product-box">
                             <div class="product-thumb">
                                 <a href="single-product.html">
-                                    <img src="assets/images/product/product-41.png" alt="Product">
+                                    <img [src]="productPromo[0].imagen" alt="Product">
                                 </a>
                             </div>
-                            <h6 class="title"><a href="single-product.html">Stylish Leather Bag</a></h6>
-                            <span class="price">$29.99</span>
+                            <h6 class="title"><a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">{{ productPromo[0].title }}</a></h6>
+                            <span class="price">$ {{  productPromo[0].price_usd }}</span>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
             <div class="product-area pb--50">
                 <div class="d-md-flex align-items-end flash-sale-section">
                     <div class="section-title-wrapper">
-                        <span class="title-highlighter highlighter-primary"><i class="fas fa-fire"></i> Today's</span>
+                        <span class="title-highlighter highlighter-primary"><i class="fas fa-fire"></i> Sólo por un día</span>
                         <h2 class="title">Ventas Flash</h2>
                     </div>
                     <div class="sale-countdown countdown"></div>
@@ -91,7 +91,7 @@
                     <div class="slick-single-layout">
                       <div class="axil-product product-style-four">
                           <div class="thumbnail">
-                              <a href="single-product.html">
+                              <a [routerLink]="['/landing-producto', product.slug]" [queryParams]="{_id: FlashSale._id}">
                                   <img data-sal="zoom-out" style="width: 255px; height: 255px; object-fit: cover;" data-sal-delay="100" data-sal-duration="1500" [src]="product.imagen" alt="Product Images">
                               </a>
                               <div class="label-block label-right" *ngIf="FlashSale.type_discount == 1">
@@ -99,18 +99,22 @@
                               </div>
                               <div class="label-block label-right" *ngIf="FlashSale.type_discount == 2">
                                 <div class="product-badget">{{ FlashSale.discount }} USD OFF</div>
+                                <div class="product-badget">{{ product.condition == 1 ? "Nuevo" : "Usado" }}</div>
                             </div>
                               <div class="product-hover-action">
                                   <ul class="cart-action">
                                       <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                      <li class="select-option"><a href="cart.html">Add to Cart</a></li>
+                                      <li class="select-option"><a href="#" onclick="return false" (click)="addCart(product,1)">Agregar al Carrito</a></li>
                                       <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(product, FlashSale)"><i class="far fa-eye"></i></a></li>
                                   </ul>
                               </div>
                           </div>
                           <div class="product-content">
-                              <div class="inner">
-                                  <h5 class="title"><a href="single-product.html">{{ product.title }}</a></h5>
+                              <div class="inner"> 
+                                  <h5 class="title"><a [routerLink]="['/landing-producto', product.slug]" [queryParams]="{_id: FlashSale._id}">{{ product.title }}</a></h5>
+                                  <span><small>Producto {{ product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                        <br>
+                                        <br>
                                   <div class="product-price-variant">
                                       <span class="price old-price">$ {{ product.price_usd}}</span>
                                       <span class="price current-price">$ {{ getCalNewPrice(product)}}</span>
@@ -159,40 +163,46 @@
             <div class="product-area pb--50">
                 <div class="section-title-wrapper">
                     <span class="title-highlighter highlighter-primary"> <i class="far fa-shopping-basket"></i>Este Mes</span>
-                    <h2 class="title">Productos mas vendidos</h2>
+                    <h2 class="title">Productos más vendidos</h2>
                 </div>
                 <div class="new-arrivals-product-activation-2 slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide product-slide-mobile">
                   <ng-container *ngFor="let bestProduct of bestProducts">
                     <div class="slick-single-layout">
                       <div class="axil-product product-style-three">
                           <div class="thumbnail">
-                              <a [routerLink]="['/landing-producto', bestProduct.slug]">
+                              <a [routerLink]="['/landing-producto', bestProduct.slug]" [queryParams]="getRouterDiscount(bestProduct)"> 
                                   <img data-sal="fade" style="width: 255px; height: 255px; object-fit:cover;" data-sal-delay="100" data-sal-duration="1500" [src]="bestProduct.imagen" alt="Product Images">
                               </a>
                               <div class="product-hover-action">
-                                  <ul class="cart-action">
-                                      <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                      <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                      <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
-                                  </ul>
+                                <ul class="cart-action">
+                                  <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
+                                  <li class="select-option"><a href="#" onclick="return false" (click)="addCart(bestProduct)">Agregar al Carrito</a></li>
+                                  <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
+                                </ul>
                               </div>
-                          </div>
+                            </div>
+                            <div class="label-block label-right" *ngIf="bestProduct.campaign_discount">
+                              <div class="product-badget" *ngIf="bestProduct.campaign_discount.type_discount == 1">{{bestProduct.campaign_discount.discount}}% Off</div>
+                              <div class="product-badget" *ngIf="bestProduct.campaign_discount.type_discount == 2">$ {{bestProduct.campaign_discount.discount}} Off</div>
+                            </div>
                           <div class="product-content">
                               <div class="inner">
                                   <div class="product-rating">
-                                      <span class="icon">
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                              </span>
-                                      <span class="rating-number">(18)</span>
+                                    <span class="icon">
+                                      <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 1}"></i>
+                                      <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 2}"></i>
+                                      <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 3}"></i>
+                                      <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 4}"></i>
+                                      <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 5}"></i>
+                                    </span>
+                                    <span class="rating-number">({{ bestProduct.count_review}})</span>
                                   </div>
-                                  <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{bestProduct.title }}</a></h5>
+                                  <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]" [queryParams]="getRouterDiscount(bestProduct)"> {{bestProduct.title }}</a></h5>
                                   <div class="product-price-variant">
-                                      <span class="price current-price">$ {{ bestProduct.price_usd }} </span>
-                                      <!-- <span class="price old-price">$50</span> -->
+                                    <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                        <br>
+                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">${{ bestProduct.price_usd }}</span> 
+                                    <span class="price current-price">$ {{ bestProduct.price_usd - getDiscountProduct(bestProduct) }} </span>
                                   </div>
                               </div>
                           </div>
@@ -253,19 +263,20 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                           <div class="axil-product product-style-one">
                               <div class="thumbnail">
-                                  <a href="single-product.html">
+                                  <a [routerLink]="['/landing-producto', our_product.slug]">
                                       <img data-sal="zoom-out" style="width:255px ; height:255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800"  class="main-img" [src]="our_product.imagen" alt="Product Images">
                                       <img class="hover-img" style="width:255px ; height:255px;object-fit: cover;" [src]="our_product.imagen_two" alt="Product Images2">
                                   </a>
-                                  <!-- <div class="label-block label-right">
-                                      <div class="product-badget">20% Off</div>
-                                  </div> -->
+                                  <div class="label-block label-right" *ngIf="our_product.campaign_discount">
+                                      <div class="product-badget" *ngIf="our_product.campaign_discount.type_discount == 1">{{our_product.campaign_discount.discount}}% Off</div>
+                                      <div class="product-badget" *ngIf="our_product.campaign_discount.type_discount == 2">$ {{our_product.campaign_discount.discount}} Off</div>
+                                  </div>
                                   <div class="product-hover-action">
                                       <ul class="cart-action">
                                           <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
                                           <li class="select-option">
-                                              <a href="single-product.html">
-                                                  Add to Cart
+                                              <a  href="#" onclick="return false" (click)="addCart(our_product)">
+                                                  Agregar al Carrito
                                               </a>
                                           </li>
                                           <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
@@ -275,18 +286,22 @@
                               <div class="product-content">
                                   <div class="inner">
                                       <div class="product-rating">
-                                          <span class="icon">
-                                      <i class="fas fa-star"></i>
-                                      <i class="fas fa-star"></i>
-                                      <i class="fas fa-star"></i>
-                                      <i class="fas fa-star"></i>
-                                      <i class="fas fa-star"></i>
-                                  </span>
-                                          <span class="rating-number">(64)</span>
+                                        <span class="icon">
+                                          <i class="fas fa-star" [ngClass]="{'star-del': our_product.avg_review < 1}"></i>
+                                          <i class="fas fa-star" [ngClass]="{'star-del': our_product.avg_review < 2}"></i>
+                                          <i class="fas fa-star" [ngClass]="{'star-del': our_product.avg_review < 3}"></i>
+                                          <i class="fas fa-star" [ngClass]="{'star-del': our_product.avg_review < 4}"></i>
+                                          <i class="fas fa-star" [ngClass]="{'star-del': our_product.avg_review < 5}"></i>
+                                        </span>
+                                        <span class="rating-number">({{ our_product.count_review}})</span>
                                       </div>
-                                      <h5 class="title"><a href="single-product.html"> {{ our_product.title }}</a></h5>
+                                      <h5 class="title"><a [routerLink]="['/landing-producto', our_product.slug]"> {{ our_product.title }}</a></h5>
                                       <div class="product-price-variant">
-                                          <span class="price current-price">$ {{ our_product.price_usd }}</span>
+                                        <span><small>Producto {{ our_product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                        <br>
+                                        <span class="price old-price" *ngIf="our_product.campaign_discount">${{ our_product.price_usd }}</span> 
+                                        <span class="price current-price">$ {{ our_product.price_usd - getDiscountProduct(our_product) }} </span>
+                                          <!-- <span class="price current-price">$ {{ our_product.price_usd }}</span> -->
                                           <!-- <span class="price old-price">$49.99</span> -->
                                       </div>
                                   </div>
@@ -300,23 +315,20 @@
                 <!-- End .slick-single-layout -->
                 <div class="slick-single-layout">
                   <div class="row row--15">
-                      <ng-container *ngFor="let our_product of our_products">
+                      <ng-container *ngFor="let bestProduct of bestProducts">
                           <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                               <div class="axil-product product-style-one">
                                   <div class="thumbnail">
-                                      <a href="single-product.html">
-                                          <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="our_product.imagen" alt="Product Images">
-                                          <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="our_product.imagen_two" alt="Product Images">
+                                      <a [routerLink]="['/landing-producto', bestProduct.slug]">
+                                          <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="bestProduct.imagen" alt="Product Images">
+                                          <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="bestProduct.imagen_two" alt="Product Images">
                                       </a>
-                                      <div class="label-block label-right">
-                                          <div class="product-badget">{{ our_product.condition == 1 ? "Nuevo" : "Usado" }}</div>
-                                      </div>
                                       <div class="product-hover-action">
                                           <ul class="cart-action">
-                                            <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(our_product)"><i class="far fa-eye"></i></a></li>
+                                            <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                                               <li class="select-option">
-                                                  <a href="single-product.html">
-                                                      Add to Cart
+                                                  <a href="#" onclick="return false" (click)="addCart(bestProduct)">
+                                                     Agrega al Carrito
                                                   </a>
                                               </li>
                                               <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
@@ -325,20 +337,24 @@
                                   </div>
                                   <div class="product-content">
                                       <div class="inner">
-                                          <div class="product-rating">
-                                              <span class="icon">
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                      </span>
-                                              <span class="rating-number">(64)</span>
-                                          </div>
-                                          <h5 class="title"><a href="single-product.html">{{ our_product.title }}</a></h5>
+                                        <div class="product-rating">
+                                          <span class="icon">
+                                            <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 1}"></i>
+                                            <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 2}"></i>
+                                            <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 3}"></i>
+                                            <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 4}"></i>
+                                            <i class="fas fa-star" [ngClass]="{'star-del': bestProduct.avg_review < 5}"></i>
+                                          </span>
+                                          <span class="rating-number">({{ bestProduct.count_review}})</span>
+                                        </div>
+                                          <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title }}</a></h5>
                                           <div class="product-price-variant">
-                                              <span class="price current-price"> $ {{ our_product.price_usd }} </span>
-                                              <!-- <span class="price old-price">$49.99</span> -->
+                                            <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                            <br>
+                                            <span class="price old-price" *ngIf="bestProduct.campaign_discount">${{ bestProduct.price_usd }}</span> 
+                                            <span class="price current-price">$ {{ bestProduct.price_usd - getDiscountProduct(bestProduct) }} </span>
+                                            <!-- <span class="price current-price"> $ {{ bestProduct.price_usd }} </span> -->
+                                            <!-- <span class="price old-price">$49.99</span> -->
                                           </div>
                                       </div>
                                   </div>
@@ -347,25 +363,25 @@
                       </ng-container>
                   </div>
                 </div>
-                <div class="slick-single-layout">
+                <!-- <div class="slick-single-layout">
                   <div class="row row--15">
-                      <ng-container *ngFor="let best_product of bestProducts">
+                      <ng-container *ngFor="let bestProduct of bestProducts">
                           <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                               <div class="axil-product product-style-one">
                                   <div class="thumbnail">
-                                      <a href="single-product.html">
-                                          <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="best_product.imagen" alt="Product Images">
-                                          <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="best_product.imagen_two" alt="Product Images">
+                                      <a [routerLink]="['/landing-producto', bestProduct.slug]">
+                                          <img data-sal="zoom-out" style="width: 255px;height: 255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800" class="main-img" [src]="bestProduct.imagen" alt="Product Images">
+                                          <img class="hover-img" style="width: 255px;height: 255px;object-fit: cover;" [src]="bestProduct.imagen_two" alt="Product Images">
                                       </a>
                                       <!-- <div class="label-block label-right">
                                           <div class="product-badget">20% Off</div>
                                       </div> -->
-                                      <div class="product-hover-action">
+                                      <!-- <div class="product-hover-action">
                                           <ul class="cart-action">
-                                              <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(best_product)"><i class="far fa-eye"></i></a></li>
+                                              <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                                               <li class="select-option">
-                                                  <a href="single-product.html">
-                                                      Add to Cart
+                                                  <a [routerLink]="['/landing-producto', bestProduct.slug]">
+                                                      Agregar al Carrito
                                                   </a>
                                               </li>
                                               <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
@@ -384,10 +400,10 @@
                                       </span>
                                               <span class="rating-number">(64)</span>
                                           </div>
-                                          <h5 class="title"><a href="single-product.html">{{ best_product.title }}</a></h5>
+                                          <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title }}</a></h5>
                                           <div class="product-price-variant">
-                                              <span class="price current-price">{{ best_product.price_soles }} PEN</span>
-                                              <!-- <span class="price old-price">$49.99</span> -->
+                                              <span class="price current-price">{{ bestProduct.price_soles }} PEN</span>
+                                              <span class="price old-price">$49.99</span>
                                           </div>
                                       </div>
                                   </div>
@@ -395,7 +411,7 @@
                           </div>
                       </ng-container>
                   </div>
-              </div>
+                </div> --> 
               <!-- End .slick-single-layout -->
             </div>
             <div class="row">
@@ -422,7 +438,7 @@
                       <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                         <div class="axil-product product-style-one">
                             <div class="thumbnail">
-                                <a href="single-product.html">
+                                <a [routerLink]="['/landing-producto', donation_product.slug]">
                                     <img data-sal="zoom-out" style="width:255px ; height:255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800"  class="main-img" [src]="donation_product.imagen" alt="Product Images">
                                     <img class="hover-img" style="width:255px ; height:255px;object-fit: cover;" [src]="donation_product.imagen_two" alt="Product Images2">
                                 </a>
@@ -433,8 +449,8 @@
                                     <ul class="cart-action">
                                         <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(donation_product)"><i class="far fa-eye"></i></a></li>
                                         <li class="select-option">
-                                            <a href="single-product.html">
-                                                Add to Cart
+                                            <a [routerLink]="['/landing-producto', donation_product.slug]">
+                                                Agregar al Carrito
                                             </a>
                                         </li>
                                         <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
@@ -453,7 +469,7 @@
                                 </span>
                                         <span class="rating-number">(64)</span>
                                     </div> -->
-                                    <h5 class="title"><a href="single-product.html"> {{ donation_product.title }}</a></h5>
+                                    <h5 class="title"><a [routerLink]="['/landing-producto', donation_product.slug]"> {{ donation_product.title }}</a></h5>
                                     <!-- <div class="product-price-variant">
                                         <span class="price current-price">$ {{ our_product.price_usd }}</span>
                                         <span class="price old-price">$49.99</span>
@@ -637,7 +653,7 @@
                 <div class="slick-single-layout">
                   <div class="axil-product product-style-two has-color-pick">
                       <div class="thumbnail">
-                          <a href="single-product.html">
+                          <a [routerLink]="['/landing-producto', bestProduct.slug]">
                               <img data-sal="fade" style="width: 255px; height: 255px; object-fit: cover;" data-sal-delay="100" data-sal-duration="1500" [src]="bestProduct.imagen" alt="Product Images">
                           </a>
                           <!-- <div class="label-block label-right">
@@ -656,7 +672,7 @@
                                       </li>
                                   </ul>
                               </div>
-                              <h5 class="title"><a href="single-product.html">{{ bestProduct.title}}</a></h5>
+                              <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title}}</a></h5>
                               <div class="product-price-variant">
                                   <!-- <span class="price old-price">$</span> -->
                                   <span class="price current-price">$ {{ bestProduct.price_usd }}</span>
@@ -665,7 +681,7 @@
                           <div class="product-hover-action">
                               <ul class="cart-action justify-content-center">
                                   <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
-                                  <li class="select-option"><a href="cart.html">Add to Cart</a></li>
+                                  <li class="select-option"><a href="#" onclick="return false" (click)="addCart(bestProduct)">Agregar al Carrito</a></li>
                                   <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                               </ul>
                           </div>

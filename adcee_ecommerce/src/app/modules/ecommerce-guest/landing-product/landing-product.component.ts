@@ -24,6 +24,13 @@ export class LandingProductComponent implements OnInit{
   related_products:any = [];
   variedad_selected:any = null;
 
+  discount_id:any;
+  SALE_FLASH:any = null;
+
+  REVIEWS: any;
+  AVG_REVIEW: any;
+  COUNT_REVIEW: any;
+
 
   constructor(
     public ecommerce_guest: EcommerceGuestService,
@@ -37,11 +44,18 @@ export class LandingProductComponent implements OnInit{
     this.routerActived.params.subscribe((resp:any) => {
       this.slug = resp["slug"];
     })
+    this.routerActived.queryParams.subscribe((resp:any) => {
+      this.discount_id = resp["_id"];
+    })
     console.log(this.slug);
-    this.ecommerce_guest.showLandingProduct(this.slug).subscribe((resp:any) => {
+    this.ecommerce_guest.showLandingProduct(this.slug, this.discount_id).subscribe((resp:any) => {
       console.log(resp);
       this.product_selected = resp.product;
       this.related_products = resp.related_products;
+      this.SALE_FLASH = resp.SALE_FLASH;
+      this.REVIEWS = resp.REVIEWS;
+      this.AVG_REVIEW = resp.AVG_REVIEW;
+      this.COUNT_REVIEW = resp.COUNT_REVIEW;
       setTimeout(() => {
         LandingProductDetail();
       }, 50);
@@ -60,6 +74,18 @@ export class LandingProductComponent implements OnInit{
     ModalProductDetail();
     }, 50);
     }, 100);
+  }
+
+  getDiscount(){
+    let discount =  0;
+    if(this.SALE_FLASH){
+      if(this.SALE_FLASH.type_discount == 1){
+        return this.SALE_FLASH.discount*this.product_selected.price_usd*0.01;
+      }else{
+        return this.SALE_FLASH.discount;
+      }
+    }
+    return discount; 
   }
 
   getCalNewPrice(product:any){
@@ -102,15 +128,15 @@ export class LandingProductComponent implements OnInit{
     let data = {
       user: this.cartService._authService.user._id,
       product: this.product_selected._id,
-      type_discount: null,
-      discount: 0, 
+      type_discount: this.SALE_FLASH ? this.SALE_FLASH.type_discount : null,
+      discount: this.SALE_FLASH ? this.SALE_FLASH.discount : 0, 
       cantidad: $("#qty-cart").val(),
       variedad: this.variedad_selected ? this.variedad_selected._id : null,
       code_cupon: null,
-      code_discount: null,
+      code_discount: this.SALE_FLASH ? this.SALE_FLASH._id : null,
       price_unit: this.product_selected.price_usd,
-      subtotal: this.product_selected.price_usd,  // * $("#qty-cart").val(),
-      total: this.product_selected.price_usd * $("#qty-cart").val(),
+      subtotal: this.product_selected.price_usd - this.getDiscount(),  // * $("#qty-cart").val(),
+      total: (this.product_selected.price_usd - this.getDiscount()) * $("#qty-cart").val(),
 
     }
     this.cartService.registerCart(data).subscribe((resp:any) => {

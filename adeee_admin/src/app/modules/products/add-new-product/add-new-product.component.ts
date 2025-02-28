@@ -42,6 +42,8 @@ export class AddNewProductComponent implements OnInit {
       this.categories = resp.categories;
       this.loadServices();
     })
+      this.price_bs = 0;
+      this.price_usd = 0;
   }
 
   loadServices(){
@@ -65,55 +67,62 @@ export class AddNewProductComponent implements OnInit {
       this.loadServices();
       }
 
-      addTag(){
-        this.tags.push(this.tag);
-        this.tag = "";
-      }
-
-      removeTag(i){
-        this.tags.splice(i,1);
-      }
-      save(){
-        if(!this.title || !this.categorie || !this.price_bs || !this.price_usd || !this.condition || !this.description || !this.resumen || !this.sku || this.tags.length == 0 || !this.imagen_file){
-          this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
-          return;
-        }
-        let formData = new FormData();
-        formData.append("title", this.title);
-        formData.append("categorie", this.categorie);
-        formData.append("price_bs", this.price_bs);
-        formData.append("price_usd", this.price_usd);
-        formData.append("condition", this.condition);
-        formData.append("description", this.description);
-        formData.append("resumen", this.resumen);
-        formData.append("sku", this.sku);
-        formData.append("tags", JSON.stringify(this.tags));
-        formData.append("imagen", this.imagen_file);
-
-        this._productService.createProduct(formData).subscribe((resp:any) => {
-          console.log(resp);
-
-          if(resp.code == 403){
-            this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! El producto ya existe, agregue otro nombre'`});
-            return;
-          }else{
-            this.toaster.open(NoticyAlertComponent,{text: `success-'Super! El producto se ha registrado satisfactoriamente'`});
-            this.title = null;
-            this.categorie = null;
-            this.price_bs = null;
-            this.price_usd = null;
-            this.condition = null;
-            this.description = null;
-            this.resumen = null;
-            this.sku = null;
-            this.tags = [];
-            this.imagen_file = null;
-            this.imagen_previzualizacion = null;
-            return;
-          }
-        })
-      }
+  addTag(){
+    this.tags.push(this.tag);
+    this.tag = "";
   }
+
+  removeTag(i){
+    this.tags.splice(i,1);
+  }
+  save(){
+    if(!this.title || !this.categorie || (this.condition !== "3" &&  (!this.price_bs || !this.price_usd)) || !this.description || !this.resumen || !this.sku || this.tags.length == 0 || !this.imagen_file){
+      this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
+      return;
+    }
+
+    // Verifica si la condición es "Donación" (3)
+    if (this.condition === "3") {
+    this.price_bs = 0;
+    this.price_usd = 0;
+  }
+
+    let formData = new FormData();
+    formData.append("title", this.title);
+    formData.append("categorie", this.categorie);
+    formData.append("price_bs", String(this.price_bs)); // Convertir a String
+    formData.append("price_usd", String(this.price_usd)); // Convertir
+    formData.append("condition", this.condition);
+    formData.append("description", this.description);
+    formData.append("resumen", this.resumen);
+    formData.append("sku", this.sku);
+    formData.append("tags", JSON.stringify(this.tags));
+    formData.append("imagen", this.imagen_file);
+
+    this._productService.createProduct(formData).subscribe((resp:any) => {
+      console.log(resp);
+
+      if(resp.code == 403){
+        this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! El producto ya existe, agregue otro nombre'`});
+        return;
+      }else{
+        this.toaster.open(NoticyAlertComponent,{text: `success-'Super! El producto se ha registrado satisfactoriamente'`});
+        this.title = null;
+        this.categorie = null;
+        this.price_bs = null;
+        this.price_usd = null;
+        this.condition = null;
+        this.description = null;
+        this.resumen = null;
+        this.sku = null;
+        this.tags = [];
+        this.imagen_file = null;
+        this.imagen_previzualizacion = null;
+        return;
+      }
+    })
+  }
+}
 
 
 

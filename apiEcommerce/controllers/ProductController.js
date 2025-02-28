@@ -83,7 +83,7 @@ export default{
       var filter = [];
       if(req.query.search){
         filter.push(
-          {"title": RegExp(req.query.search, "i")},
+          {"title": new RegExp(req.query.search, "i")},
         );
       }
       if(req.query.categorie){

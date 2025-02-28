@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit{
         console.log(resp);
         if(!resp.error && resp){
           //SIGNIFICA QUE EL USUARIO INGRESO CON EXITO
-          this.router.navigate(["/"]);
+          //this.router.navigate(["/"]);
+          location.reload();
           alertSuccess("Super! Bienvenido al ecommerce");
         }else{
           alertDanger(resp.error.message);

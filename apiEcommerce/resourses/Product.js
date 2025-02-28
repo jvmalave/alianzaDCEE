@@ -1,5 +1,5 @@
 export default{
-  product_list: (product, variedades = []) => {
+  product_list: (product, variedades = [], avg_review = 0, count_review = 0, CampaignDiscount = null) => {
     var IMAGEN_TWO = "";
     let GALERIAS = [];
       if(product.galerias && product.galerias.length > 0){//NUEVO POR AGREGAR
@@ -32,7 +32,9 @@ export default{
       variedades: variedades,
       imagen_two: IMAGEN_TWO, 
       galerias: GALERIAS,
-      
+      avg_review: avg_review,
+      count_review: count_review,
+      campaign_discount: CampaignDiscount,
     }
   }
 }
