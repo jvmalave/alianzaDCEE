@@ -26,6 +26,27 @@ export default{
         console.log(error);
     }
   },
+
+  register_seller: async(req,res) => {
+    try {
+      const userC = await models.User.findOne({email: req.body.email});
+      if(userC){
+        res.status(500).send({
+          message: "EL USUARIO YA EXISTE"
+        });
+      }
+      req.body.rol = "emprendedor"
+      req.body.password = await bcrypt.hash(req.body.password,10);
+      const user = await models.User.create(req.body);
+      res.status(200).json(user);
+      
+    } catch (error) {
+        res.status(500).send({
+          message: "OCURRIÓ UN PROBLEMA"
+        });
+        console.log(error);
+    }
+  },
   
   register_admin: async(req,res) => {
     try {
@@ -93,6 +114,47 @@ export default{
 login_admin: async(req,res) => {
   try {
       const user = await models.User.findOne({email: req.body.email,state:1,rol:"admin"});
+      if(user){
+          //SI ESTA REGISTRADO EN EL SISTEMA
+          let compare = await bcrypt.compare(req.body.password,user.password);
+          if(compare){
+              let tokenT = await token.encode(user._id,user.rol,user.email);
+
+              const USER_FRONTED = {
+                  token:tokenT,
+                  user: {
+                      _id: user._id,
+                      name: user.name,
+                      email: user.email,
+                      surname: user.surname,
+                      avatar: user.avatar,
+                      rol: user.rol
+                  },
+              }
+
+              res.status(200).json({
+                  USER_FRONTED:USER_FRONTED,
+              })
+          }else{
+              res.status(500).send({
+                  message: "EL USUARIO NO EXISTE"
+              });
+          }
+      }else{
+          res.status(500).send({
+              message: "EL USUARIO NO EXISTE"
+          });
+      }
+  } catch (error) {
+      res.status(500).send({
+          message: "OCURRIO UN PROBLEMA"
+      });
+      console.log(error);
+  }
+},
+login_seller: async(req,res) => {
+  try {
+      const user = await models.User.findOne({email: req.body.email,state:1,rol:"emprendedor"});
       if(user){
           //SI ESTA REGISTRADO EN EL SISTEMA
           let compare = await bcrypt.compare(req.body.password,user.password);

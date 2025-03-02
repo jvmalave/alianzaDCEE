@@ -62,20 +62,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: [
         null,
         Validators.compose([
-          Validators.required,
-          Validators.email,
-          Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+        Validators.required,
+        Validators.email,
+        Validators.minLength(3),
+        Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
         ]),
       ],
       password: [
         null,
         Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(100),
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
         ]),
       ],
+      rol: ['admin', Validators.required],
     });
   }
 
@@ -91,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     //       this.hasError = true;
     //     }
     //   });
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe((resp:any)=>{
+    this.authService.login(this.f.email.value, this.f.password.value, this.f.rol.value).subscribe((resp:any)=>{
       console.log(resp)
       // this.router.navigate(['/dashboard']);
       if (resp) {

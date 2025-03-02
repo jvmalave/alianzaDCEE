@@ -34,6 +34,8 @@ export class AuthService implements OnDestroy {
 
   user: any;
   token: string;
+  rol: any;
+
   constructor(
     // private authHttpService: AuthHTTPService,
     private http: HttpClient,
@@ -61,11 +63,12 @@ export class AuthService implements OnDestroy {
   isLogued() {
     return ( this.token.length > 5 ) ? true : false;
   }
-login(email: string, password: string) {
+
+  login(email: string, password: string, rol: string): Observable<any> {
     this.isLoadingSubject.next(true);
-    let url = URL_SERVICIOS + "/users/login_admin";
-    console.log({email, password})
-    return this.http.post(url,{email, password}).pipe(
+    let url = URL_SERVICIOS + (rol === 'admin' ? "/users/login_admin" : "/users/login_seller");
+    console.log({ email, password, rol });
+    return this.http.post(url,{email, password, rol}).pipe(
       map((auth: any) => {
         console.log(auth)
           if(auth.USER_FRONTED && auth.USER_FRONTED.token){
@@ -82,16 +85,17 @@ login(email: string, password: string) {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
-logout() {
-    // localStorage.removeItem(this.authLocalStorageToken);
-    this.user = null;
-    this.token = '';
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.router.navigate(['/auth/login'], {
-      queryParams: {},
-    });
-  }
+
+  logout() {
+      // localStorage.removeItem(this.authLocalStorageToken);
+      this.user = null;
+      this.token = '';
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      this.router.navigate(['/auth/login'], {
+        queryParams: {},
+      });
+    }
 
   // getUserByToken(): Observable<UserModel> {
   //   const auth = this.getAuthFromLocalStorage();

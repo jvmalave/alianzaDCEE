@@ -385,9 +385,9 @@
                       </li>
                       <li class="my-account" >
                           <a href="javascript:void(0)" (click)="toggleDropdown()">
-                              <i class="flaticon-person"></i>
+                              <i class="flaticon-person mb-4"></i>
                           </a>
-                          <small *ngIf="!user">Ingresa a tu cuenta</small>
+                          <small *ngIf="!user"><b>Ingresa a tu cuenta</b></small>
                           <small *ngIf="user">{{ user.name }}</small>
                           <div class="my-account-dropdown" [ngClass]="{ 'open': isOpen }">
                               <ul>

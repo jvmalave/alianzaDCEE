@@ -58,6 +58,12 @@ export class AuthService {
     return this.http.post(URL,data);
   }
 
+  registroSeller(data:any){
+    let URL = URL_SERVICIOS + "users/register_seller"
+    return this.http.post(URL,data);
+  }
+
+
   logout(){
     localStorage.removeItem("token");
     localStorage.removeItem("user");
