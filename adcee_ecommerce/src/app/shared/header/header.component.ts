@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { Router } from '@angular/router';
 import { CartService } from '../../modules/ecommerce-guest/_services/cart.service';
 import { fromEvent, debounceTime } from 'rxjs';
+import { HomeService } from '../../modules/home/_services/home.service';
+import { EcommerceGuestService } from 'src/app/modules/ecommerce-guest/_services/ecommerce-guest.service';
 
 
 
@@ -16,9 +18,10 @@ export class HeaderComponent implements OnInit, AfterViewInit{
   listCarts:any = [];
   totalCarts:any = 0;
   user: any;
-
+  categories: any = null;
   search_product:any = null;
   products_search: any = [];
+  isOpen: boolean = false;
 
   source:any;
 @ViewChild("filter") filter?:ElementRef;
@@ -26,9 +29,17 @@ export class HeaderComponent implements OnInit, AfterViewInit{
   constructor(
     public router: Router,
     public cartService: CartService,
+    public ecommerceGuest: EcommerceGuestService,
+    
   ){}
 
   ngOnInit(): void {
+
+    this.ecommerceGuest.configInitial().subscribe((resp:any) => {
+      console.log(resp);
+      this.categories = resp.categories;
+    })
+    
     this.user = this.cartService._authService.user;
     this.cartService.currentDataCart$.subscribe((resp: any) => {
       console.log(resp);
@@ -47,7 +58,10 @@ export class HeaderComponent implements OnInit, AfterViewInit{
         
       });
     }
-    
+  }
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
   }
 
   ngAfterViewInit(): void {
@@ -98,11 +112,8 @@ export class HeaderComponent implements OnInit, AfterViewInit{
     })
   }
 
+  searchProduct(){
+  }
 
   
-
-
-  searchProduct(){
-
-  }
 }

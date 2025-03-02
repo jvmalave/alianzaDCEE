@@ -1,0 +1,7 @@
+.my-account-dropdown {
+  display: none;
+}
+
+.my-account-dropdown.open {
+  display: block;
+}

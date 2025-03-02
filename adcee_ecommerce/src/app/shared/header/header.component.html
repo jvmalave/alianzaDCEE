@@ -6,12 +6,12 @@
           <div class="row align-items-center">
               <div class="col-lg-2 col-sm-3 col-5">
                   <div class="header-brand">
-                      <a href="index.html" class="logo logo-dark">
+                      <a href="#" class="logo logo-dark">
                           <img src="assets/images/logo/logo_adel.png" alt="Site Logo">
                       </a>
-                      <a href="index.html" class="logo logo-light">
+                      <!-- <a href="#" class="logo logo-light">
                           <img src="assets/images/logo/logo-light.png" alt="Site Logo">
-                      </a>
+                      </a> -->
                   </div>
               </div>
               <div class="col-lg-10 col-sm-9 col-7">
@@ -54,20 +54,21 @@
       <div class="container">
           <div class="header-navbar">
               <div class="header-nav-department">
-                  <aside class="header-department">
+                  <!-- <aside class="header-department">
                       <button class="header-department-text department-title">
                           <span class="icon"><i class="fal fa-bars"></i></span>
-                          <span class="text">Categories</span>
+                          <span class="text">Explora todos los productos</span>
                       </button>
                       <nav class="department-nav-menu" [ngClass]="{'d-none': !isHome()}">
                           <button class="sidebar-close"><i class="fas fa-times"></i></button>
                           <ul class="nav-menu-list">
+                            <ng-container *ngFor="let categorie of categories">
                               <li>
+                                  <img [src]="categorie.imagen" alt="Department">
                                   <a href="#" class="nav-link has-megamenu">
-                                      <span class="menu-icon"><img src="./assets/images/product/categories/cat-01.png" alt="Department"></span>
-                                      <span class="menu-text">Fashion</span>
-                                  </a>
-                                  <div class="department-megamenu">
+                                      <span class="menu-text">{{ categorie.title }}</span>
+                                  </a> -->
+                                  <!-- <div class="department-megamenu">
                                       <div class="department-megamenu-wrap">
                                           <div class="department-submenu-wrap">
                                               <div class="department-submenu">
@@ -125,9 +126,10 @@
                                               <a href="#" class="axil-btn btn-bg-primary">See All Offers</a>
                                           </div>
                                       </div>
-                                  </div>
-                              </li>
-                              <li>
+                                  </div> -->
+                              <!-- </li>
+                            </ng-container> -->
+                              <!-- <li>
                                   <a href="#" class="nav-link has-megamenu">
                                       <span class="menu-icon"><img src="./assets/images/product/categories/cat-02.png" alt="Department"></span>
                                       <span class="menu-text">Electronics</span>
@@ -286,11 +288,11 @@
                                       <span class="menu-icon"><img src="./assets/images/product/categories/cat-08.png" alt="Department"></span>
                                       <span class="menu-text">Camera</span>
                                   </a>
-                              </li>
+                              </li> -->
 
-                          </ul>
+                          <!-- </ul>
                       </nav>
-                  </aside>
+                  </aside> -->
               </div>
               <div class="header-main-nav">
                   <!-- Start Mainmanu Nav -->
@@ -298,11 +300,11 @@
                       <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
                       <div class="mobile-nav-brand">
                           <a href="index.html" class="logo">
-                              <img src="assets/images/logo/logo.png" alt="Site Logo">
+                              <img src="assets/images/logo/logo_adel.png" alt="Site Logo">
                           </a>
                       </div>
                       <ul class="mainmenu">
-                          <li class="menu-item-has-children">
+                          <!-- <li class="menu-item-has-children">
                               <a href="#">Home</a>
                               <ul class="axil-submenu">
                                   <li><a href="index-1.html">Home - Electronics</a></li>
@@ -313,8 +315,8 @@
                                   <li><a href="index-6.html">Home - Multipurpose</a></li>
                                   <li><a href="https://new.axilthemes.com/demo/template/etrade-rtl/">RTL Version</a></li>
                               </ul>
-                          </li>
-                          <li class="menu-item-has-children">
+                          </li> -->
+                          <!-- <li class="menu-item-has-children">
                               <a href="#">Shop</a>
                               <ul class="axil-submenu">
                                   <li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
@@ -327,8 +329,8 @@
                                   <li><a href="single-product-6.html">Product Variation 6</a></li>
                                   <li><a href="single-product-7.html">Product Variation 7</a></li>
                               </ul>
-                          </li>
-                          <li class="menu-item-has-children">
+                          </li> -->
+                          <!-- <li class="menu-item-has-children">
                               <a href="#">Pages</a>
                               <ul class="axil-submenu">
                                   <li><a href="wishlist.html">Wishlist</a></li>
@@ -344,8 +346,8 @@
                                   <li><a href="404.html">404 Error</a></li>
                                   <li><a href="typography.html">Typography</a></li>
                               </ul>
-                          </li>
-                          <li><a href="about-us.html">About</a></li>
+                          </li> -->
+                          <!-- <li><a href="about-us.html">About</a></li>
                           <li class="menu-item-has-children">
                               <a href="#">Blog</a>
                               <ul class="axil-submenu">
@@ -358,7 +360,7 @@
                                   <li><a href="blog-quote.html">Quote Post</a></li>
                               </ul>
                           </li>
-                          <li><a href="contact.html">Contact</a></li>
+                          <li><a href="contact.html">Contact</a></li> -->
                       </ul>
                   </nav>
                   <!-- End Mainmanu Nav -->
@@ -366,33 +368,33 @@
               <div class="header-action">
                   <ul class="action-list">
                       <li class="axil-search d-sm-none d-block">
-                          <a href="javascript:void(0)" class="header-search-icon" title="Search">
+                          <a href="javascript:void(0)"  class="header-search-icon" title="Search">
                               <i class="flaticon-magnifying-glass"></i>
                           </a>
                       </li>
-                      <li class="wishlist" *ngIf="user">
+                      <!-- <li class="wishlist" *ngIf="user">
                           <a href="wishlist.html">
                               <i class="flaticon-heart"></i>
                           </a>
-                      </li>
+                      </li> -->
                       <li class="shopping-cart" *ngIf="user">
                           <a href="#" class="cart-dropdown-btn">
                               <span class="cart-count">{{ listCarts.length }}</span>
                               <i class="flaticon-shopping-cart"></i>
                           </a>
                       </li>
-                      <li class="my-account">
-                          <a href="javascript:void(0)">
+                      <li class="my-account" >
+                          <a href="javascript:void(0)" (click)="toggleDropdown()">
                               <i class="flaticon-person"></i>
                           </a>
+                          <small *ngIf="!user">Ingresa a tu cuenta</small>
                           <small *ngIf="user">{{ user.name }}</small>
-                          <div class="my-account-dropdown">
-                              <span class="title">QUICKLINKS</span>
+                          <div class="my-account-dropdown" [ngClass]="{ 'open': isOpen }">
                               <ul>
                                   <li>
-                                      <a href="my-account.html">My Account</a>
+                                      <a [routerLink]="['/perfil-del-cliente']">My Account</a>
                                   </li>
-                                  <li>
+                                  <!-- <li>
                                       <a href="#">Initiate return</a>
                                   </li>
                                   <li>
@@ -400,11 +402,11 @@
                                   </li>
                                   <li>
                                       <a href="#">Language</a>
-                                  </li>
+                                  </li> -->
                               </ul>
                               <a [routerLink]="['/auth/login']"  class="axil-btn btn-bg-primary" *ngIf="!user">Ingresar</a>
-                              <a href="#" onclick="return false" class="axil-btn btn-bg-primary" *ngIf="user" (click)="logout()">Salir</a>
-                              <div class="reg-footer text-center">No account yet? <a href="sign-up.html" class="btn-link">REGISTER HERE.</a></div>
+                              <a href="#" onclick="return false" class="axil-btn btn-bg-primary text-center" *ngIf="user" (click)="logout()">Salir</a>
+                              <div class="reg-footer text-center mt-3" *ngIf="!user">¿Sin cuenta, aún? <a [routerLink]="['/auth/registro-cliente']" class="btn-link">REGISTRATE AQU.</a></div>
                           </div>
                       </li>
                       <li class="axil-mobile-toggle">

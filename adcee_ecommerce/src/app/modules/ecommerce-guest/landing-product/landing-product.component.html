@@ -1,4 +1,30 @@
 <main class="main-wrapper" *ngIf="product_selected">
+
+  <!-- Start Breadcrumb Area  -->
+  <div class="axil-breadcrumb-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="inner">
+                    <ul class="axil-breadcrumb">
+                        <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="separator"></li>
+                        <li class="axil-breadcrumb-item active" aria-current="page">Mi Cuenta</li>
+                    </ul>
+                    <h1 class="title">Mira todos los detalles </h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-4">
+                <div class="inner">
+                    <div class="bradcrumb-thumb">
+                        <img src="./assets/images/saludo.png" width="100px" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- End Breadcrumb Area  -->
   <!-- Start Shop Area  -->
   <div class="axil-single-product-area bg-color-white">
       <div class="single-product-thumb axil-section-gap pb--20 pb_sm--0 bg-vista-white">
@@ -128,7 +154,7 @@
                                     <div class="icon">
                                         <img src="assets/images/product/product-thumb/icon-1.png" alt="icon">
                                     </div>
-                                    {{ product_selected.condition == 1 ? "Producto Nuevo" : "Producto Usado" }} 
+                                    {{ product_selected.condition == 1 ? "Producto Nuevo" : product_selected.condition == 2 ? "Producto Usado" : "Producto en Donación" }}   
                                 </li>
                             </ul>
                             <!-- End .pro-des-features -->
@@ -307,7 +333,7 @@
   <!-- End Recently Viewed Product Area  -->
   <!-- Start Axil Newsletter Area  -->
   <div class="axil-newsletter-area axil-section-gap pt--0">
-      <div class="container">
+      <!-- <div class="container">
           <div class="etrade-newsletter-wrapper bg_image bg_image--5">
               <div class="newsletter-content">
                   <span class="title-highlighter highlighter-primary2"><i class="fas fa-envelope-open"></i>Newsletter</span>
@@ -320,7 +346,7 @@
                   </div>
               </div>
           </div>
-      </div>
+      </div> -->
       <!-- End .container -->
   </div>
   <!-- End Axil Newsletter Area  -->
@@ -412,14 +438,22 @@
                                       <!-- End Product Variation  -->
 
                                       <!-- Start Product Variation  -->
-                                      <div class="product-variation" *ngIf="product_selected_modal.type_inventario == 2">
+                                      <div class="product-variation product-size-variation" *ngIf="product_selected_modal.type_inventario == 2">
+                                        <h6 class="title">Tamaño:</h6>
+                                        <ul class="range-variant">
+                                          <ng-container *ngFor="let variedad of product_selected_modal.variedades">
+                                            <li (click)="selectedVariedadModal(variedad)">{{ variedad.valor }}</li>
+                                          </ng-container>
+                                        </ul>
+                                    </div>
+                                      <!-- <div class="product-variation" *ngIf="product_selected_modal.type_inventario == 2">
                                           <h6 class="title">Tamaños:</h6>
                                           <ul class="range-variant">
                                             <ng-container *ngFor="let variedad of product_selected_modal.variedades">
                                               <li>{{ variedad.valor }}</li>
                                             </ng-container>
                                           </ul>
-                                      </div>
+                                      </div> -->
                                       <!-- End Product Variation  -->
 
                                   </div>
@@ -427,20 +461,19 @@
                                   <!-- Start Product Action Wrapper  -->
                                   <div class="product-action-wrapper d-flex-center modal-product">
                                       <!-- Start Quentity Action  -->
-                                      <div class="pro-qty"><input type="text" value="1"></div>
+                                      <!-- <div class="pro-qty"><input type="text" value="1"></div> -->
+                                      <div class="pro-qty mr--20"><input type="text" id="qty-cart" value="1"></div>
                                       <!-- End Quentity Action  -->
 
                                       <!-- Start Product Action  -->
                                       <ul class="product-action d-flex-center mb--0">
-                                          <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add to Cart</a></li>
+                                        <li class="add-to-cart"><a href="#" onclick="return false" (click)="addCartModal(product_selected_modal)" class="axil-btn btn-bg-primary">Agregar al Carrito</a></li>
                                           <li class="wishlist"><a href="wishlist.html" class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a></li>
                                       </ul>
                                       <!-- End Product Action  -->
 
                                   </div>
-                                  <!-- End Product Action Wrapper  -->
-                              </div>
-                          </div>
+                                  <!-- End Product Action Wrapper  -->product_selected
                       </div>
                   </div>
               </div>

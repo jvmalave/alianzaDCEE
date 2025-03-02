@@ -1,6 +1,4 @@
-<!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
+
 <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
 <!-- Start Header -->
 <app-header></app-header>
@@ -8,67 +6,100 @@
 
 <main class="main-wrapper">
 
+   <!-- Start Breadcrumb Area  -->
+   <div class="axil-breadcrumb-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="inner">
+                    <ul class="axil-breadcrumb">
+                        <li class="axil-breadcrumb-item"><a href="index.html" aria-current="page">Home</a></li>
+                        
+                    </ul>
+                    <h1 class="title">Alianza Digital En Línea</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-4">
+                <div class="inner">
+                    <div class="bradcrumb-thumb">
+                        <img src="./assets/images/saludo.png" width="100px" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+<!-- End Breadcrumb Area  -->
+
     <!-- Start Slider Area -->
     <div class="axil-main-slider-area main-slider-style-2 main-slider-style-8">
         <div class="container">
             <div class="slider-offset-left">
                 <div class="row row--20">
-                    <div class="col-lg-9">
-                        <div class="slider-box-wrap">
-                            <div class="slider-activation-one axil-slick-dots">
-                              <ng-container *ngFor="let slider of sliders">
-                                <div class="single-slide slick-slide">
+                  <div class="col-lg-2">
+                    <div class="slider-box">
+                        <div class="product-thumb text-center">
+                          <a [routerLink]="['/filtro-de-productos']" class="axil-btn btn-bg-primary fs-2">
+                            <img src="./assets/images/lupa.png" alt="lupa">Explora todos los productos</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-7">
+                      <div class="slider-box-wrap">
+                          <div class="slider-activation-one axil-slick-dots">
+                            <ng-container *ngFor="let slider of sliders">
+                              <div class="single-slide slick-slide">
+                                <div class="main-slider-content">
+                                    <span class="subtitle"><i class="fal fa-badge-percent"></i> Mega Oferta </span>
+                                    <h2 class="title">{{ slider.title }}</h2>
+                                    <div class="shop-btn" *ngIf="slider.link">
+                                        <a [href]="slider.link" class="axil-btn">Aqui<i class="fal fa-long-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="main-slider-thumb">
+                                    <img [src]="slider.imagen_home" width="250px" height="250px" alt="Product">
+                                </div>
+                              </div>
+                            </ng-container>
+
+                              <!-- <div class="single-slide slick-slide">
                                   <div class="main-slider-content">
-                                      <span class="subtitle"><i class="fal fa-badge-percent"></i> Mega Oferta </span>
-                                      <h1 class="title">{{ slider.title }}</h1>
-                                      <div class="shop-btn" *ngIf="slider.link">
-                                          <a [href]="slider.link" class="axil-btn">Aqui<i class="fal fa-long-arrow-right"></i></a>
+                                      <span class="subtitle"><i class="fal fa-fire"></i> Hot Deal</span>
+                                      <h1 class="title">Up to 60% off Voucher</h1>
+                                      <div class="shop-btn">
+                                          <a href="shop.html" class="axil-btn">Shop Now <i class="fal fa-long-arrow-right"></i></a>
                                       </div>
                                   </div>
                                   <div class="main-slider-thumb">
-                                      <img [src]="slider.imagen_home" width="250px" height="250px" alt="Product">
+                                      <img src="assets/images/product/product-8.png" alt="Product">
                                   </div>
-                                </div>
-                              </ng-container>
-
-                                <!-- <div class="single-slide slick-slide">
-                                    <div class="main-slider-content">
-                                        <span class="subtitle"><i class="fal fa-fire"></i> Hot Deal</span>
-                                        <h1 class="title">Up to 60% off Voucher</h1>
-                                        <div class="shop-btn">
-                                            <a href="shop.html" class="axil-btn">Shop Now <i class="fal fa-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="main-slider-thumb">
-                                        <img src="assets/images/product/product-8.png" alt="Product">
-                                    </div>
-                                </div>
-                                <div class="single-slide slick-slide">
-                                    <div class="main-slider-content">
-                                        <span class="subtitle"><i class="far fa-mobile"></i> Smartphone</span>
-                                        <h1 class="title">Up to 60% off Voucher</h1>
-                                        <div class="shop-btn">
-                                            <a href="shop.html" class="axil-btn">Shop Now <i class="fal fa-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="main-slider-thumb">
-                                        <img src="assets/images/product/product-7.png" alt="Product">
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3" *ngIf="productPromo && productPromo.length > 0">
-                        <div class="slider-product-box">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img [src]="productPromo[0].imagen" alt="Product">
-                                </a>
-                            </div>
-                            <h6 class="title"><a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">{{ productPromo[0].title }}</a></h6>
-                            <span class="price">$ {{  productPromo[0].price_usd }}</span>
-                        </div>
-                    </div>
+                              </div>
+                              <div class="single-slide slick-slide">
+                                  <div class="main-slider-content">
+                                      <span class="subtitle"><i class="far fa-mobile"></i> Smartphone</span>
+                                      <h1 class="title">Up to 60% off Voucher</h1>
+                                      <div class="shop-btn">
+                                          <a href="shop.html" class="axil-btn">Shop Now <i class="fal fa-long-arrow-right"></i></a>
+                                      </div>
+                                  </div>
+                                  <div class="main-slider-thumb">
+                                      <img src="assets/images/product/product-7.png" alt="Product">
+                                  </div>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-3" *ngIf="productPromo && productPromo.length > 0">
+                      <div class="slider-product-box">
+                          <div class="product-thumb">
+                              <a href="single-product.html">
+                                  <img [src]="productPromo[0].imagen" alt="Product">
+                              </a>
+                          </div>
+                          <h6 class="title"><a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">{{ productPromo[0].title }}</a></h6>
+                          <span class="price">$ {{  productPromo[0].price_usd }}</span>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -81,7 +112,7 @@
             <div class="product-area pb--50">
                 <div class="d-md-flex align-items-end flash-sale-section">
                     <div class="section-title-wrapper">
-                        <span class="title-highlighter highlighter-primary"><i class="fas fa-fire"></i> Sólo por un día</span>
+                        <span class="title-highlighter highlighter-primary"><i class="fas fa-fire"></i> Sólo por poco tiempo</span>
                         <h2 class="title">Ventas Flash</h2>
                     </div>
                     <div class="sale-countdown countdown"></div>
@@ -217,7 +248,7 @@
     <!-- End  Best Sellers Product Area  -->
 
     <!-- Poster Countdown Area  -->
-    <div class="axil-poster-countdown">
+    <!-- <div class="axil-poster-countdown">
         <div class="container">
             <div class="poster-countdown-wrap bg-lighter">
                 <div class="row">
@@ -246,7 +277,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- End Poster Countdown Area  -->
 
     <!-- Start Expolre Product Area  -->
@@ -254,7 +285,7 @@
         <div class="container">
             <div class="section-title-wrapper">
                 <span class="title-highlighter highlighter-primary"> <i class="fal fa-store"></i> En la plataforma</span>
-                <h2 class="title">Explore todo lo que puedes obtener</h2>
+                <h2 class="title">Explora todo lo que puedes obtener</h2>
             </div>
             <div class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
                 <div class="slick-single-layout">
@@ -416,7 +447,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center mt--20 mt_sm--0">
-                    <a href="shop.html" class="axil-btn btn-bg-lighter btn-load-more">Ver todos los productos</a>
+                    <a [routerLink]="['/filtro-de-productos']" class="axil-btn btn-bg-lighter btn-load-more">Ver todos los productos</a>
                 </div>
             </div>
 
@@ -429,7 +460,7 @@
       <div class="container">
           <div class="section-title-wrapper">
               <span class="title-highlighter highlighter-secondary"> <i class="far fa-heart"></i>Centro de Donaciones</span>
-              <h2 class="title">Explore productos en donación</h2>
+              <h2 class="title">Explora los articulos en donación</h2>
           </div>
           <div class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
               <div class="slick-single-layout">
@@ -536,25 +567,25 @@
               </div> -->
             <!-- End .slick-single-layout -->
           </div>
-          <div class="row">
+          <!-- <div class="row">
               <div class="col-lg-12 text-center mt--20 mt_sm--0">
                   <a href="shop.html" class="axil-btn btn-bg-lighter btn-load-more">Ver todas las donaciones</a>
               </div>
-          </div>
+          </div> -->
 
       </div>
     </div>
     <!-- End Donation Product Area  -->
 
     <!-- Start Testimonila Area  -->
-    <div class="axil-testimoial-area axil-section-gap bg-vista-white">
+    <!-- <div class="axil-testimoial-area axil-section-gap bg-vista-white">
         <div class="container">
             <div class="section-title-wrapper">
                 <span class="title-highlighter highlighter-secondary"> <i class="fal fa-quote-left"></i>Testimonials</span>
                 <h2 class="title">Users Feedback</h2>
-            </div>
+            </div> -->
             <!-- End .section-title -->
-            <div class="testimonial-slick-activation testimonial-style-one-wrapper slick-layout-wrapper--20 axil-slick-arrow arrow-top-slide">
+            <!-- <div class="testimonial-slick-activation testimonial-style-one-wrapper slick-layout-wrapper--20 axil-slick-arrow arrow-top-slide">
                 <div class="slick-single-layout testimonial-style-one">
                     <div class="review-speech">
                         <p>“ It’s amazing how much easier it has been to
@@ -571,11 +602,11 @@
                             <span class="designation">Head Of Idea</span>
                             <h6 class="title">James C. Anderson</h6>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End .thumbnail -->
-                </div>
+                <!-- </div> -->
                 <!-- End .slick-single-layout -->
-                <div class="slick-single-layout testimonial-style-one">
+                <!-- <div class="slick-single-layout testimonial-style-one">
                     <div class="review-speech">
                         <p>“ It’s amazing how much easier it has been to
                             meet new people and create instantly non
@@ -591,11 +622,11 @@
                             <span class="designation">Head Of Idea</span>
                             <h6 class="title">James C. Anderson</h6>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End .thumbnail -->
-                </div>
+                <!-- </div> -->
                 <!-- End .slick-single-layout -->
-                <div class="slick-single-layout testimonial-style-one">
+                <!-- <div class="slick-single-layout testimonial-style-one">
                     <div class="review-speech">
                         <p>“ It’s amazing how much easier it has been to
                             meet new people and create instantly non
@@ -611,11 +642,11 @@
                             <span class="designation">Head Of Idea</span>
                             <h6 class="title">James C. Anderson</h6>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End .thumbnail -->
-                </div>
+                <!-- </div> -->
                 <!-- End .slick-single-layout -->
-                <div class="slick-single-layout testimonial-style-one">
+                <!-- <div class="slick-single-layout testimonial-style-one">
                     <div class="review-speech">
                         <p>“ It’s amazing how much easier it has been to
                             meet new people and create instantly non
@@ -631,14 +662,13 @@
                             <span class="designation">Head Of Idea</span>
                             <h6 class="title">James C. Anderson</h6>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End .thumbnail -->
-                </div>
+                <!-- </div> -->
                 <!-- End .slick-single-layout -->
-
-            </div>
+            <!-- </div>
         </div>
-    </div>
+    </div> -->
     <!-- End Testimonila Area  -->
 
     <!-- Start New Arrivals Product Area  -->
@@ -700,8 +730,8 @@
         <div class="container">
             <div class="etrade-newsletter-wrapper bg_image bg_image--12">
                 <div class="newsletter-content">
-                    <span class="title-highlighter highlighter-primary2 mb-3"><i class="fas fa-plus"></i>Afiliate a ALI</span><i class="fa-solid "></i>
-                    <h2 class="title mb--40 mb_sm--30">Registra tu emprendimiento</h2>
+                    <span class="title-highlighter highlighter-primary2 mb-3"><i class="fas fa-plus"></i>Vende tus producto en ADEL</span><i class="fa-solid "></i>
+                    <h2 class="title mb--40 mb_sm--30">Registrate como emprendedor</h2>
                     <h4 class="title mb--40 mb_sm--30">Promociona y vende tus productos</h4>
                     <div class="col-6">
                         <!-- <div class="position-relative newsletter-inner mb--15">

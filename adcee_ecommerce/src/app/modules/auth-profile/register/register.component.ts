@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 
 
 
-declare function alertDanger([]):any;
-declare function alertWarning([]):any;
+declare function alertDanger([]):any; 
 declare function alertSuccess([]):any;
 
 @Component({
@@ -30,9 +29,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit():void {
-    // if(this.AuthService.user){
-    //   this.router.navigate(['/']);
-    // }
+     if(this.AuthService.user){
+       this.router.navigate(['/']);
+    }
 
   }
 
@@ -60,6 +59,7 @@ export class RegisterComponent implements OnInit {
     this.AuthService.registro(data).subscribe((resp:any) => {
       console.log(resp);
       alertSuccess("Super! el registro se realizó satisfactoriamente")
+      this.router.navigate(["/auth/login"]);
     });
   }
 }

@@ -8,6 +8,13 @@ export default{
   
   register: async(req,res) => {
     try {
+      const userC = await models.User.findOne({email: req.body.email});
+      if(userC){
+        res.status(500).send({
+          message: "EL USUARIO YA EXISTE"
+        });
+      }
+      req.body.rol = "cliente"
       req.body.password = await bcrypt.hash(req.body.password,10);
       const user = await models.User.create(req.body);
       res.status(200).json(user);
@@ -19,6 +26,7 @@ export default{
         console.log(error);
     }
   },
+  
   register_admin: async(req,res) => {
     try {
       const userV = await models.User.findOne({email: req.body.email});

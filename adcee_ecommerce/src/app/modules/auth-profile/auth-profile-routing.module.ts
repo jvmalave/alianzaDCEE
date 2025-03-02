@@ -15,7 +15,7 @@ const routes: Routes = [
         component: LoginComponent
       },
       {
-        path:'registro',
+        path:'registro-cliente',
         //canActivate:[AuthGuard],
         component: RegisterComponent
       }

@@ -23,6 +23,7 @@ export class LandingProductComponent implements OnInit{
   product_selected_modal: any = null;
   related_products:any = [];
   variedad_selected:any = null;
+  variedad_selected_modal:any = null;
 
   discount_id:any;
   SALE_FLASH:any = null;
@@ -64,6 +65,7 @@ export class LandingProductComponent implements OnInit{
 
   OpenModal(bestProduct:any, FlashSale:any = null){
     this.product_selected_modal = null;
+    this.SALE_FLASH = FlashSale; 
   
     setTimeout(() => {
 
@@ -88,16 +90,35 @@ export class LandingProductComponent implements OnInit{
     return discount; 
   }
 
-  getCalNewPrice(product:any){
-    // if(this.FlashSale.type_discount == 1){
-    //   return product.price_usd - product.price_usd*this.FlashSale.discount*0.01;
-    // }else{
-    //   return product.price_usd - this.FlashSale.discount
-    // }
-    return 0;
+  getDiscountModal(){
+    let discount =  0;
+    console.log(this.SALE_FLASH);
+    if(this.SALE_FLASH){
+      if(this.SALE_FLASH.type_discount == 1){
+        return this.SALE_FLASH.discount*this.product_selected_modal.price_usd*0.01;
+      }else{
+        return this.SALE_FLASH.discount;
+      }
+    }
+    return discount;
   }
+
+
+  getCalNewPrice(product:any){
+    //  if(this.FlashSale.type_discount == 1){
+    //    return product.price_usd - product.price_usd*this.FlashSale.discount*0.01;
+    //  }else{
+    //    return product.price_usd - this.FlashSale.discount
+    //  }
+    // return 0;
+  }
+
   selectedVariedad(variedad:any){
     this.variedad_selected = variedad;
+  }
+
+  selectedVariedadModal(variedad:any){
+    this.variedad_selected_modal = variedad;
   }
 
 
@@ -154,6 +175,61 @@ export class LandingProductComponent implements OnInit{
       }
     })
   }
+
+  addCartModal(product:any){
+    console.log(product);
+    if (!this.cartService._authService.user){
+      alertDanger('Upss! Necesitas autenticarte para poder agregar productos al carrito de compras');
+      return;
+    }
+    if($("#qty-cart").val() == 0){
+      alertDanger("Upss! Necesitas agregar al carrito de compras una cantidad del producto mayor a O unidades");
+      return;
+    }
+    if(this.product_selected_modal.type_inventario == 2){
+      if(!this.variedad_selected_modal){
+        alertDanger("Upss! Necesitas seleccionar una variedad del productos al carrito de compras");
+      return;
+      }
+    }
+    if(this.product_selected_modal.type_inventario == 2){
+      if(this.variedad_selected_modal){
+        if(this.variedad_selected_modal.stock < $("#qty-cart").val()){
+          alertDanger("Upss! No hay disponibilidad suficiente para la cantidad solicitada de la variedad, Escoja una cantidad igual o menor de "+this.variedad_selected_modal.stock);
+          return
+        }
+      }
+    }
+    let data = {
+      user: this.cartService._authService.user._id,
+      product: this.product_selected_modal._id,
+      type_discount: this.SALE_FLASH ? this.SALE_FLASH.type_discount : null,
+      discount: this.SALE_FLASH ? this.SALE_FLASH.discount : 0, 
+      cantidad: $("#qty-cart").val(),
+      variedad: this.variedad_selected_modal ? this.variedad_selected_modal._id : null,
+      code_cupon: null,
+      code_discount: this.SALE_FLASH ? this.SALE_FLASH._id : null,
+      price_unit: this.product_selected_modal.price_usd,
+      subtotal: this.product_selected_modal.price_usd - this.getDiscountModal(),  // * $("#qty-cart").val(),
+      total: (this.product_selected_modal.price_usd - this.getDiscountModal()) * $("#qty-cart").val(),
+
+    }
+    this.cartService.registerCart(data).subscribe((resp:any) => {
+      if(resp.message == 403){
+        alertDanger(resp.message_text);
+        return;
+      }else {
+        this.cartService.changeCart(resp.cart);
+        alertSuccess("Super! El producto se ha agregado satisfactoriamente")
+      }
+    },error => {
+      console.log(error);
+      if(error.error.message == "Upss! El token no es valido"){
+        this.cartService._authService.logout();
+      }
+    })
+  }
+
 
   
 

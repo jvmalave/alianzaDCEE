@@ -1283,7 +1283,7 @@ const notification = document.getElementById("notification-ecommerce-success");
   var SECONDS = 0;
   var showTime = () => {
     SECONDS ++;
-    $("#notification-ecommerce-success .btn-secondary").text(SECONDS);
+    $("#notification-ecommerce-success .btn-success").text(SECONDS);
   };
   $("#notification-ecommerce-success .text-message-notification").text(TEXT);
   var timer = setInterval(showTime, 1000);

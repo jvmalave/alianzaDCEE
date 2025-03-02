@@ -17,6 +17,7 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 
 
 
+
 @NgModule({
   declarations: [UsersComponent, UsersListComponent, AddUsersComponent, EditUsersComponent, EditColaboradorComponent, DeleteUserComponent, ChangeStateUserComponent],
   imports: [
