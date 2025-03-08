@@ -392,7 +392,8 @@
                           <div class="my-account-dropdown" [ngClass]="{ 'open': isOpen }">
                               <ul>
                                   <li>
-                                      <a [routerLink]="['/perfil-del-cliente']">My Account</a>
+                                      <!-- <a class="axil-btn btn-bg-primary text-center" [routerLink]="['/perfil-del-cliente']">My Account</a> -->
+                                      <a href="#" onclick="return false" class="axil-btn.btn-bg-white text-center" [routerLink]="['/perfil-del-cliente']">Mi Cuenta </a>
                                   </li>
                                   <!-- <li>
                                       <a href="#">Initiate return</a>
@@ -405,7 +406,7 @@
                                   </li> -->
                               </ul>
                               <a [routerLink]="['/auth/login']"  class="axil-btn btn-bg-primary" *ngIf="!user">Ingresar</a>
-                              <a href="#" onclick="return false" class="axil-btn btn-bg-primary text-center" *ngIf="user" (click)="logout()">Salir</a>
+                              <a href="#" onclick="return false" class="axil-btn btn-outline-primary text-center" *ngIf="user" (click)="logout()">Salir</a>
                               <div class="reg-footer text-center mt-3" *ngIf="!user">¿Sin cuenta, aún? <a [routerLink]="['/auth/registro-cliente']" class="btn-link">REGISTRATE AQU.</a></div>
                           </div>
                       </li>
