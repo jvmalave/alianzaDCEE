@@ -31,7 +31,7 @@ export default {
     }
     const response = await token.decode(req.headers.token);
     if(response){
-      if(response.rol == "admin"){
+      if(response.rol == "admin" || response.rol == "emprendedor"){
         next();
       }
       else{

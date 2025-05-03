@@ -5,8 +5,7 @@ export default{
       if(product.galerias && product.galerias.length > 0){//NUEVO POR AGREGAR
 
         GALERIAS = product.galerias.map((galeria) => {
-          galeria.imagen = "http://localhost:3000"+'/api/products/uploads/product/'+galeria.imagen;
-        //  galeria.imagen = process.env.URL_BACKEND+'/api/products/uploads/product/'+galeria.imagen;
+          galeria.imagen = process.env.URL_BACKEND+'/api/products/uploads/product/'+galeria.imagen;
                  return galeria;
              });
              var VAL = Math.floor(Math.random() * product.galerias.length);//0,1,2
@@ -16,7 +15,7 @@ export default{
     return{
       _id: product._id,
       title: product.title,
-      imagen:"http://localhost:3000"+"/api/products/uploads/product/"+product.portada, 
+      imagen:process.env.URL_BACKEND+"/api/products/uploads/product/"+product.portada, 
       state: product.state,
       slug: product.slug,
       sku: product.sku,

@@ -168,13 +168,13 @@ export class HomeComponent implements OnInit {
       product: product._id,
       type_discount: type_discount,
       discount: discount,
-      cantidad: 1,
+      cantidad: $("#qty-cart").val(),
       variedad: null,
       code_cupon: null,
       code_discount: code_discount,
       price_unit: product.price_usd,
       subtotal: product.price_usd - this.getDiscountProduct(product, is_sale_flash),  // 1
-      total: (product.price_usd - this.getDiscountProduct(product, is_sale_flash)) *1,
+      total: (product.price_usd - this.getDiscountProduct(product, is_sale_flash)) * $("#qty-cart").val(),
 
     }
     this.cartService.registerCart(data).subscribe((resp:any) => {

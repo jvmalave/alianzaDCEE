@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  URL_BACKEND: 'https://api.tequeteando.com/',
-  URL_SERVICIOS:'https://api.tequeteando.com/api/',
-  URL_FROTEND: 'https://adel.tequeteando.com/',
+  URL_BACKEND: 'http://api.adelonline.es/',
+  URL_SERVICIOS: 'http://api.adelonline.es/api/',
+  URL_FROTEND: 'http://tienda.adelonline.es',
 };

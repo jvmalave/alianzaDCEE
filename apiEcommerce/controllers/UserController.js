@@ -110,8 +110,8 @@ export default{
         });
         console.log(error);
     }
-},
-login_admin: async(req,res) => {
+  },
+  login_admin: async(req,res) => {
   try {
       const user = await models.User.findOne({email: req.body.email,state:1,rol:"admin"});
       if(user){
@@ -151,8 +151,8 @@ login_admin: async(req,res) => {
       });
       console.log(error);
   }
-},
-login_seller: async(req,res) => {
+  },
+  login_seller: async(req,res) => {
   try {
       const user = await models.User.findOne({email: req.body.email,state:1,rol:"emprendedor"});
       if(user){
@@ -192,7 +192,7 @@ login_seller: async(req,res) => {
       });
       console.log(error);
   }
-},
+  },
   update: async(req,res) => {
     try {
        if(req.files){

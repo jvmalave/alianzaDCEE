@@ -3,15 +3,23 @@ import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
 import router from "./router";
+import 'dotenv/config'
+
+//console.log(process.env)
 
 //CONEXION A LA BASE DE DATOS db_adcee
 
 //const dburl = "mongodb://127.0.0.1:27017/db_adcee";
+mongoose.Promise = global.Promise;
 const dburl = "mongodb+srv://malavemjv:guayoyo@adccedb.z6dz1.mongodb.net/db_adcee";
 
 
 
-mongoose.connect(dburl)
+mongoose.connect(
+  dburl,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("CONECTADO A LA BD db_adcee en el puerto 27017"))
   .catch(err => console.log(err));
 
@@ -19,7 +27,8 @@ mongoose.connect(dburl)
 
 //DECLARACION EXPRESS
 const app = express();
-app.use(cors());
+app.use(cors(
+));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));

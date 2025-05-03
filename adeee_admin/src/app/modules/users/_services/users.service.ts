@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { AuthService } from '../../auth';
+import { AuthService, UserRole } from '../../auth';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { finalize } from 'rxjs/operators';
 
@@ -25,6 +25,12 @@ export class UsersService {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'token': this.authservice.token});
     let URL = URL_SERVICIOS + "/users/list?search="+search;
+
+    // Filtra los usuarios según el rol
+    if (this.authservice.getCurrentRole() === UserRole.EMPRENDEDOR) {
+      URL += "&createdBy=" + this.authservice.user.id; // Añade filtro para emprendedores
+    }
+    
     return this.http.get(URL,{headers: headers}).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );

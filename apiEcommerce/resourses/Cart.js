@@ -6,7 +6,7 @@ export default{
       product:{
         _id: cart.product._id,
         title: cart.product.title,
-        imagen:"http://localhost:3000"+"/api/products/uploads/product/"+cart.product.portada, 
+        imagen:process.env.URL_BACKEND+"/api/products/uploads/product/"+cart.product.portada, 
         state: cart.product.state,
         slug: cart.product.slug,
         sku: cart.product.sku,

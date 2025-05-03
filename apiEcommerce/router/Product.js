@@ -8,7 +8,7 @@ import variedadController from "../controllers/VariedadController";
 var path = multiparty({uploadDir:'./uploads/product'});
 const router = routerx();
 
-// http://localhost:3000/api/users/register
+// process.env.URL_BACKEND/api/users/register
 
 router.post("/register", [auth.verifyAdmin, path], productController.register);
 

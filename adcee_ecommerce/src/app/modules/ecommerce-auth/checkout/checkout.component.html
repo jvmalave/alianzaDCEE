@@ -31,6 +31,7 @@
       <div class="container">
           <form action="#">
               <div class="row">
+                <!-- Customer Address  -->
                   <div class="col-lg-6">
                       <div class="axil-checkout-notice">
                         <div class="tab-pane" id="nav-address" role="tabpanel">
@@ -180,14 +181,16 @@
                           <button type="button" *ngIf="address_client_selected" (click)="store()" class="axil-btn btn-bg-primary checkout-btn">Actualizar Dirección</button>
                       </div>
                   </div>
+                <!-- Checkout section -->
                   <div class="col-lg-6">
                       <div class="axil-order-summery order-checkout-summery">
-                          <h5 class="title mb--20">Your Order</h5>
+                          <h5 class="title mb--20">Tu Orden</h5>
+                           <!-- Summery order -->
                           <div class="summery-table-wrap">
                               <table class="table summery-table">
                                   <thead>
                                       <tr>
-                                          <th>Product</th>
+                                          <th>Producto</th>
                                           <th>Subtotal</th>
                                       </tr>
                                   </thead>
@@ -229,33 +232,243 @@
                                   </tbody>
                               </table>
                           </div>
+                          <hr>
+                          <h6>Selecciona tu método de pago:</h6>
+                          <hr>
                           <div class="order-payment-method">
-                              <div class="single-payment">
-                                  <div class="input-group">
-                                      <input type="radio" id="radio4" name="payment">
-                                      <label for="radio4">Direct bank transfer</label>
+                            <!-- Pago Móvil -->
+                            <div class="single-payment">
+                              <div class="input-group justify-content-between align-items-center">
+                                <input type="radio" id="radio4" name="payment" value="pago_movil" (change)="selectedPaymentMethod = 'pago_movil'">
+                                <label for="radio4">Pago Móvil</label>
+                                <img src="./assets/images/icons/cart/mobile-payment.png" width="200" alt="Mobile payment">
+                              </div>
+                              <div *ngIf="selectedPaymentMethod === 'pago_movil'" class="payment-details mt-3">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="card">
+                                      <div class="card-header light text-center mb-3">
+                                        <p><strong>Datos de pago móvil</strong></p>
+                                      </div>
+                                      <div class="card-body">
+                                        <ul class="list-group list-group-flush center">
+                                          <li class="list-group-item"><i class="bi bi-bank fs-1 me-3"></i><strong>Banco:</strong> Banco de Venezuela</li>
+                                          <li class="list-group-item"><i class="bi bi-phone fs-1 me-3"></i><strong>Teléfono:</strong> 0412-1234567</li>
+                                          <li class="list-group-item"><i class="bi bi-person-vcard fs-1 me-3"></i><strong>Cédula/RIF:</strong> J-12345678-9</li>
+                                        </ul>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                  <div class="col-md-12 mt-5">
+                                    <hr>
+                                    <div class="card">
+                                      <div class="card-header light text-center mb-3">
+                                        <p><strong>Ingresa los datos de tu pago móvil</strong></p>
+                                      </div>
+                                      <div class="card-body">
+                                        <form (submit)="submitPagoMovil()">
+                                          <div class="form-group">
+                                            <label>Monto pagado</label>
+                                            <input type="text" class="form-control" [(ngModel)]= "pagoMovilData.montoBs" name="monto" required>
+                                            <small class="ps-3" style="color:red">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Banco emisor</label>
+                                            <select class="form-control" [(ngModel)]="pagoMovilData.banco" name="banco" required>
+                                              <option value="venezuela"> 0102 - Venezuela</option>
+                                              <option value="venezolano-credito">0104 - Venezolano de Crédito </option>
+                                              <option value="mercantil">0105 - Mercantil </option>
+                                              <option value="provincial">0108 - Provincial </option>
+                                              <option value="caribe">0114 - Del Caribe </option>
+                                              <option value="exterior">0115 - Exterior </option>
+                                              <option value="caroni">0128 - Caroní </option>
+                                              <option value="banesco">0134 - Banesco </option>
+                                              <option value="sofitasa">0137 - Sofitasa </option>
+                                              <option value="plaza">0138 - Plaza </option>
+                                              <option value="gente-emprendedora">0146 - Gente Emprendedora</option>
+                                              <option value="fondo-comun">0151 - Fondo Común </option>
+                                              <option value="100%-banco">0156 - 100% Banco </option>
+                                              <option value="delsur">0157 - DelSur </option>
+                                              <option value="tesoro">0163 - Tesoro </option>
+                                              <option value="agricola-venezuela">0166 - Agrícola de Venezuela</option>
+                                              <option value="bancrecer">0168 - Bancrecer </option>
+                                              <option value="mi-banco">0169 - Mi Banco </option>
+                                              <option value="activo">0171 - Activo </option>
+                                              <option value="bancamiga">0172 - Bancamiga </option>
+                                              <option value="bid">0173 - BID </option>
+                                              <option value="banplus">0174 - Banplus </option>
+                                              <option value="bicentenario">0175 - Bicentenario </option>
+                                              <option value="banfanb">0177 - Banfanb </option>
+                                              <option value="banco-digital">0178 - Banco Digital </option>
+                                              <option value="bnc">0191 - BNC </option>
+                                            </select>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Número de referencia</label>
+                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.referencia" name="referencia" required>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Teléfono</label>
+                                            <input type="tel" class="form-control" [(ngModel)]="pagoMovilData.telefono" name="telefono" required>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Comprobante (opcional)</label>
+                                            <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                          </div>
+                                          <button type="submit" class="axil-btn btn-bg-primary">Notificar Pago</button>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Transferencia Bancaria -->
+                            <div class="single-payment">
+                              <div class="input-group justify-content-between align-items-center">
+                                <input type="radio" id="radio7" name="payment" value="transferencia" (change)="selectedPaymentMethod = 'transferencia'">
+                                <label for="radio7">Transferencia Bancaria</label>
+                                <img src="./assets/images/icons/cart/bank-transfer.png" width="200" alt="Bank Transfer">
+                              </div>
+                              <div *ngIf="selectedPaymentMethod === 'transferencia'" class="payment-details mt-3">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="card">
+                                      <div class="card-header light text-center mb-3">
+                                        <p><strong>Datos de bancarios</strong></p>
+                                      </div>
+                                      <div class="card-body">
+                                        <ul class="list-group list-group-flush center">
+                                          <li class="list-group-item"><i class="bi bi-bank fs-1 me-3"></i><strong>Banco:</strong> Banco Mercantil</li>
+                                          <li class="list-group-item"><i class="bi bi-hash fs-1 me-3"></i><strong>Número de Cuenta:</strong> 0105-1234-5678-9012-3456</li>
+                                          <li class="list-group-item"><i class="bi bi-shop fs-1 me-3"></i><strong>Titular:</strong> Tienda ADEL Online C.A. </li>
+                                          <li class="list-group-item"><i class="bi bi-person-vcard fs-1 me-3"></i><strong>Cédula/RIF:</strong> J-12345678-9</li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 mt-5">
+                                    <div class="card">
+                                      <div class="card-header light text-center mb-3">
+                                        <p><strong>Ingresa los datos de tu transferencia</strong></p>
+                                      </div>
+                                      <div class="card-body">
+                                        <form (submit)="submitTransferencia()">
+                                          <div class="form-group">
+                                            <label>Monto transferido</label>
+                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.montoBs" name="monto" required>
+                                            <small class="ps-3" style="color:red">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Banco emisor</label>
+                                            <select class="form-control" [(ngModel)]="transferenciaData.banco" name="banco" required>
+                                              <option value="venezuela"> 0102 - Venezuela</option>
+                                              <option value="venezolano-credito">0104 - Venezolano de Crédito </option>
+                                              <option value="mercantil">0105 - Mercantil </option>
+                                              <option value="provincial">0108 - Provincial </option>
+                                              <option value="caribe">0114 - Del Caribe </option>
+                                              <option value="exterior">0115 - Exterior </option>
+                                              <option value="caroni">0128 - Caroní </option>
+                                              <option value="banesco">0134 - Banesco </option>
+                                              <option value="sofitasa">0137 - Sofitasa </option>
+                                              <option value="plaza">0138 - Plaza </option>
+                                              <option value="gente-emprendedora">0146 - Gente Emprendedora</option>
+                                              <option value="fondo-comun">0151 - Fondo Común </option>
+                                              <option value="100%-banco">0156 - 100% Banco </option>
+                                              <option value="delsur">0157 - DelSur </option>
+                                              <option value="tesoro">0163 - Tesoro </option>
+                                              <option value="agricola-venezuela">0166 - Agrícola de Venezuela</option>
+                                              <option value="bancrecer">0168 - Bancrecer </option>
+                                              <option value="mi-banco">0169 - Mi Banco </option>
+                                              <option value="activo">0171 - Activo </option>
+                                              <option value="bancamiga">0172 - Bancamiga </option>
+                                              <option value="bid">0173 - BID </option>
+                                              <option value="banplus">0174 - Banplus </option>
+                                              <option value="bicentenario">0175 - Bicentenario </option>
+                                              <option value="banfanb">0177 - Banfanb </option>
+                                              <option value="banco-digital">0178 - Banco Digital </option>
+                                              <option value="bnc">0191 - BNC </option>
+                                              <!-- otros bancos -->
+                                            </select>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Número de referencia</label>
+                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.referencia" name="referencia" required>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Comprobante (opcional)</label>
+                                            <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                          </div>
+                                          <button type="submit" class="axil-btn btn-bg-primary">Notificar Transferencia</button>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Efectivo -->
+                            <div class="single-payment">
+                              <div class="input-group justify-content-between align-items-center">
+                                <input type="radio" id="radio5" name="payment" value="efectivo" (change)="selectedPaymentMethod = 'efectivo'">
+                                <label for="radio5">Efectivo</label>
+                                <img src="./assets/images/icons/cart/cash.png" width="200" alt="cash-payment">
+                              </div>
+                              <div *ngIf="selectedPaymentMethod === 'efectivo'" class="mt-3">
+                                <div class="alert alert-info">
+                                  <strong>Paga en efectivo ${{ totalCarts }} al recibir tu pedido.</strong><br>
+                                  El monto exacto debe ser entregado al repartidor al momento de recibir los productos.
+                                </div>
+                              </div>
+                            </div>
+                            <!-- PayPal -->
+                            <div class="single-payment">
+                              <div class="input-group justify-content-between align-items-center">
+                                <input type="radio" id="radio6" name="payment" value="paypal" (change)="selectedPaymentMethod = 'paypal'">
+                                <label for="radio6">PayPal</label>
+                                <img src="./assets/images/icons/cart/paypal-payment.png" width="200" alt="Paypal payment">
+                              </div>
+                              <div *ngIf="selectedPaymentMethod === 'paypal'" class="mt-3">
+                                <div #paypal></div>
+                                <small class="text-muted">Serás redirigido al sitio seguro de PayPal para completar tu pago.</small>
+                              </div>
+                            </div>
+                          </div>
+                          <div #paypal></div>
+                          <!-- <div class="order-payment-method">
+                              <div class="single-payment">
+                                  <div class="input-group justify-content-between align-items-center">
+                                      <input type="radio" id="radio4" name="payment">
+                                      <label for="radio4">Pago Móvil</label>
+                                      <img src="./assets/images/icons/cart/mobile-payment.png" width="200" alt="Mobile payment">
+                                  </div>
+                                  <small>Realice su pago por pago movil. Utilice su número de pedido junto a la referencia de pago. Su pedido será despachado una vez que los fondos se hayan acreditado en cuenta.</small>
                               </div>
                               <div class="single-payment">
-                                  <div class="input-group">
+                                <div class="input-group justify-content-between align-items-center">
+                                    <input type="radio" id="radio7" name="payment">
+                                    <label for="radio7">Transferencia Bancaria</label>
+                                    <img src="./assets/images/icons/cart/bank-transfer.png" width="200" alt="Bank Transfer">
+                                </div>
+                                <small>Realice su pago por transferencia Bancaria. Utilice su número de pedido junti a la referencia de pago. Su pedido será despachado una vez que los fondos se hayan acreditado en cuenta.</small>
+                              </div>
+                              <div class="single-payment">
+                                  <div class="input-group justify-content-between align-items-center">
                                       <input type="radio" id="radio5" name="payment">
-                                      <label for="radio5">Cash on delivery</label>
+                                      <label for="radio5">Efectivo</label>
+                                      <img src="./assets/images/icons/cart/cash.png" width="200" alt="cash-payment">
                                   </div>
-                                  <p>Pay with cash upon delivery.</p>
+                                  <small>Realice su pago en efectivo al momento de recibir su pedido (Delivery).</small>
                               </div>
                               <div class="single-payment">
                                   <div class="input-group justify-content-between align-items-center">
                                       <input type="radio" id="radio6" name="payment" checked>
                                       <label for="radio6">Paypal</label>
-                                      <img src="./assets/images/others/payment.png" alt="Paypal payment">
+                                      <img src="./assets/images/icons/cart/paypal-payment.png" width="200" alt="Paypal payment">
                                   </div>
-                                  <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                  <small>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</small>
                               </div>
-                          </div>
-                          <div #paypal>
-
-                          </div>
+                          </div> -->
                       </div>
                   </div>
               </div>

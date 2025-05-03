@@ -7,7 +7,7 @@ import multiparty from 'connect-multiparty';
 var path = multiparty({uploadDir:'./uploads/categorie'});
 const router = routerx();
 
-// http://localhost:3000/api/users/register
+// process.env.URL_BACKEND/api/users/register
 
 router.post("/register", [auth.verifyAdmin, path], categorieController.register);
 router.put("/update",[auth.verifyAdmin,path],categorieController.update);

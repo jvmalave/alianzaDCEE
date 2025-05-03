@@ -8,9 +8,7 @@ import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 
 async function send_email(sale_id) {
- 
   try {
-    
     var readHTMLFile = function(path, callback) {
       fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
           if (err) {
@@ -24,35 +22,42 @@ async function send_email(sale_id) {
     };
 
     let Order = await models.Sale.findById({_id: sale_id}).populate("user");
-    let OrderDatail = await models.SaleDetail.find({sale:  Order._id}).populate("product").populate("variedad");
+    let OrderDetail = await models.SaleDetail.find({sale:  Order._id}).populate("product").populate("variedad");
     let AddressSale = await models.SaleAddress.findOne({ sale: Order._id});
 
     var transporter = nodemailer.createTransport(smtpTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
       auth: {
-      user: 'alianzadigitalcomunal@gmail.com',
-      pass: 'wfjxaelomeifnavu'
+      user: 'adel.enlinea@gmail.com',
+      pass: 'pwnnaljiypxkjtnm'
       }
     }));
 
     readHTMLFile(process.cwd() + '/mails/email_sale.html', (err, html)=>{
+
+      OrderDetail.map((detail) => {
+        detail.product.imgs = process.env.URL_BACKEND+"/api/products/uploads/product/"+detail.product.portada;
+        return detail;
+      });
                                 
-      let rest_html = ejs.render(html, {order: Order, address_sale: AddressSale, order_detail: OrderDatail});
+      let rest_html = ejs.render(html, {order: Order, address_sale: AddressSale, order_detail: OrderDetail});
 
       var template = handlebars.compile(rest_html);
       var htmlToSend = template({op:true});
 
       var mailOptions = {
-          from: 'alianzadigitalcomunal@gmail.com',
+          from: 'adel.enlinea@gmail.com',
           to: Order.user.email,
-          subject: 'Finaliza tu compra ' + Order._id,
+          subject: 'Finalizada tu compra ' + Order._id,
           html: htmlToSend
       };
     
       transporter.sendMail(mailOptions, function(error, info){
           if (!error) {
               console.log('Email sent: ' + info.response);
+          }else {
+            console.log(error);
           }
       });
   
@@ -72,7 +77,6 @@ async function send_email(sale_id) {
 
 
 export default {
-
   register: async (req,res) => {
     try {
       let sale_data = req.body.sale;
@@ -84,8 +88,6 @@ export default {
       let SALE_ADDRESS = await models.SaleAddress.create(sale_address_data);
 
       let CARTS = await models.Cart.find({user:SALE.user});
-
-
 
       for (let CART of CARTS) {
         CART = CART.toObject();
@@ -131,6 +133,4 @@ export default {
         });
     }
   },
-
-  
 }

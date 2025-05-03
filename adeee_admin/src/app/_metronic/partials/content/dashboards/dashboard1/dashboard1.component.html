@@ -1,4 +1,30 @@
-<div class="row">
+
+<div class="row mt-5">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 text-center">
+    <ng-container *ngIf="user$.rol == 'admin'">
+      <h1> Bienvenido(a) {{ user$.name}} {{ user$.surname}}</h1>
+      <h2> Administrativo ADEL | Rol: Adminitrador</h2>
+    </ng-container>
+    <ng-container *ngIf="user$.rol=='emprendedor'">
+      <h2>{{ user$.name}} {{ user$.surname}}</h2>
+      <h1> Bienvenido emprendedor a tu Administrativo en Adel</h1>
+    </ng-container>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row my-5"></div>
+<div class="row mt-5">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 text-center">
+    <img src="./assets/media/misc/saludo.png" alt="">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+
+
+<!-- <div class="row">
   <div class="col-lg-6 col-xxl-4">
     <app-mixed-widget1></app-mixed-widget1>
   </div>
@@ -32,4 +58,4 @@
   <div class="col-lg-8">
     <app-advance-tables-widget4></app-advance-tables-widget4>
   </div>
-</div>
+</div> -->

@@ -1,20 +1,51 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EcommerceAuthService } from '../_services/ecommerce-auth.service';
 import { CartService } from '../../ecommerce-guest/_services/cart.service';
+import { Pipe, PipeTransform } from '@angular/core';
+
+
+
+
+@Pipe({ name: 'bsFormat' })
+export class BsFormatPipe implements PipeTransform {
+  transform(value: number): string {
+    if (isNaN(value)) return '0,00 Bs.';
+
+    // Redondear a 2 decimales
+    const rounded = Math.round(value * 100) / 100;
+    
+    // Formatear con separadores
+    const formatted = rounded.toLocaleString('es-VE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    return `${formatted} Bs.`;
+  }
+}
 
 
 declare function alertDanger([]):any;
 declare function alertSuccess([]):any;
 declare var paypal:any;
 
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
+
+
+
 export class CheckoutComponent implements OnInit {
 
   @ViewChild('paypal',{static: true}) paypalElement?: ElementRef;
+
+  selectedPaymentMethod: string = '';
+  pagoMovilData: any = {};
+  transferenciaData: any = {};
+  selectedFile: File | null = null;
 
   listAddressClient:any = [];
   name:any = null;
@@ -32,6 +63,7 @@ export class CheckoutComponent implements OnInit {
   address_client_selected:any = null;
   listCarts:any = [];
   totalCarts: any = 0;
+  tasaBcv: any = 0
 
   constructor(
     public authEcommerce: EcommerceAuthService,
@@ -45,8 +77,13 @@ export class CheckoutComponent implements OnInit {
     })
     this.cartService.currentDataCart$.subscribe((resp:any) => {
       console.log(resp);
+      this.tasaBcv = 86.85;
       this.listCarts = resp;
       this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
+      this.pagoMovilData.monto = this.totalCarts;
+      this.pagoMovilData.montoBs = this.totalCarts * this.tasaBcv;
+      this.transferenciaData.monto = this.totalCarts;
+      this.transferenciaData.montoBs = this.totalCarts * this.tasaBcv;
     })
     
     paypal.Buttons({
@@ -130,6 +167,10 @@ export class CheckoutComponent implements OnInit {
       }
     }).render(this.paypalElement?.nativeElement);
   }
+
+
+
+
 
   store(){
     if(this.address_client_selected){
@@ -243,7 +284,33 @@ export class CheckoutComponent implements OnInit {
     this.email = this.address_client_selected.email;
     this.note = this.address_client_selected.note;
   }
-}
 
+  // Método para manejar la selección de archivo
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  submitPagoMovil() {
+    const formData = new FormData();
+    formData.append('monto', this.pagoMovilData.monto);
+    formData.append('montoBs', this.pagoMovilData.montoBs);
+    formData.append('banco', this.pagoMovilData.banco);
+    formData.append('referencia', this.pagoMovilData.referencia);
+    formData.append('telefono', this.pagoMovilData.telefono);
+    if (this.selectedFile) {
+      formData.append('comprobante', this.selectedFile);
+    }
+  }
+  submitTransferencia() {
+    const formData = new FormData();
+    formData.append('monto', this.transferenciaData.monto);
+    formData.append('montoBs', this.transferenciaData.montoBs);
+    formData.append('banco', this.transferenciaData.banco);
+    formData.append('referencia', this.transferenciaData.referencia);
+    if (this.selectedFile) {
+      formData.append('comprobante', this.selectedFile);
+    }
+  }
+}
 
 

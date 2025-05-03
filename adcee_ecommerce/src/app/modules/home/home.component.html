@@ -757,15 +757,24 @@
 <!-- Start Service Area  -->
 <div class="service-area">
     <div class="container">
-        <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
-            <div class="col">
+        <div class="row row-cols-xl-2 row-cols-sm-2 row-cols-1 row--40">
+            <!-- <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="./assets/images/icons/service1.png" alt="Service">
+                        <img src="./assets/images/icons/service1.png" alt="Servic">
                     </div>
                     <div class="content">
-                        <h6 class="title">Fast &amp; Secure Delivery</h6>
-                        <p>Tell about your service.</p>
+                        <h6 class="title py-3">Rápido &amp; Seguro</h6>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col">
+                <div class="service-box service-style-2" style="margin-left: 300px;">
+                    <div class="icon">
+                        <img src="./assets/images/icons/service4.png" alt="Fast">
+                    </div>
+                    <div class="content">
+                        <h6 class="title py-3">Rápido &amp; Seguro</h6>
                     </div>
                 </div>
             </div>
@@ -775,33 +784,20 @@
                         <img src="./assets/images/icons/service2.png" alt="Service">
                     </div>
                     <div class="content">
-                        <h6 class="title">Money Back Guarantee</h6>
-                        <p>Within 10 days.</p>
+                        <h6 class="title py-3">Servicio Garantiazado</h6>
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <!-- <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="./assets/images/icons/service3.png" alt="Service">
+                        <img src="./assets/images/icons/service1.png" alt="Service">
                     </div>
                     <div class="content">
-                        <h6 class="title">24 Hour Return Policy</h6>
-                        <p>No question ask.</p>
+                        <h6 class="title">Seguro</h6>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="service-box service-style-2">
-                    <div class="icon">
-                        <img src="./assets/images/icons/service4.png" alt="Service">
-                    </div>
-                    <div class="content">
-                        <h6 class="title">Pro Quality Support</h6>
-                        <p>24/7 Live support.</p>
-                    </div>
-                </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -872,11 +868,30 @@
                                     <span class="price-amount" *ngIf="!product_selected.FlashSale">$ {{ product_selected.price_usd }}</span>
                                     <span class="price-amount" *ngIf="product_selected.FlashSale">$ <del>{{ product_selected.price_usd }}</del></span>
                                     <span class="price-amount" *ngIf="product_selected.FlashSale">$ {{ getCalNewPrice(product_selected) }}</span>
-                                    <ul class="product-meta">
+                                    <ng-container *ngIf="product_selected.type_inventario == 1">
+                                      <div *ngIf="product_selected.stock > 0">
+                                        <ul class="product-meta">
+                                          <li><i class="fal fa-check"></i>Producto en stock</li>
+                                          <li><i class="fal fa-check"></i>{{ product_selected.stock }} Unidades disponibles</li>
+                                          <!-- <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li> -->
+                                        </ul>
+                                      </div>
+                                      <div *ngIf="product_selected.stock == 0">
+                                        <ul class="product-meta">
+                                          <li><i class="fal fa-check"></i>Producto no disponible</li>
+                                          <!-- <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li> -->
+                                        </ul>
+                                      </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="product_selected.type_inventario == 2">
+                                      <ul class="product-meta">
                                         <li><i class="fal fa-check"></i>In stock</li>
-                                        <li><i class="fal fa-check"></i>Free delivery available</li>
-                                        <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
-                                    </ul>
+                                        <ng-container *ngFor="let variedad of product_selected.variedades">
+                                          <li><i class="fal fa-check"></i>{{ variedad.valor}} - {{ variedad.stock }} unidades disponibles</li>
+                                        </ng-container>
+                                      </ul>
+                                    </ng-container>
+
                                     <p class="description"> {{ product_selected.resumen}}</p>
 
                                     <div class="product-variations-wrapper">
@@ -895,7 +910,7 @@
                                                 </ul>
                                             </div>
                                         </div> -->
-                                        <!-- End Product Variation  -->
+                                        <!-- End Product Variation 
 
                                         <!-- Start Product Variation  -->
                                         <div class="product-variation" *ngIf="product_selected.type_inventario == 2">
@@ -913,13 +928,17 @@
                                     <!-- Start Product Action Wrapper  -->
                                     <div class="product-action-wrapper d-flex-center">
                                         <!-- Start Quentity Action  -->
-                                        <div class="pro-qty"><input type="text" value="1"></div>
+                                        <div class="pro-qty mr--20"><input type="text" id="qty-cart" value="1"></div>
+                                        <!-- End Quentity Action  --
+                                        <!-- Start Quentity Action  -->
+                                        <!-- <div class="pro-qty"><input type="text" value="1"></div> -->
                                         <!-- End Quentity Action  -->
+                                         
 
                                         <!-- Start Product Action  -->
                                         <ul class="product-action d-flex-center mb--0">
-                                            <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add to Cart</a></li>
-                                            <li class="wishlist"><a href="wishlist.html" class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a></li>
+                                            <li class="add-to-cart"><a href="#" onclick="return false" (click)="addCart(product_selected)" class="axil-btn btn-bg-primary">Agregar al Carrito</a></li>
+                                            <!-- <li class="wishlist"><a href="wishlist.html" class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a></li> -->
                                         </ul>
                                         <!-- End Product Action  -->
 

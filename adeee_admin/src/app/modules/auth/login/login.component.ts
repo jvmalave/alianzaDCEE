@@ -76,7 +76,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         Validators.maxLength(100),
         ]),
       ],
-      rol: ['admin', Validators.required],
+      rol: ['admin', Validators.required,
+      ],
     });
   }
 

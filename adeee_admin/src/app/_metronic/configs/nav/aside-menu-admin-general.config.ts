@@ -1,7 +1,7 @@
 export const AsideMenuAdminGeneral = {
     items: [
       {
-        title: 'Dashboard',
+        title: 'Bienvenida',
         root: true,
         name: "dashboard",
         icon: 'flaticon2-architecture-and-city',

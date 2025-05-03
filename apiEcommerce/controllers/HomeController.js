@@ -271,7 +271,7 @@ export default {
               product:{
                 _id: detail_order.product._id,
                 title: detail_order.product.title,
-                imagen:"http://localhost:3000"+"/api/products/uploads/product/"+detail_order.product.portada, 
+                imagen:process.env.URL_BACKEND+"/api/products/uploads/product/"+detail_order.product.portada, 
                 state: detail_order.product.state,
                 slug: detail_order.product.slug,
                 sku: detail_order.product.sku,

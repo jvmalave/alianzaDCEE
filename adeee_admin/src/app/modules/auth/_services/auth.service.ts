@@ -7,14 +7,56 @@ import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from 'src/app/config/config';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+// Roles
+export enum UserRole {
+  ADMIN = 'admin',
+  EMPRENDEDOR = 'emprendedor'
+}
+
+//Permisos
+
+export const Permissions = {
+  MANAGE_USERS: 'manageUsers',
+  MANAGE_ALL_PRODUCTS: 'manageAllProducts',
+  MANAGE_OWN_PRODUCTS: 'manageOwnProducts',
+  VIEW_CATEGORIES: 'viewCategories',
+  MANAGE_SLIDERS: 'manageSliders',
+  MANAGE_ALL_CUPONES: 'manageAllCupones',
+  MANAGE_OWN_CUPONES: 'manageOwnCupones',
+  MANAGE_ALL_DESCUENTOS: 'manageAllDescuentos',
+  MANAGE_OWN_DESCUENTOS: 'manageOwnDescuentos'
+};
+
+// Mapeo de roles a Permisos
+
+const ROLE_PERMISSIONS = {
+  [UserRole.ADMIN]: [
+    Permissions.MANAGE_USERS,
+    Permissions.MANAGE_ALL_PRODUCTS,
+    Permissions.VIEW_CATEGORIES,
+    Permissions.MANAGE_SLIDERS,
+    Permissions.MANAGE_ALL_CUPONES,
+    Permissions.MANAGE_ALL_DESCUENTOS
+  ],
+  [UserRole.EMPRENDEDOR]: [
+    Permissions.MANAGE_OWN_PRODUCTS,
+    Permissions.VIEW_CATEGORIES,
+    Permissions.MANAGE_OWN_CUPONES,
+    Permissions.MANAGE_OWN_DESCUENTOS
+  ]
+};
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private currentRole: UserRole | null = null;
+  private unsubscribe: Subscription[] = []; 
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 
   // public fields
@@ -50,20 +92,35 @@ export class AuthService implements OnDestroy {
     this.loadstorage();
   }
 
-  loadstorage(){
-    if(localStorage.getItem("token")){
+  loadstorage() {
+    if (localStorage.getItem("token")) {
       this.token = localStorage.getItem("token");
       this.user = JSON.parse(localStorage.getItem("user"));
-    }else{
-      this.user=null;
+      this.currentRole = this.user?.rol as UserRole; // Define el rol al cargar el storage
+    } else {
+      this.user = null;
       this.token = '';
+      this.currentRole = null;
     }
   }
+  
   // public methods
   isLogued() {
     return ( this.token.length > 5 ) ? true : false;
   }
 
+  // Método para verificar permisos
+  hasPermission(permission: string): boolean {
+  if (!this.currentRole) return false;
+  return ROLE_PERMISSIONS[this.currentRole].includes(permission);
+  }
+
+  // Método para obtener rol actual
+  getCurrentRole(): UserRole | null {
+  return this.currentRole;
+  }
+  
+  // Método para hacer login 
   login(email: string, password: string, rol: string): Observable<any> {
     this.isLoadingSubject.next(true);
     let url = URL_SERVICIOS + (rol === 'admin' ? "/users/login_admin" : "/users/login_seller");
@@ -86,6 +143,7 @@ export class AuthService implements OnDestroy {
     );
   }
 
+    // Método para salir (deslogear) del adminstrativo
   logout() {
       // localStorage.removeItem(this.authLocalStorageToken);
       this.user = null;
@@ -97,60 +155,19 @@ export class AuthService implements OnDestroy {
       });
     }
 
-  // getUserByToken(): Observable<UserModel> {
-  //   const auth = this.getAuthFromLocalStorage();
-  //   if (!auth || !auth.accessToken) {
-  //     return of(undefined);
-  //   }
-
-  //   this.isLoadingSubject.next(true);
-  //   return this.authHttpService.getUserByToken(auth.accessToken).pipe(
-  //     map((user: UserModel) => {
-  //       if (user) {
-  //         this.currentUserSubject = new BehaviorSubject<UserModel>(user);
-  //       } else {
-  //         this.logout();
-  //       }
-  //       return user;
-  //     }),
-  //     finalize(() => this.isLoadingSubject.next(false))
-  //   );
-  // }
-
-  // // need create new user then login
-  // registration(user: UserModel): Observable<any> {
-  //   this.isLoadingSubject.next(true);
-  //   return this.authHttpService.createUser(user).pipe(
-  //     map(() => {
-  //       this.isLoadingSubject.next(false);
-  //     }),
-  //     switchMap(() => this.login(user.email, user.password)),
-  //     catchError((err) => {
-  //       console.error('err', err);
-  //       return of(undefined);
-  //     }),
-  //     finalize(() => this.isLoadingSubject.next(false))
-  //   );
-  // }
-
-  // forgotPassword(email: string): Observable<boolean> {
-  //   this.isLoadingSubject.next(true);
-  //   return this.authHttpService
-  //     .forgotPassword(email)
-  //     .pipe(finalize(() => this.isLoadingSubject.next(false)));
-  // }
-
   // private methods
   private setAuthFromLocalStorage(auth: any): boolean {
-    // store auth accessToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
-    //if (auth.access_token && auth.user) {
+    if (auth.USER_FRONTED?.token) {
       localStorage.setItem('token', auth.USER_FRONTED.token);
       localStorage.setItem('user', JSON.stringify(auth.USER_FRONTED.user));
-      this.user = auth.USER_FRONTED.access_token;
-      this.token = auth.USER_FRONTED.user;
+      
+      // Asigna el rol desde la respuesta del backend
+      this.currentRole = auth.USER_FRONTED.user.rol; 
+      this.user = auth.USER_FRONTED.user;
+      this.token = auth.USER_FRONTED.token;
       return true;
-    //}
-    //return false;
+    }
+    return false;
   }
 
   private getAuthFromLocalStorage(): AuthModel {

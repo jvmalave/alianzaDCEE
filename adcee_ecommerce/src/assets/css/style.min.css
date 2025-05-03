@@ -12149,7 +12149,7 @@ body.open .closeMask {
   background-color: var(--color-primary)
 }
 
-.axil-order-summery.order-checkout-summery .order-payment-method .single-payment p {
+.axil-order-summery.order-checkout-summery .order-payment-method .single-payment p small {
   padding-left: 28px
 }
 
