@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from './_services/home.service';
 import { CartService } from '../ecommerce-guest/_services/cart.service';
 import { Router } from '@angular/router';
+import {URL_FROTEND_ADM } from '../../config/config'
 
 
 declare var $:any;
@@ -192,6 +193,10 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+
+  goToRegisterSellerForm(){
+     window.location.href = URL_FROTEND_ADM+"auth/registro-seller"
+   }
 
   openCreate_tienda(){
 

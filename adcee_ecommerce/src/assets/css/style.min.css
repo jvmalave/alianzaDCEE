@@ -1834,19 +1834,22 @@ ol li a {
 input:-moz-placeholder,
 textarea:-moz-placeholder {
   opacity: 1;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: opacity(1);
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   opacity: 1;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: opacity(1);
 }
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
   opacity: 1;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: opacity(1);
 }
 
 input:-ms-input-placeholder,
@@ -2192,7 +2195,8 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button
+  -webkit-appearance: button;
+  appearance: button;
 }
 
 input {
@@ -5319,6 +5323,7 @@ button.axil-btn.wishlist-btn:hover:before {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical
 }
 
@@ -8937,6 +8942,7 @@ button.axil-btn.wishlist-btn:hover:before {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical
 }
 
@@ -9020,7 +9026,8 @@ button.axil-btn.wishlist-btn:hover:before {
 }
 
 .cart-dropdown .cart-item .item-quantity input[type=number] {
-  -moz-appearance: textfield
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .cart-dropdown .cart-footer {
@@ -10970,7 +10977,8 @@ body.open .closeMask {
 }
 
 .pro-qty input[type=number] {
-  -moz-appearance: textfield
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .product-quick-view a {
@@ -12991,6 +12999,7 @@ body.open .closeMask {
 .content-blog.post-list-view .content .title a {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis

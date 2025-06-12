@@ -3,6 +3,20 @@ import { EcommerceAuthService } from '../_services/ecommerce-auth.service';
 import { CartService } from '../../ecommerce-guest/_services/cart.service';
 import { Pipe, PipeTransform } from '@angular/core';
 
+interface Address {
+  _id: string;
+  name: string;
+  surname: string;
+  country: string;
+  address: string;
+  reference: string;
+  region: string;
+  city: string;
+  township: string;
+  phone: string;
+  email: string;
+  note?: string;
+}
 
 
 
@@ -24,11 +38,9 @@ export class BsFormatPipe implements PipeTransform {
   }
 }
 
-
 declare function alertDanger([]):any;
 declare function alertSuccess([]):any;
 declare var paypal:any;
-
 
 @Component({
   selector: 'app-checkout',
@@ -36,16 +48,18 @@ declare var paypal:any;
   styleUrls: ['./checkout.component.css']
 })
 
-
-
 export class CheckoutComponent implements OnInit {
 
   @ViewChild('paypal',{static: true}) paypalElement?: ElementRef;
 
+
   selectedPaymentMethod: string = '';
   pagoMovilData: any = {};
   transferenciaData: any = {};
+  pagoProcesado: boolean = false;
+  paymentReference: string = '';
   selectedFile: File | null = null;
+  selectedAddress: any;
 
   listAddressClient:any = [];
   name:any = null;
@@ -64,6 +78,7 @@ export class CheckoutComponent implements OnInit {
   listCarts:any = [];
   totalCarts: any = 0;
   tasaBcv: any = 0
+  paymentService: any;
 
   constructor(
     public authEcommerce: EcommerceAuthService,
@@ -84,6 +99,8 @@ export class CheckoutComponent implements OnInit {
       this.pagoMovilData.montoBs = this.totalCarts * this.tasaBcv;
       this.transferenciaData.monto = this.totalCarts;
       this.transferenciaData.montoBs = this.totalCarts * this.tasaBcv;
+      this.pagoMovilData.moneda = "Bs"
+      this.transferenciaData.moneda = "Bs"
     })
     
     paypal.Buttons({
@@ -167,10 +184,6 @@ export class CheckoutComponent implements OnInit {
       }
     }).render(this.paypalElement?.nativeElement);
   }
-
-
-
-
 
   store(){
     if(this.address_client_selected){
@@ -284,6 +297,72 @@ export class CheckoutComponent implements OnInit {
     this.email = this.address_client_selected.email;
     this.note = this.address_client_selected.note;
   }
+
+  // Método para validar formulario
+  formularioValido(): boolean {
+    if (!this.selectedPaymentMethod) return false;
+    
+    if (this.selectedPaymentMethod === 'pagoMovil') {
+        return !!this.pagoMovilData.referencia?.trim() &&  
+               this.pagoMovilData.referencia.length >= 10 &&  // Validar referencia
+               !!this.pagoMovilData.telefono?.trim() &&
+               this.pagoMovilData.telefono.length === 11 && // Validar teléfono
+               !!this.pagoMovilData.cedula?.trim() &&
+                this.pagoMovilData.cedula.length >= 7; // Validar cédula
+    }
+    
+    if (this.selectedPaymentMethod === 'transferencia') {
+        return !!this.transferenciaData.referencia?.trim() && 
+               this.transferenciaData.referencia.length >= 8; // Validar referencia
+    }
+    
+    return false;
+}
+// Método para obtener la dirección seleccionada
+getSelectedAddress() {
+  if (this.address_client_selected) {
+    // Si hay una dirección seleccionada de la lista
+    return this.listAddressClient.find((addr: Address) => addr._id === this.address_client_selected._id);
+  } else {
+    // Si es una nueva dirección del formulario
+    return {
+      name: this.name,
+      surname: this.surname,
+      country: this.country,
+      address: this.address,
+      reference: this.reference,
+      region: this.region,
+      city: this.city,
+      township: this.township,
+      phone: this.phone,
+      email: this.email
+    };
+  }
+}
+// Método para procesar el pago
+procesarPago() {
+
+  //alert('Procesando pago...' + this.selectedPaymentMethod + ' ' + this.formularioValido());
+  const paymentData = {
+    user: this.authEcommerce.authService.user._id,
+    method: this.selectedPaymentMethod,
+    data: this.selectedPaymentMethod === 'pagoMovil' 
+          ? this.pagoMovilData 
+          : this.transferenciaData,
+    total: this.totalCarts,
+    productos: this.listCarts,
+    direccion: this.getSelectedAddress()
+  };
+  console.log(paymentData);
+
+  // this.paymentService.createPayment(paymentData).subscribe({
+  //   next: (response:any) => {
+  //     this.pagoProcesado = true;
+  //     this.paymentReference = response.reference;
+  //   },
+  //   error: (error:any) => console.error('Error:', error)
+  // });
+}
 
   // Método para manejar la selección de archivo
   onFileSelected(event: any) {

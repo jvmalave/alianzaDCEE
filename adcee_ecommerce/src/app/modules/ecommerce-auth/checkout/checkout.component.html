@@ -239,11 +239,12 @@
                             <!-- Pago Móvil -->
                             <div class="single-payment">
                               <div class="input-group justify-content-between align-items-center">
-                                <input type="radio" id="radio4" name="payment" value="pago_movil" (change)="selectedPaymentMethod = 'pago_movil'">
-                                <label for="radio4">Pago Móvil</label>
-                                <img src="./assets/images/icons/cart/mobile-payment.png" width="200" alt="Mobile payment">
+                                <input type="radio" id="pagoMovil" name="paymentMethod" 
+                                [(ngModel)]="selectedPaymentMethod" value="pagoMovil" required>
+                                <label for="pagoMovil">Pago Móvil</label>
+                                <img src="./assets/images/icons/cart/mobile-payment.png" width="200" alt="Mobile-payment">
                               </div>
-                              <div *ngIf="selectedPaymentMethod === 'pago_movil'" class="payment-details mt-3">
+                              <div *ngIf="selectedPaymentMethod === 'pagoMovil'" class="payment-details mt-3">
                                 <div class="row">
                                   <div class="col-md-12">
                                     <div class="card">
@@ -252,7 +253,7 @@
                                       </div>
                                       <div class="card-body">
                                         <ul class="list-group list-group-flush center">
-                                          <li class="list-group-item"><i class="bi bi-bank fs-1 me-3"></i><strong>Banco:</strong> Banco de Venezuela</li>
+                                          <li class="list-group-item"><i class="bi bi-bank fs-1 me-3"></i><strong>Banco:</strong> Banco Mercantil</li>
                                           <li class="list-group-item"><i class="bi bi-phone fs-1 me-3"></i><strong>Teléfono:</strong> 0412-1234567</li>
                                           <li class="list-group-item"><i class="bi bi-person-vcard fs-1 me-3"></i><strong>Cédula/RIF:</strong> J-12345678-9</li>
                                         </ul>
@@ -260,20 +261,23 @@
                                     </div>
                                   </div>
                                   <div class="col-md-12 mt-5">
-                                    <hr>
                                     <div class="card">
                                       <div class="card-header light text-center mb-3">
-                                        <p><strong>Ingresa los datos de tu pago móvil</strong></p>
+                                        <p><strong>Ingresa los datos del pago movil realizado</strong></p>
                                       </div>
                                       <div class="card-body">
-                                        <form (submit)="submitPagoMovil()">
+                                        <form>
                                           <div class="form-group">
-                                            <label>Monto pagado</label>
-                                            <input type="text" class="form-control" [(ngModel)]= "pagoMovilData.montoBs" name="monto" required>
-                                            <small class="ps-3" style="color:red">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                            <label>Tipo de moneda</label>
+                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.moneda" name="monedaPagoMovil"  disabled>
                                           </div>
                                           <div class="form-group">
-                                            <label>Banco emisor</label>
+                                            <label>Monto pagado</label>
+                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.montoBs" name="montoBsPagoMovil" required>
+                                            <small class="ps-3 text-danger" >* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Banco de donde se realizo el pago movil</label>
                                             <select class="form-control" [(ngModel)]="pagoMovilData.banco" name="banco" required>
                                               <option value="venezuela"> 0102 - Venezuela</option>
                                               <option value="venezolano-credito">0104 - Venezolano de Crédito </option>
@@ -304,18 +308,41 @@
                                             </select>
                                           </div>
                                           <div class="form-group">
-                                            <label>Número de referencia</label>
-                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.referencia" name="referencia" required>
+                                            <label>Cédula de identidad</label>
+                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.cedula" name="cedula" pattern="[0-9]{8}"  required #cedula ="ngModel">
+                                            <div *ngIf="pagoMovilData.cedula?.invalid && (pagoMovilData.cedula.dirty || pagoMovilData.cedula.touched)"
+                                              class="text-danger">
+                                                    <small *ngIf="pagoMovilData.cedula.errors?.['required']">Campo requerido</small>
+                                                    <small *ngIf="pagoMovilData.cedula.errors?.['pattern']">Formato inválido</small>
+                                                </div>
                                           </div>
+                                          <div class="form-group">
+                                            <label>Número de referencia</label>
+                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.referencia" name="referencia" required  minlength="10" #referencia="ngModel">
+                                            <div *ngIf="pagoMovilData.referencia?.invalid && (pagoMovilData.referencia.dirty || pagoMovilData.referencia.touched)"
+                                              class="text-danger">
+                                                    <small *ngIf="pagoMovilData.referencia.errors?.['required']">Campo requerido</small>
+                                                    <small *ngIf="pagoMovilData.referencia.errors?.['minlength']">Mínimo 10 caracteres</small>
+                                                </div>
+                                            </div>
                                           <div class="form-group">
                                             <label>Teléfono</label>
-                                            <input type="tel" class="form-control" [(ngModel)]="pagoMovilData.telefono" name="telefono" required>
+                                            <input type="tel" class="form-control" [(ngModel)]="pagoMovilData.telefono" name="telefono" pattern="[0-9]{11}"  required #telefono="ngModel" placeholder="04121234567">
+                                            <div *ngIf="pagoMovilData.telefono?.invalid && (pagoMovilData.telefono.dirty || pagoMovilData.telefono.touched)"
+                                              class="text-danger">
+                                                    <small *ngIf="pagoMovilData.telefono.errors?.['required']">Campo requerido</small>
+                                                    <small *ngIf="pagoMovilData.telefono.errors?.['pattern']">Formato inválido</small>
+                                                </div>
                                           </div>
-                                          <div class="form-group">
+                                          <!-- <div class="form-group">
                                             <label>Comprobante (opcional)</label>
                                             <input type="file" class="form-control" (change)="onFileSelected($event)">
-                                          </div>
-                                          <button type="submit" class="axil-btn btn-bg-primary">Notificar Pago</button>
+                                          </div> -->
+                                           <!-- Botón deshabilitado hasta validación -->
+                                            <button class="axil-btn btn-bg-primary" 
+                                              (click)="procesarPago()"><i class="fa-solid fa-paper-plane"></i>
+                                              Notificar Pago
+                                            </button>
                                         </form>
                                       </div>
                                     </div>
@@ -326,8 +353,9 @@
                             <!-- Transferencia Bancaria -->
                             <div class="single-payment">
                               <div class="input-group justify-content-between align-items-center">
-                                <input type="radio" id="radio7" name="payment" value="transferencia" (change)="selectedPaymentMethod = 'transferencia'">
-                                <label for="radio7">Transferencia Bancaria</label>
+                                <input type="radio" id="transferencia" name="paymentMethod" 
+                                  [(ngModel)]="selectedPaymentMethod" value="transferencia" required>
+                                <label for="transferencia">Transferencia Bancaria</label>
                                 <img src="./assets/images/icons/cart/bank-transfer.png" width="200" alt="Bank Transfer">
                               </div>
                               <div *ngIf="selectedPaymentMethod === 'transferencia'" class="payment-details mt-3">
@@ -350,14 +378,18 @@
                                   <div class="col-md-12 mt-5">
                                     <div class="card">
                                       <div class="card-header light text-center mb-3">
-                                        <p><strong>Ingresa los datos de tu transferencia</strong></p>
+                                        <p><strong>Ingresa los datos de la transferencia realizada</strong></p>
                                       </div>
                                       <div class="card-body">
-                                        <form (submit)="submitTransferencia()">
+                                        <form>
+                                          <div class="form-group">
+                                            <label>Tipo de moneda</label>
+                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.moneda" name="moneda"  disabled>
+                                          </div>
                                           <div class="form-group">
                                             <label>Monto transferido</label>
                                             <input type="text" class="form-control" [(ngModel)]="transferenciaData.montoBs" name="monto" required>
-                                            <small class="ps-3" style="color:red">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                            <small class="ps-3 text-danger">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
                                           </div>
                                           <div class="form-group">
                                             <label>Banco emisor</label>
@@ -393,13 +425,22 @@
                                           </div>
                                           <div class="form-group">
                                             <label>Número de referencia</label>
-                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.referencia" name="referencia" required>
+                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.referencia" name="referencia" required minlength="8" #referencia="ngModel">
+                                            <div *ngIf="transferenciaData.referencia?.invalid && (transferenciaData.referencia.dirty || transferenciaData.referencia.touched)"
+                                              class="text-danger">
+                                                    <small *ngIf="transferenciaData.referencia.errors?.['required']">Campo requerido</small>
+                                                    <small *ngIf="transferenciaData.referencia.errors?.['minlength']">Mínimo 8 caracteres</small>
+                                                </div>
                                           </div>
-                                          <div class="form-group">
+                                          <!-- <div class="form-group">
                                             <label>Comprobante (opcional)</label>
                                             <input type="file" class="form-control" (change)="onFileSelected($event)">
-                                          </div>
-                                          <button type="submit" class="axil-btn btn-bg-primary">Notificar Transferencia</button>
+                                          </div> -->
+                                          <!-- Botón deshabilitado hasta validación -->
+                                          <button class="axil-btn btn-bg-primary" 
+                                          (click)="procesarPago()" [disabled]="!formularioValido"><i class="fa-solid fa-paper-plane"></i>
+                                          Notificar Pago
+                                        </button>
                                         </form>
                                       </div>
                                     </div>
@@ -416,7 +457,7 @@
                               </div>
                               <div *ngIf="selectedPaymentMethod === 'efectivo'" class="mt-3">
                                 <div class="alert alert-info">
-                                  <strong>Paga en efectivo ${{ totalCarts }} al recibir tu pedido.</strong><br>
+                                  <strong>Paga ${{ totalCarts }} en efectivo, al recibir tu pedido.</strong><br>
                                   El monto exacto debe ser entregado al repartidor al momento de recibir los productos.
                                 </div>
                               </div>
@@ -435,6 +476,12 @@
                             </div>
                           </div>
                           <div #paypal></div>
+                          <!-- <div *ngIf="pagoProcesado" class="alert alert-success mt-3">
+                            <h5>¡Orden Recibida!</h5>
+                            <p>Referencia: {{ paymentReference }}</p>
+                            <p>Estado: Pendiente de verificación</p>
+                          </div> -->
+                          
                           <!-- <div class="order-payment-method">
                               <div class="single-payment">
                                   <div class="input-group justify-content-between align-items-center">

@@ -78,7 +78,7 @@ export class ListCartsComponent {
       this.cartService.updateCart(data).subscribe((resp:any) =>{
         console.log(resp);
 
-      //AQUI VA LA FUNCION PARA ENVIARLO AL SERVICE O BACKEND
+      
     })
   }
   removeCart(cart:any){

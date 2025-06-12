@@ -21,6 +21,7 @@ import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { duration } from 'moment';
 import { DatePipe } from '@angular/common';
 
+
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -42,6 +43,7 @@ function appInitializer(authService: AuthService) {
     HttpClientModule,
     HighlightModule,
     ClipboardModule,
+   
     // #fake-start#
     environment.isMockEnabled
       ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {

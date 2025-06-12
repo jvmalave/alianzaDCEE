@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = []; 
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.email,
         Validators.minLength(3),
-        Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+        Validators.maxLength(320), 
         ]),
       ],
       password: [

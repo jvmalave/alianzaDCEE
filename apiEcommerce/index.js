@@ -9,9 +9,9 @@ import 'dotenv/config'
 
 //CONEXION A LA BASE DE DATOS db_adcee
 
-//const dburl = "mongodb://127.0.0.1:27017/db_adcee";
+const dburl = "mongodb://127.0.0.1:27017/db_adcee";
 mongoose.Promise = global.Promise;
-const dburl = "mongodb+srv://malavemjv:guayoyo@adccedb.z6dz1.mongodb.net/db_adcee";
+//const dburl = "mongodb+srv://malavemjv:guayoyo@adccedb.z6dz1.mongodb.net/db_adcee";
 
 
 

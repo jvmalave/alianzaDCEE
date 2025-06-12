@@ -23,7 +23,7 @@ const routes: Routes = [
 
       {
         path:'registro-seller',
-        //canActivate:[AuthGuard],
+        canActivate:[AuthGuard],
         component: RegisterSellerComponent
       }
     ]

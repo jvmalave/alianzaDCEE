@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   surname: {type: String, maxlength:250, require:false},
   email: {type: String, maxlength:250, require:true, unique:true},
   password: {type: String, maxlength:250, require:true},
+  acceptTerms: {type: Boolean, require:false},
   avatar: {type: String, maxlength:250, require:false},
   state: {type: Number, default:1},// 1 es activo y 2 es desactivo
   phone: {type: String, maxlength:20, require:false},

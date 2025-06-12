@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../_service/auth.service';
 
 
+
 declare function alertDanger([]):any; 
 declare function alertSuccess([]):any;
 
@@ -59,7 +60,8 @@ export class RegisterSellerComponent implements OnInit {
      this.AuthService.registroSeller(data).subscribe((resp:any) => {
        console.log(resp);
        alertSuccess("Super! el registro se realizó satisfactoriamente")
-       this.router.navigate(["/auth/login"]);
+       this.router.navigate(["./auth/login-seller"])
+       
      });
    }
 

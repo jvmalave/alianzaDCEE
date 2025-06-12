@@ -5,7 +5,10 @@ import {LoginComponent} from './login/login.component';
 import {RegistrationComponent} from './registration/registration.component';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {LogoutComponent} from './logout/logout.component';
-import { LoginSellerComponent } from './login-seller/login-seller.component';
+import {LoginSellerComponent } from './login-seller/login-seller.component';
+import { RegisterSellerComponent } from '../auth/register-seller/register-seller.component';
+
+
 
 
 
@@ -29,6 +32,12 @@ const routes: Routes = [
         component: LoginSellerComponent,
         data: {returnUrl: window.location.pathname}
       },
+      {
+        path:'registro-seller',
+        //canActivate:[AuthGuard],
+        component: RegisterSellerComponent,
+      },
+
       {
         path: 'registration',
         component: RegistrationComponent

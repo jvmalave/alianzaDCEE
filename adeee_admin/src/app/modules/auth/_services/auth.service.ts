@@ -155,6 +155,11 @@ export class AuthService implements OnDestroy {
       });
     }
 
+  registroSeller(data:any){
+    let URL = URL_SERVICIOS + "/users/register_seller"
+    return this.http.post(URL,data);
+  }
+
   // private methods
   private setAuthFromLocalStorage(auth: any): boolean {
     if (auth.USER_FRONTED?.token) {

@@ -8,8 +8,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthComponent } from './auth.component';
-import {TranslationModule} from '../i18n/translation.module';
+import { TranslationModule } from '../i18n/translation.module';
 import { LoginSellerComponent } from './login-seller/login-seller.component';
+import { RegisterSellerComponent } from './register-seller/register-seller.component';
+
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { LoginSellerComponent } from './login-seller/login-seller.component';
     LogoutComponent,
     AuthComponent,
     LoginSellerComponent,
+    RegisterSellerComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +30,7 @@ import { LoginSellerComponent } from './login-seller/login-seller.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+
   ]
 })
 export class AuthModule {}

@@ -10,6 +10,7 @@ import Cart from './Cart'
 import AddressClient from './AddressClient'
 import Sale from './Sale'
 import Review from './Review'
+import Payment from './Payment'
 
 
 const router = routerx();
@@ -24,8 +25,7 @@ router.use('/cart', Cart);
 router.use('/address_client', AddressClient);
 router.use('/sale', Sale);
 router.use('/review', Review);
-
-
+router.use('/payment', Payment);
 
 
 export default router;
