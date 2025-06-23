@@ -28,6 +28,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/layout.module').then((m) => m.LayoutModule),
   },
+
+  {
+    path: 'pending-payments',
+    loadChildren: () => import('./modules/pending-payments/pending-payments.module').then(m => m.PendingPaymentsModule)
+  },
   
   { path: '**', redirectTo: 'error/404' },
 ];

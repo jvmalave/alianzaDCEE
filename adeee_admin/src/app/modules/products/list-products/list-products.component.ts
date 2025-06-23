@@ -6,6 +6,7 @@ import { DeleteNewProductComponent } from '../delete-new-product/delete-new-prod
 import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
 import { CategoriesService } from '../../categories/_services/categories.service';
+import { AuthService } from '../../auth/_services/auth.service';
 
 
 @Component({
@@ -18,12 +19,15 @@ export class ListProductsComponent implements OnInit {
 
 
   products:any = [];
+  products_seller:any = [];
   isLoading$:any;
   search: any = null;
   categorie: any = null;
   condition: any = null;
 
   categories:any = [];
+  currentRol: any = null;
+  currentIdSeller: any = null;
   
 
   constructor(
@@ -32,15 +36,21 @@ export class ListProductsComponent implements OnInit {
     public modalService: NgbModal,
     public toaster: Toaster,
     public _categorieService:CategoriesService,
+    private _authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.isLoading$ = this._productService.isLoading$;
     this.allProducts();
+    this.sellerProducts();
     this._categorieService.allCategories().subscribe((resp:any) =>{
       console.log(resp);
       this.categories = resp.categories;
       this.loadServices();
+    this.currentRol = this._authService.user.rol;
+    //console.log("ROL1", this.currentRol);
+    this.currentIdSeller = this._authService.user._id;
+    //console.log("ID", this.currentIdSeller);
     })
   }
 
@@ -53,8 +63,15 @@ export class ListProductsComponent implements OnInit {
 
   allProducts(){
     this._productService.allProducts(this.search, this.categorie, this.condition).subscribe((resp:any) => {
-      console.log(resp);
+      console.log("PRODUCT",resp);
       this.products = resp.products;
+    });
+  }
+
+  sellerProducts(){
+    this._productService.sellerProducts(this.search, this.categorie, this.condition).subscribe((resp:any) => {
+      console.log("SELLER-PRODUCT",resp);
+      this.products_seller = resp.products_seller;
     })
   }
 

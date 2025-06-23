@@ -76,6 +76,7 @@
         <div class="form-group row">
             <div class="col-4">
                 <div class="form-group">
+                  <ng-container *ngIf="currentRol==='admin'">
                     <label>PRODUCTO/CATEGORIAS: <span class="text-danger">*</span></label>
                     <div class="radio-list">
                         <label class="radio">
@@ -89,6 +90,17 @@
                             Aplicado por Categoría
                         </label>
                     </div>
+                  </ng-container>
+                  <ng-container *ngIf="currentRol==='emprendedor'">
+                    <label>PRODUCTO: <span class="text-danger">*</span></label>
+                    <div class="radio-list">
+                        <label class="radio">
+                            <input type="radio" [checked]="type_segment == 1" (click)="checkedTypeSegment(1)" name="radios3">
+                            <span></span>
+                            Aplicado por Producto
+                        </label>
+                    </div>
+                  </ng-container>
                 </div>
             </div>
             <div class="col-4" *ngIf="type_segment == 1">

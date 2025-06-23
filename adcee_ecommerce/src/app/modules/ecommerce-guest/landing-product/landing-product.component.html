@@ -68,6 +68,9 @@
                             </ng-container>
                             <span class="price-amount" *ngIf=" getDiscount() > 0"> </span>
                             <span class="price-amount">$ {{ product_selected.condition !== 3 ? product_selected.price_usd - getDiscount() : 0 + " (Producto en Donación)" }}</span>
+                            <div>
+                              <p><i class="fal fa-store fa-primary me-3"></i>Emprendimiento: <strong>{{ company_name }}</strong></p>
+                            </div>
                             <div class="product-rating">
                                 <div class="star-rating">
                                   <i class="fas fa-star" [ngClass]="{'star-del': AVG_REVIEW < 1}"></i>

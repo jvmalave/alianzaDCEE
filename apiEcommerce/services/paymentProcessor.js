@@ -2,7 +2,7 @@ const TempPayment = require('../models/TempPayment');
 const Sale = require('../models/Sale');
 const SaleAddress = require('../models/SaleAddress');
 const SaleDetail = require('../models/SaleDetail');
-const emailService = require('./emailService');
+//const emailService = require('./emailService');
 
 exports.processConfirmedPayment = async (paymentId) => {
   const session = await mongoose.startSession();

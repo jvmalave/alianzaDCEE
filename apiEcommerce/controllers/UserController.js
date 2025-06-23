@@ -113,7 +113,7 @@ export default{
   },
   login_admin: async(req,res) => {
   try {
-      const user = await models.User.findOne({email: req.body.email,state:1,rol:"admin"});
+      const user = await models.User.findOne({email: req.body.email,state:1});
       if(user){
           //SI ESTA REGISTRADO EN EL SISTEMA
           let compare = await bcrypt.compare(req.body.password,user.password);
@@ -221,30 +221,70 @@ export default{
     }
 
   },
-  list: async(req,res) => {
-    try {
-      var search = req.query.search;
-      let Users  = await models.User.find({
-        $or:[
-          {"name": new RegExp(search, "i")},
-          {"surname": new RegExp(search, "i")},
-          {"email": new RegExp(search, "i")},
-        ]
-    }).sort({'createdAt':-1});
+  // list: async(req,res) => {
+  //   try {
+  //     var search = req.query.search;
+  //     let Users  = await models.User.find({
+  //       $or:[
+  //         {"name": new RegExp(search, "i")},
+  //         {"surname": new RegExp(search, "i")},
+  //         {"email": new RegExp(search, "i")},
+  //       ]
+  //   }).sort({'createdAt':-1});
 
-    Users = Users.map((user) => {
-      return resourses.User.user_list(user);
-    })
+  //   Users = Users.map((user) => {
+  //     return resourses.User.user_list(user);
+  //   })
 
-    res.status(200).json({
-      users: Users
-    });
-    } catch (error) {
-      res.status(500).send({
-        message: "OCURRIÓ UN PROBLEMA"
-      });
-      console.log(error);
+  //   res.status(200).json({
+  //     users: Users
+  //   });
+  //   } catch (error) {
+  //     res.status(500).send({
+  //       message: "OCURRIÓ UN PROBLEMA"
+  //     });
+  //     console.log(error);
       
+  //   }
+  // },
+
+// Listar usuarios según el rol
+  list: async (req, res) => {
+    try {
+      const search = req.query.search || '';
+      const regex = new RegExp(search, "i");
+
+      // El rol y el id del usuario autenticado
+      const { rol, _id } = req.user;
+
+      let users = [];
+      if (rol === "admin") {
+        // Admin: todos los usuarios
+        users = await models.User.find({
+          $or: [
+            { name: regex },
+            { surname: regex },
+            { email: regex }
+          ]
+        });
+      } else if (rol === "emprendedor") {
+        // Emprendedor: solo su propio usuario
+        users = await models.User.find({
+          _id: _id,
+          $or: [
+            { name: regex },
+            { surname: regex },
+            { email: regex }
+          ]
+        });
+      } else {
+        return res.status(403).json({ message: "No autorizado" });
+      }
+
+      res.status(200).json({ users });
+
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener usuarios" });
     }
   },
   remove: async(req, res) => {
@@ -260,4 +300,14 @@ export default{
       console.log(error);
     }
   },
+  getById: async (req, res) => {
+    try {
+      const user = await models.User.findById(req.params.id);
+      if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+      console.log("USER", user);
+      res.status(200).json({ user });
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener usuario" });
+    }
+  }
 }

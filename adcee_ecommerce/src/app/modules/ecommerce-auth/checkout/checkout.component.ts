@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EcommerceAuthService } from '../_services/ecommerce-auth.service';
 import { CartService } from '../../ecommerce-guest/_services/cart.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { PaymentService } from '../_services/payment.service';
 
 interface Address {
   _id: string;
@@ -78,11 +79,12 @@ export class CheckoutComponent implements OnInit {
   listCarts:any = [];
   totalCarts: any = 0;
   tasaBcv: any = 0
-  paymentService: any;
+  
 
   constructor(
     public authEcommerce: EcommerceAuthService,
     public cartService: CartService,
+    public paymentService: PaymentService
   ) {}
 
   ngOnInit(): void {
@@ -317,52 +319,65 @@ export class CheckoutComponent implements OnInit {
     }
     
     return false;
-}
-// Método para obtener la dirección seleccionada
-getSelectedAddress() {
-  if (this.address_client_selected) {
-    // Si hay una dirección seleccionada de la lista
-    return this.listAddressClient.find((addr: Address) => addr._id === this.address_client_selected._id);
-  } else {
-    // Si es una nueva dirección del formulario
-    return {
-      name: this.name,
-      surname: this.surname,
-      country: this.country,
-      address: this.address,
-      reference: this.reference,
-      region: this.region,
-      city: this.city,
-      township: this.township,
-      phone: this.phone,
-      email: this.email
-    };
   }
-}
-// Método para procesar el pago
-procesarPago() {
+// Método para obtener la dirección seleccionada
+  getSelectedAddress() {
+    if (this.address_client_selected) {
+      // Si hay una dirección seleccionada de la lista
+      return this.listAddressClient.find((addr: Address) => addr._id === this.address_client_selected._id);
+    } else {
+      // Si es una nueva dirección del formulario
+      return {
+        name: this.name,
+        surname: this.surname,
+        country: this.country,
+        address: this.address,
+        reference: this.reference,
+        region: this.region,
+        city: this.city,
+        township: this.township,
+        phone: this.phone,
+        email: this.email
+      };
+    }
+  }
+  // Método para procesar el pago
+  procesarPago() {
 
-  //alert('Procesando pago...' + this.selectedPaymentMethod + ' ' + this.formularioValido());
-  const paymentData = {
-    user: this.authEcommerce.authService.user._id,
-    method: this.selectedPaymentMethod,
-    data: this.selectedPaymentMethod === 'pagoMovil' 
-          ? this.pagoMovilData 
-          : this.transferenciaData,
-    total: this.totalCarts,
-    productos: this.listCarts,
-    direccion: this.getSelectedAddress()
-  };
-  console.log(paymentData);
+    const products = this.listCarts.map((item: any) => ({
+      product: item.product._id || item.product,
+      seller_id: item.product.seller_id,
+      quantity: item.cantidad
+    }));
 
-  // this.paymentService.createPayment(paymentData).subscribe({
-  //   next: (response:any) => {
-  //     this.pagoProcesado = true;
-  //     this.paymentReference = response.reference;
-  //   },
-  //   error: (error:any) => console.error('Error:', error)
-  // });
-}
+    //alert('Procesando pago...' + this.selectedPaymentMethod + ' ' + this.formularioValido());
+    const paymentData = {
+      user: this.authEcommerce.authService.user._id,
+      method_payment: this.selectedPaymentMethod,
+      data: this.selectedPaymentMethod === 'pagoMovil' 
+            ? this.pagoMovilData 
+            : this.transferenciaData,
+      total: this.totalCarts,
+      products: products,
+      address: this.getSelectedAddress()
+    };
+    console.log("DATA-PAY",paymentData);
+
+
+    this.paymentService.createPayment(paymentData).subscribe({
+      next: (response:any) => {
+        console.log("RESP", response);
+        // Maneja la respuesta, muestra mensaje de éxito, etc.
+        this.pagoProcesado = true;
+        this.paymentReference = response.reference;
+        console.log('Pago registrado:', response);
+      },
+      error: (err:any) => {
+        // Maneja el error
+        console.error('Error al registrar pago:', err);
+      }
+    });
+  }
 
   // Método para manejar la selección de archivo
   onFileSelected(event: any) {

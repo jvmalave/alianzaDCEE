@@ -42,6 +42,38 @@
           <span class="form-text text-muted">Ingresa tu dirección de email</span>
         </div>
       </div>
+      <ng-container  *ngIf="rol_selected==='emprendedor'">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="">Nombre Emprendimiento: <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="company" name="company">
+          </div>
+        </div>
+        <div class="col-12">
+           <div class="form-group">
+             <label for="">Descripcion del Emprendimiento: <span class="text-danger">*</span></label>
+             <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="description_company" name="description_company">
+            </div>
+         </div>
+         <div class="col-12">
+           <div class="form-group">
+             <label for="">Rif/Nif: <span class="text-danger">*</span></label>
+             <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="nif" name="nif">
+           </div>
+         </div>
+        <div class="col-12">
+         <div class="form-group">
+           <label for="">Direccion del Emprendimiento: <span class="text-danger">*</span></label>
+           <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="address" name="address">
+         </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="">Teléfono Móvil: <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="phone" name="phone">
+          </div>
+        </div>
+      </ng-container>
       <div class="col-6">
         <div class="form-group">
           <label for="">Contraseña: <span class="text-danger">*</span></label>

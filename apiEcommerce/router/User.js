@@ -17,6 +17,10 @@ router.post("/login", UserController.login);
 router.post("/login_admin", UserController.login_admin);
 router.post("/login_seller", UserController.login_seller);
 router.delete("/delete", UserController.remove);
+router.get('/:id', auth.verifyEcommerce, UserController.getById);
+
+
+
 
 
 export default router;

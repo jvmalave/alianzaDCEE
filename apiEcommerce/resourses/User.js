@@ -6,6 +6,10 @@ export default{
       surname: user.surname,
       rol: user.rol,
       email: user.email,
+      sellerUserId: user.sellerUserId,
+      company: user.company
+      
+
     }
   }
 }

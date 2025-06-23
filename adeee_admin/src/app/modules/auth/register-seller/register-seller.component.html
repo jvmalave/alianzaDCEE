@@ -30,9 +30,9 @@
                   <h3 class="title text-center mb-5">¡Crecazmos juntos!</h3>
                   <p class="b2 mb--30">Ingresa tus datos de registro</p>
                   <form [formGroup]= registerSellerForm (ngSubmit)="registro()" class="axil-signin-form" novalidate>
-                      <!-- nonbres -->
+                      <!-- nombres -->
                       <div class="form-group">
-                        <label>Nombres: *</label>
+                        <label>Nombres contacto: *</label>
                         <input 
                           type="text" 
                           class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
@@ -47,7 +47,7 @@
                       </div>
                       <!-- apellidos -->
                       <div class="form-group">
-                        <label>Apellidos: *</label>
+                        <label>Apellidos contacto: *</label>
                         <input type="text" class="form-control form-control-solid h-auto py-5 px-5 rounded-lg" formControlName="surname">
                         <div *ngIf="registerSellerForm.get('surname')?.touched && registerSellerForm.get('surname')?.invalid" class="text-danger">
                           <div *ngIf="registerSellerForm.get('surname')?.errors?.required">Upss... El apellido es obligatorio.</div>
@@ -69,6 +69,21 @@
                           <div *ngIf="registerSellerForm.get('company')?.errors?.minlength">Upss ...La Razón Social debe tener al menos 3 caracteres.</div>
                           <div *ngIf="registerSellerForm.get('company')?.errors?.maxlength">Upss ...La Razón Social debe tener un maximo de 50 caracteres.</div>
                           <div *ngIf="registerSellerForm.get('company')?.errors?.pattern">Solo letras y números permitidos.</div>
+                        </div>
+                      </div>
+                      <!-- Descripcion razon social -->
+                      <div class="form-group">
+                        <label>Descripción Razón Social: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="decription_company"
+                        >
+                        <div *ngIf="registerSellerForm.get('decription_company')?.touched && registerSellerForm.get('decription_company')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('decription_company')?.errors?.required">Upss... La descripción de Razón Social es obligatorio</div>
+                          <div *ngIf="registerSellerForm.get('decription_company')?.errors?.minlength">Upss ...La descripción de Razón Social debe tener al menos 10 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('decription_company')?.errors?.maxlength">Upss ...La descripción de Razón Social debe tener un maximo de 250 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('decription_company')?.errors?.pattern">Solo letras y números permitidos.</div>
                         </div>
                       </div>
                        <!--nif -->
@@ -161,7 +176,7 @@
                       </div>
                       <!-- boton -->
                       <div class="form-group">
-                        <button type="submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3" [disabled]="registerSellerForm.invalid">Registrar Cuenta</button>
+                        <button type="submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3" [disabled]="registerSellerForm.invalid">Registrarse</button>
                       </div>
                   </form>
               </div>

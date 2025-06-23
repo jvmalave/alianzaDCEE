@@ -13,9 +13,9 @@ export class PaymentService {
       public http: HttpClient,
       ) {}
 
-    processPayment(paymentData: any): Observable<any> {
-        let headers = new HttpHeaders({'token': this.authService.token});
-        let URL = URL_SERVICIOS + '/payment';
-        return this.http.post(URL, paymentData,{headers:headers});
+    createPayment(paymentData: any): Observable<any> {
+      let headers = new HttpHeaders({'token': this.authService.token});
+      let URL = URL_SERVICIOS+'payment';
+      return this.http.post(URL, paymentData,{headers:headers});
     }
 }

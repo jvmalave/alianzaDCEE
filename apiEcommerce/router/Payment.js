@@ -6,10 +6,10 @@ const router = routerx();
 
 
 // Procesar pago temporal
-router.post('/', paymentController.createTempPayment);
+router.post('/', [auth.verifyEcommerce], paymentController.createTempPayment);
 
-// Obtener pagos pendientes para emprendedor
-router.get('/admin/pending', [auth.verifyEcommerce], paymentController.getPendingPayments);
+// Obtener pagos pendientes 
+router.get('/admin/pending',[auth.verifyEcommerce], paymentController.getPendingPayments);
 
 // Actualizar estado de pago
 router.put('/admin/:id', [auth.verifyEcommerce], paymentController.updatePaymentStatus);

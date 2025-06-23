@@ -8,9 +8,11 @@ import { AuthService } from '../../../../../modules/auth/_services/auth.service'
 })
 export class Dashboard1Component implements OnInit {
   user$: any = null;
+  rol$: any = null;
   constructor(private auth: AuthService) {
     this.user$ = this.auth.user;
-    console.log(this.user$)
+    this.rol$ = this.auth.user.rol;
+    console.log(this.user$, this.rol$)
   }
 
   ngOnInit(): void {}

@@ -4,6 +4,7 @@ import { AddUsersComponent } from '../components/add-users/add-users.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditUsersComponent } from '../components/edit-users/edit-users.component';
 import { DeleteUserComponent } from '../components/delete-user/delete-user.component';
+import { AuthService } from '../../auth/_services/auth.service';
 
 @Component({
   selector: 'app-users-list',
@@ -13,6 +14,7 @@ import { DeleteUserComponent } from '../components/delete-user/delete-user.compo
 export class UsersListComponent implements OnInit {
 
   users:any = [];
+  currentRol: any = null;
 
   isLoading$:any;
   search:any = "";
@@ -20,20 +22,24 @@ export class UsersListComponent implements OnInit {
   constructor(
     public _userService:UsersService,
     public modalService: NgbModal,
-
+    private _authService:AuthService,
   ) { }
 
   ngOnInit(): void {
     this.isLoading$ = this._userService.isLoading$;
     this.allUsers();
+    this.currentRol = this._authService.user.rol;
+    console.log("ROLonUSER",this.currentRol)
   }
+
   allUsers(){
     this._userService.allUsers(this.search).subscribe((resp:any) => {
       console.log(resp);
       this.users = resp.users;
     })
-
   }
+
+
   refresh(){
    this.search = "";
    this.allUsers();

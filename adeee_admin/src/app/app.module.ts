@@ -20,6 +20,10 @@ import { NoticyAlertComponent } from './componets/notifications/noticy-alert/not
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { duration } from 'moment';
 import { DatePipe } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
+
 
 
 // #fake-end#
@@ -58,12 +62,11 @@ function appInitializer(authService: AuthService) {
     ToastNotificationsModule.forRoot({duration:5000, position:"top-right"})
   ],
   providers: [
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: appInitializer,
-    //   multi: true,
-    //   deps: [AuthService],
-    // },
+     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     DatePipe,
     {
       provide: HIGHLIGHT_OPTIONS,

@@ -14,6 +14,7 @@ export default{
         price_bs: cart.product.price_bs,
         price_usd: cart.product.price_usd,
         condition: cart.product.condition,
+        seller_id: cart.product.seller_id,
       },
       type_discount: cart.type_discount,
       discount: cart.discount,

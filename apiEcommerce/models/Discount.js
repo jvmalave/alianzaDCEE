@@ -12,7 +12,7 @@ const DiscountSchema = new Schema({
   type_segment: { type:Number, required:true, default:1 }, // 1: Por Productos || 2:Por Categorias
   products: [{type: Object, required: false }],
   categories: [{type: Object, required: false }],
-
+  creator: { type: String, required: false  }
 },{
   timestamps: true,
 });

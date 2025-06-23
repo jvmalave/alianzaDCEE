@@ -17,26 +17,42 @@ export class EditUsersComponent implements OnInit {
    name:any = null;
    surname:any = null;
    email:any = null;
+   company: any = null;
+   nif: any = null
+   description_company: any = null;
+   address: any = null;
+   phone:any = null; 
+   rol_selected: any = null;
    password:any = null;
    repeat_password:any = null;
- 
+
+
+  
    constructor(
      public modal: NgbActiveModal,
      public userService: UsersService,
      public toaster: Toaster,
    ) { }
- 
+
+  
    ngOnInit(): void {
     this.name = this.user_selected.name;
     this.surname = this.user_selected.surname;
     this.email = this.user_selected.email;
- 
+    this.company = this.user_selected.company;
+    this.nif = this.user_selected.nif;
+    this.description_company = this.user_selected.description_company;
+    this.address = this.user_selected.address;
+    this.phone = this.user_selected.phone;
+    this.rol_selected = this.user_selected.rol;
    }
+
+   
  
    save(){
      if(!this.name || !this.surname || !this.email){
        //TODOS LOS CAMPOS SON OBLIGATARIOS
-       this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos'`});
+       this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Los campos Nombre, Apellido y Email no puede estar vacío'`});
        return;
      }
     //  if(this.password != this.repeat_password){
@@ -49,9 +65,15 @@ export class EditUsersComponent implements OnInit {
        name: this.name,
        surname: this.surname,
        email: this.email,
+       company: this.company,
+       nif: this.nif,
+       description_company: this.description_company,
+       address: this.address,
+       phone: this.phone,
        password: this.password,
        repeat_password: this.repeat_password,
      }
+
      this.userService.updateUser(data).subscribe((resp:any) => {
        console.log(resp);
        this.UserE.emit(resp.user);

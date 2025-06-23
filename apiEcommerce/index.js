@@ -29,7 +29,27 @@ mongoose.connect(
 const app = express();
 app.use(cors(
 ));
+const corsOptions = [
+  {
+    origin: 'http://localhost:5000',  // Cambia si usas otra URL o dominio
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'token'], // incluye 'token' si lo usas en headers
+    credentials: true, // si usas cookies o autenticación basada en credenciales
+  },
+  {
+    origin: 'http://localhost:4200',  // Cambia si usas otra URL o dominio
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'token'], // incluye 'token' si lo usas en headers
+    credentials: true, // si usas cookies o autenticación basada en credenciales
+  },
+];
+app.use(cors(corsOptions));
+
 app.use(express.json());
+
+import paymentRoutes from './router/Payment';
+app.use('/api/payment', paymentRoutes);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/', router);

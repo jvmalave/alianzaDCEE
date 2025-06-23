@@ -1,46 +1,54 @@
 import token from "../services/token"
+import jwt from 'jsonwebtoken';
+
+
+
 
 export default {
   verifyEcommerce: async(req, res, next) => {
     if(!req.headers.token){
-      res.status(404).send({
+      return res.status(404).send({
         message: "NO SE ENVIÓ EL TOKEN"
       });
     }
     const response = await token.decode(req.headers.token);
     if(response){
+      console.log("RES",response);
+
       if(response.rol == "cliente" || response.rol == "admin"){
-        next();
+        req.user = response; // <--- Adjunta el usuario decodificado
+        return next();
       }
       else{
-        res.status(403).send({
+        return res.status(403).send({
           message: "NO ESTA PERMITIDO VISITAR ESTA RUTA"
         });
       }
     }else{
-      res.status(403).send({
+      return res.status(403).send({
         message: "EL TOKEN NO ES VALIDO"
       });
     }
   },
   verifyAdmin: async(req, res, next) => {
     if(!req.headers.token){
-      res.status(404).send({
+      return res.status(404).send({
         message: "NO SE ENVIÓ EL TOKEN"
       });
     }
     const response = await token.decode(req.headers.token);
     if(response){
       if(response.rol == "admin" || response.rol == "emprendedor"){
-        next();
+        req.user = response; // <--- Adjunta el usuario decodificado
+        return next();
       }
       else{
-        res.status(403).send({
+        return res.status(403).send({
           message: "NO ESTA PERMITIDO VISITAR ESTA RUTA"
         });
       }
     }else{
-      res.status(403).send({
+      return res.status(403).send({
         message: "EL TOKEN NO ES VALIDO"
       });
     }

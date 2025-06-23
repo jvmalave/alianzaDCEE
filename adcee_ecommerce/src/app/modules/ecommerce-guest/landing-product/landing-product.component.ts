@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EcommerceGuestService } from '../_services/ecommerce-guest.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CartService } from '../_services/cart.service';
+import { UserService } from '../../user/user.service';
 
 declare var $:any;
 declare function LandingProductDetail(): any;
@@ -17,6 +18,9 @@ declare function alertSuccess([]):any;
   styleUrls: ['./landing-product.component.css']
 })
 export class LandingProductComponent implements OnInit{
+
+  
+  company_name: string = '';
 
   slug: any = null;
   product_selected:any = null;
@@ -38,6 +42,7 @@ export class LandingProductComponent implements OnInit{
     public router: Router,
     public routerActived: ActivatedRoute,
     public cartService: CartService,
+    public userService: UserService
 
   ){}
 
@@ -57,12 +62,23 @@ export class LandingProductComponent implements OnInit{
       this.REVIEWS = resp.REVIEWS;
       this.AVG_REVIEW = resp.AVG_REVIEW;
       this.COUNT_REVIEW = resp.COUNT_REVIEW;
+
+      if (this.product_selected && this.product_selected.seller_id) {
+      this.userService.getUserById(this.product_selected.seller_id).subscribe((resp: any) => {
+      if (resp.user && resp.user.company) {
+      this.company_name = resp.user.company;
+
+      console.log("COMPANY", this.company_name )
+    }
+  });
+}
+
       setTimeout(() => {
         LandingProductDetail();
       }, 50);
     })
   }
-
+  
   OpenModal(bestProduct:any, FlashSale:any = null){
     this.product_selected_modal = null;
     this.SALE_FLASH = FlashSale; 

@@ -9,7 +9,8 @@ const CuponeSchema = new Schema({
     type_segment: {type:Number,required:false,default:1},//1 es cupon por producto y 2 seria por categoria
     state:{type:Number,required:false,default: 1},//1:activo
     products:[{type:Object}],//[{_id: asdasdas },{_id: dsdsds}]
-    categories:[{type:Object}]
+    categories:[{type:Object}],
+    creator: {type: String, require:false}
 },{
     timestamps:true
 })

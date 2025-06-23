@@ -23,7 +23,7 @@ export class DynamicAsideMenuService {
   // Default => from DynamicAsideMenuConfig
   private loadMenu() {
     // this.setMenu(DynamicAsideMenuConfig);
-    if(this.authservice.user.rol == 'admin'){
+    if(this.authservice.user.rol == 'admin' || this.authservice.user.rol == 'emprendedor'){
       this.setMenu(AsideMenuAdminGeneral);
     } 
     // else if(this.authservice.user.role.name == 'ASESOR'){

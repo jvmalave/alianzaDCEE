@@ -34,6 +34,7 @@ export default{
       avg_review: avg_review,
       count_review: count_review,
       campaign_discount: CampaignDiscount,
+      seller_id: product.seller_id,
     }
   }
 }

@@ -15,11 +15,12 @@ const ProductSchema = new Schema({
   resumen:{type:String, required:true},
   tags:{type:String, required:true},
   type_inventario:{type:Number, default:1}, // 1: unico, 2: multiple
-  condition:{type:Number, required:true} // 1:nuevo, 2:usado, 3:donacion
+  condition:{type:Number, required:true}, // 1:nuevo, 2:usado, 3:donación
+  seller_id: { type:Schema.ObjectId, ref: 'User' } // Id del emprendedor propietario del producto
 },{
   timestamps:true,
 });
 
-const Product = mongoose.model('product',ProductSchema);
+const Product = mongoose.model('product', ProductSchema);
 
 export default Product;

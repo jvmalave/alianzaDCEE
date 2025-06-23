@@ -26,6 +26,7 @@ export class RegisterSellerComponent implements OnInit {
    surname: string = "";
    nif: string = ""; 
    company: string = "";
+   decription_company: string = "";
    adress: string = "";
    phone: string = "";  
    password: string = "";
@@ -64,7 +65,13 @@ export class RegisterSellerComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
+      ]],
+      decription_company:['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(250),
+        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
       ]],
       nif:['', [
         Validators.required,

@@ -20,6 +20,7 @@ router.post("/remove_imagen", [auth.verifyAdmin, path], productController.remove
 
 router.put("/update",[auth.verifyAdmin,path],productController.update);
 router.get("/list",auth.verifyAdmin,productController.list);
+router.get("/list-seller",auth.verifyAdmin,productController.list_seller);
 router.delete("/delete",auth.verifyAdmin,productController.remove);
 
 router.get("/uploads/product/:img",productController.obtener_imagen);

@@ -11,6 +11,7 @@ import Sale from "./Sale";
 import SaleAddress from "./SaleAddress";
 import SaleDetail from "./SaleDetail";
 import Review from "./Review";
+import TempPayment from "./TempPayment";
 
 export default{
   User,
@@ -26,4 +27,5 @@ export default{
   SaleAddress,
   SaleDetail,
   Review,
+  TempPayment,
 }

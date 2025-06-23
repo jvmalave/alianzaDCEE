@@ -82,6 +82,13 @@ const routes: Routes = [
           ),
     },
     {
+        path: 'pagos-pendientes',
+        loadChildren: () =>
+          import('../modules/pending-payments/pending-payments.module').then(
+            (m) => m.PendingPaymentsModule
+          ),
+    },
+    {
       path: 'sliders',
       loadChildren: () =>
         import('../modules/sliders/sliders.module').then(

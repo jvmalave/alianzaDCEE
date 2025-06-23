@@ -16,6 +16,10 @@ export enum UserRole {
   EMPRENDEDOR = 'emprendedor'
 }
 
+interface Permissions {
+  [key: string]: string[];
+}
+
 //Permisos
 
 export const Permissions = {
@@ -64,6 +68,7 @@ export class AuthService implements OnDestroy {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<UserModel>;
   isLoadingSubject: BehaviorSubject<boolean>;
+  static rol: any;
 
 
   get currentUserValue(): UserModel {

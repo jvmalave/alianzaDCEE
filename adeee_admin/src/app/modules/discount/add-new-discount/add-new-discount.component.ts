@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DiscountService } from '../_services/discount.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
+import { AuthService } from '../../auth/_services/auth.service';
 
 @Component({
   selector: 'app-add-new-discount',
@@ -11,6 +12,7 @@ import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-ale
 export class AddNewDiscountComponent implements OnInit {
 
   isLoading$:any;
+  currentRol: any = null;
   
     products:any = [];
     categories:any = [];
@@ -36,10 +38,12 @@ export class AddNewDiscountComponent implements OnInit {
     constructor(
       public _discountService:DiscountService,
       public toaster:Toaster,
+      private _authService: AuthService
     ) { }
   
     ngOnInit(): void {
       this.isLoading$ = this._discountService.isLoading$;
+      this.currentRol = this._authService.user.rol;
       
       this._discountService.discountConfig().subscribe((resp:any) => {
         console.log(resp);

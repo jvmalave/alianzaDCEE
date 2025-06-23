@@ -4,11 +4,11 @@
   <div class="col-md-8 text-center">
     <ng-container *ngIf="user$.rol == 'admin'">
       <h1> Bienvenido(a) {{ user$.name}} {{ user$.surname}}</h1>
-      <h2> Administrativo ADEL | Rol: Adminitrador</h2>
+      <h2> Administrativo ADEL | Rol: Administrador</h2>
     </ng-container>
     <ng-container *ngIf="user$.rol=='emprendedor'">
       <h2>{{ user$.name}} {{ user$.surname}}</h2>
-      <h1> Bienvenido emprendedor a tu Administrativo en Adel</h1>
+      <h1> Bienvenido a tu Administrativo en Adel</h1>
     </ng-container>
   </div>
   <div class="col-md-2"></div>

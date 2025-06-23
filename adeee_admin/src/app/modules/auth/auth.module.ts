@@ -13,6 +13,7 @@ import { LoginSellerComponent } from './login-seller/login-seller.component';
 import { RegisterSellerComponent } from './register-seller/register-seller.component';
 
 
+
 @NgModule({
   declarations: [
     LoginComponent,

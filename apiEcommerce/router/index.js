@@ -11,6 +11,13 @@ import AddressClient from './AddressClient'
 import Sale from './Sale'
 import Review from './Review'
 import Payment from './Payment'
+import express from 'express'
+
+
+const app = express()
+
+// Middleware para parsear JSON
+app.use(express.json());
 
 
 const router = routerx();

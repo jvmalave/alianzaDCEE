@@ -62,6 +62,27 @@ export class ProductService {
         );
       }
 
+      sellerProducts(search = '', categorie = null, condition = null) {
+        this.isLoadingSubject.next(true);
+        let headers = new HttpHeaders({ 'token': this.authservice.token });
+        let LINK = "";
+        if (search) {
+          LINK += "?search=" + search;
+        } else {
+          LINK += "?search=";
+        }
+        if (categorie) {
+          LINK += "&categorie=" + categorie;
+        }
+        if (condition) {
+          LINK += "&condition=" + condition;
+        }
+        let URL = URL_SERVICIOS + "/products/list-seller" + LINK;
+        return this.http.get(URL, { headers: headers }).pipe(
+          finalize(() => this.isLoadingSubject.next(false))
+        );
+      }
+
       showProduct(product_id=''){
         this.isLoadingSubject.next(true);
         let headers = new HttpHeaders({'token':this.authservice.token});

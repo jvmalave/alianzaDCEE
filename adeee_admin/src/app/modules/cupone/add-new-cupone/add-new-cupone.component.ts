@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
 import { CuponeService } from '../_services/cupone.service';
+import { AuthService } from '../../auth/_services/auth.service';
 
 @Component({
   selector: 'app-add-new-cupone',
@@ -11,6 +12,8 @@ import { CuponeService } from '../_services/cupone.service';
 export class AddNewCuponeComponent implements OnInit {
 
   isLoading$:any;
+
+  currentRol:any = null;
 
   products:any = [];
   categories:any = [];
@@ -28,10 +31,13 @@ export class AddNewCuponeComponent implements OnInit {
   constructor(
     public _cuponService:CuponeService,
     public toaster:Toaster,
+    private  _authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.isLoading$ = this._cuponService.isLoading$;
+
+    this.currentRol = this._authService.user.rol,
     
     this._cuponService.cuponConfig().subscribe((resp:any) => {
       console.log(resp);

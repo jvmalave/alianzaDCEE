@@ -161,8 +161,6 @@ export default {
       res.status(200).json({
         message_text: "El carrito de compra se eliminó satisfactoriamente"
       })
-
-
     } catch (error) {
       console.log(error);
       res.status(500).send({
@@ -170,7 +168,6 @@ export default {
       })
     }
   },
-
   applyCupon: async(req,res) => {
     try {
       let data = req.body;

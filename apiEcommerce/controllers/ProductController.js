@@ -77,7 +77,6 @@ export default{
 
   },
 
-
   list: async(req,res) =>{
     try {
       var filter = [];
@@ -100,9 +99,12 @@ export default{
       let products = await models.Product.find({
         $and: filter,
       }).populate("categorie")
+
+      //console.log("PRO",products);
   
       products = products.map(product => {
         return resourses.Product.product_list(product);
+
       })
       res.status(200).json({
         products: products,
@@ -113,7 +115,51 @@ export default{
       });
     }
   },
-  
+
+  list_seller: async (req, res) => {
+  try {
+   
+    // Obtenemos seller_id (puede venir de req.body, req.query o params, según tu diseño)
+    const sellerId = req.user._id;
+
+    console.log(req.user);
+
+    if (!sellerId) {
+      return res.status(400).json({ message: "seller_id es obligatorio" });
+    }
+
+    // Creamos el filtro inicial con seller_id
+    let filter = { seller_id: sellerId };
+
+    // Agregamos condiciones adicionales si existen
+    if (req.query.search) {
+      filter.title = new RegExp(req.query.search, "i");
+    }
+    if (req.query.categorie) {
+      filter.categorie = req.query.categorie;
+    }
+    if (req.query.condition) {
+      filter.condition = req.query.condition;
+    }
+
+    // Ejecutamos la consulta con populate
+    let products_seller = await models.Product.find(filter).populate("categorie");
+
+   // console.log("PRO", products_seller);
+
+    // Mapear productos según tu recurso
+    products_seller = products_seller.map(product_seller => {
+      return resourses.Product.product_list(product_seller);
+    });
+
+    res.status(200).json({ products_seller });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "OCURRIO UN PROBLEMA" });
+  }
+},
+
 
   remove: async(req,res) =>{
     try {

@@ -3,6 +3,7 @@ import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
 import { ProductService } from '../_services/product.service';
 import { CategoriesService } from '../../categories/_services/categories.service';
+import { AuthService } from '../../auth/_services/auth.service';
 
 @Component({
   selector: 'app-add-new-product',
@@ -25,6 +26,7 @@ export class AddNewProductComponent implements OnInit {
   //
   tag:any = null;
   tags: any = [];
+  seller_id: any = 0;
 
   isloading$: any;
 
@@ -32,7 +34,8 @@ export class AddNewProductComponent implements OnInit {
   constructor(
     public _productService:ProductService,
     public _categorieService:CategoriesService,
-    public toaster:Toaster
+    public toaster:Toaster,
+    private _authService:AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -42,8 +45,10 @@ export class AddNewProductComponent implements OnInit {
       this.categories = resp.categories;
       this.loadServices();
     })
-      this.price_bs = 0;
-      this.price_usd = 0;
+    this.price_bs = 0;
+    this.price_usd = 0;
+    this.seller_id = this._authService.user._id
+    console.log("SELLER", this.seller_id)
   }
 
   loadServices(){
@@ -98,9 +103,10 @@ export class AddNewProductComponent implements OnInit {
     formData.append("sku", this.sku);
     formData.append("tags", JSON.stringify(this.tags));
     formData.append("imagen", this.imagen_file);
+    formData.append("seller_id", this.seller_id)
 
     this._productService.createProduct(formData).subscribe((resp:any) => {
-      console.log(resp);
+      console.log("CREATE",resp);
 
       if(resp.code == 403){
         this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! El producto ya existe, agregue otro nombre'`});

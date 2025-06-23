@@ -27,7 +27,7 @@ export class ListCartsComponent {
         sectionCart();
       }, 25);
       this.cartService.currentDataCart$.subscribe((resp: any) => {
-        console.log(resp);
+        console.log("CART",resp);
         this.listCarts = resp;
         this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
       })
@@ -80,42 +80,42 @@ export class ListCartsComponent {
 
       
     })
-  }
-  removeCart(cart:any){
-    this.cartService.deleteCart(cart._id).subscribe((resp:any) =>{
-      console.log(resp);
-      this.cartService.removeItemCart(cart);
-    })
-  }
-  aplicarCupon(){
-    let data = {
-      code: this.code_cupon,
-      user_id: this.cartService._authService.user._id,
     }
-    this.cartService.aplicarCupon(data).subscribe((resp:any) => {
-      console.log(resp);
-      if(resp.message == 403){
-        alertDanger(resp.message_text);
-      }else{
-        alertSuccess(resp.message_text);
-
-        this.lisCarts();
+    removeCart(cart:any){
+      this.cartService.deleteCart(cart._id).subscribe((resp:any) =>{
+        console.log(resp);
+        this.cartService.removeItemCart(cart);
+      })
+    }
+    aplicarCupon(){
+      let data = {
+        code: this.code_cupon,
+        user_id: this.cartService._authService.user._id,
       }
-    })
+      this.cartService.aplicarCupon(data).subscribe((resp:any) => {
+        console.log(resp);
+        if(resp.message == 403){
+          alertDanger(resp.message_text);
+        }else{
+          alertSuccess(resp.message_text);
 
-  }
-  lisCarts(){
-    this.cartService.resetCart();
-          if(this.cartService._authService.user){
-            this.cartService.listCarts(this.cartService._authService.user._id).subscribe((resp:any) => {
-              console.log(resp);
-              // this.listCarts = resp.carts;
-      
-              resp.carts.forEach((cart:any) => {
-                this.cartService.changeCart(cart);
+          this.lisCarts();
+        }
+      })
+
+    }
+    lisCarts(){
+      this.cartService.resetCart();
+            if(this.cartService._authService.user){
+              this.cartService.listCarts(this.cartService._authService.user._id).subscribe((resp:any) => {
+                console.log(resp);
+                // this.listCarts = resp.carts;
+        
+                resp.carts.forEach((cart:any) => {
+                  this.cartService.changeCart(cart);
+                });
               });
-            });
-          }
-  }
-  }
+            }
+    }
+    }
 

@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   surname: string = "";
   password: string = "";
   repeat_password: string = "";
+  acceptTerms: boolean = false;
 
   constructor(
     public AuthService: AuthService,
@@ -40,7 +41,8 @@ export class RegisterComponent implements OnInit {
       !this.name ||
       !this.surname ||
       !this.password ||
-      !this.repeat_password 
+      !this.repeat_password ||
+      !this.acceptTerms 
     ){
       alertDanger("Upss! Todos los campos son requeridos");
     }
@@ -53,6 +55,7 @@ export class RegisterComponent implements OnInit {
       name: this.name,
       surname: this.surname,
       password: this.password,
+      acceptTerms: this.acceptTerms,
       rol: "cliente",
     };
 
