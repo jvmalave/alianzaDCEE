@@ -30,36 +30,114 @@
                   <h3 class="title text-center mb-5">¡Crecazmos juntos!</h3>
                   <p class="b2 mb--30">Ingresa tus datos de registro</p>
                   <form [formGroup]= registerSellerForm (ngSubmit)="registro()" class="axil-signin-form" novalidate>
+                      <!-- nonbres -->
                       <div class="form-group">
-                          <label>Nombres: *</label>
-                          <input type="text" class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" formControlName="name">
-                          <div *ngIf="registerSellerForm.get('name')?.touched &&  registerSellerForm.get('name')?.invalid" class="text-danger">
-                          El nombre es obligatorio.
-                          </div>
+                        <label>Nombres: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="name"
+                        >
+                        <div *ngIf="registerSellerForm.get('name')?.touched && registerSellerForm.get('name')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('name')?.errors?.required">Upss... El nombre es obligatorio.</div>
+                          <div *ngIf="registerSellerForm.get('name')?.errors?.minlength">Upss ...El nombre debe tener al menos 2 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('name')?.errors?.maxlength">Upss ...El nombre debe tener un maximo de 32 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('name')?.errors?.pattern">Solo letras y números permitidos.</div>
+                        </div>
                       </div>
+                      <!-- apellidos -->
                       <div class="form-group">
                         <label>Apellidos: *</label>
                         <input type="text" class="form-control form-control-solid h-auto py-5 px-5 rounded-lg" formControlName="surname">
                         <div *ngIf="registerSellerForm.get('surname')?.touched && registerSellerForm.get('surname')?.invalid" class="text-danger">
-                          El apellido es obligatorio.
+                          <div *ngIf="registerSellerForm.get('surname')?.errors?.required">Upss... El apellido es obligatorio.</div>
+                          <div *ngIf="registerSellerForm.get('surname')?.errors?.minlength">Upss ...El apellido debe tener al menos 2 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('surname')?.errors?.maxlength">Upss ...El apellido debe tener un maximo de 32 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('surname')?.errors?.pattern">Solo letras y números permitidos.</div>
                         </div>
                       </div>
+                      <!-- razon social -->
+                      <div class="form-group">
+                        <label>Razón Social: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="company"
+                        >
+                        <div *ngIf="registerSellerForm.get('company')?.touched && registerSellerForm.get('company')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('company')?.errors?.required">Upss... La Razón Social es obligatorio, Si no tienes coloca tu nombre y apellido</div>
+                          <div *ngIf="registerSellerForm.get('company')?.errors?.minlength">Upss ...La Razón Social debe tener al menos 3 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('company')?.errors?.maxlength">Upss ...La Razón Social debe tener un maximo de 50 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('company')?.errors?.pattern">Solo letras y números permitidos.</div>
+                        </div>
+                      </div>
+                       <!--nif -->
+                      <div class="form-group">
+                        <label>Nif o Rif: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="nif"
+                        >
+                        <div *ngIf="registerSellerForm.get('nif')?.touched && registerSellerForm.get('nif')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('nif')?.errors?.required">Upss... El Nif o Rif es obligatorio.</div>
+                          <div *ngIf="registerSellerForm.get('nif')?.errors?.minlength">Upss... El Nif o Rif debe tener al menos 5 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('nif')?.errors?.maxlength">Upss... El Nif o Rif debe tener un maximo de 30 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('nif')?.errors?.pattern">Solo letras y números permitidos.</div>
+                        </div>
+                      </div>
+                      <!--Teléfono -->
+                      <div class="form-group">
+                        <label>Teléfono Móvil: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="phone"
+                        >
+                        <div *ngIf="registerSellerForm.get('phone')?.touched && registerSellerForm.get('phone')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('phone')?.errors?.required">Upss... El Teléfono móvil es obligatorio.</div>
+                          <div *ngIf="registerSellerForm.get('phone')?.errors?.pattern">El teléfono debe tener 11 números, empezar con 0 y contener solo dígitos.</div>
+                        </div>
+                      </div>
+                      <!-- dirección-->
+                      <div class="form-group">
+                        <label>Dirección: *</label>
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="address"
+                        >
+                        <div *ngIf="registerSellerForm.get('address')?.touched && registerSellerForm.get('address')?.invalid" class="text-danger">
+                          <div *ngIf="registerSellerForm.get('address')?.errors?.required">Upss... La Dirección es obligatorio, Si no tienes coloca tu nombre y apellido</div>
+                          <div *ngIf="registerSellerForm.get('address')?.errors?.minlength">Upss ...La Dirección debe tener al menos 10 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('address')?.errors?.maxlength">Upss ...La Dirección debe tener un maximo de 60 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('address')?.errors?.pattern">Solo letras y números permitidos, no puede comenzar con un espacio.</div>
+                        </div>
+                      </div>
+                      <!-- email -->
                       <div class="form-group">
                         <label>Email: *</label>
                         <input type="email" class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" formControlName="email">
                         <div *ngIf="registerSellerForm.get('email')?.touched && registerSellerForm.get('email')?.invalid" class="text-danger">
-                          <div *ngIf="registerSellerForm.get('email')?.errors?.required">El email es obligatorio.</div>
-                          <div *ngIf="registerSellerForm.get('email')?.errors?.email">El email no es válido.</div>
+                          <div *ngIf="registerSellerForm.get('email')?.errors?.required">Upss...El email es obligatorio.</div>
+                          <div *ngIf="registerSellerForm.get('email')?.errors?.email">Upss... El email no es válido.</div>
+                          <div *ngIf="registerSellerForm.get('email')?.errors?.minlength">Upss...El email debe tener al menos 6 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('email')?.errors?.maxlength">Upss ...El email debe tener un maximo de 32 caracteres.</div>
+                          
                         </div>
                       </div>
+                      <!-- password -->
                       <div class="form-group">
                         <label>Contraseña: *</label>
                         <input type="password" class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" formControlName="password">
                         <div *ngIf="registerSellerForm.get('password')?.touched && registerSellerForm.get('password')?.invalid" class="text-danger">
-                          <div *ngIf="registerSellerForm.get('password')?.errors?.required">La contraseña es obligatoria.</div>
-                          <div *ngIf="registerSellerForm.get('password')?.errors?.minlength">La contraseña debe tener al menos 6 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('password')?.errors?.required">Upss... La contraseña es obligatoria.</div>
+                          <div *ngIf="registerSellerForm.get('password')?.errors?.minlength">Upss... La contraseña debe tener al menos 6 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('password')?.errors?.maxlength">Upss... La contraseña debe ser mayor a 10 caracteres.</div>
+                          <div *ngIf="registerSellerForm.get('password')?.errors?.pattern">Upss... Solo letras y números permitidos</div>
                         </div>
                       </div>
+                      <!-- repeat-password -->
                       <div class="form-group">
                         <label>Repetir Contraseña: *</label>
                         <input type="password" class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" formControlName="repeat_password">
@@ -70,13 +148,18 @@
                           Las contraseñas no coinciden.
                         </div>
                       </div>
+                      <!-- condiciones y terminos -->
+                      <div>
+                        <a href="http:#" target="_blank" rel="noopener noreferrer">Ver los términos y condiciones </a>
+                      </div>
                       <div class="form-group form-check">
                         <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="form-check-input" />
-                        <label for="acceptTerms" class="form-check-label">Acepto los términos y condiciones *</label>
+                        <label for="acceptTerms" class="form-check-label ml-2">Acepto los términos y condiciones *</label>
                         <div *ngIf="registerSellerForm.get('acceptTerms')?.touched && registerSellerForm.get('acceptTerms')?.invalid" class="text-danger">
                           Debes aceptar los términos y condiciones para continuar.
                         </div>
                       </div>
+                      <!-- boton -->
                       <div class="form-group">
                         <button type="submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3" [disabled]="registerSellerForm.invalid">Registrar Cuenta</button>
                       </div>

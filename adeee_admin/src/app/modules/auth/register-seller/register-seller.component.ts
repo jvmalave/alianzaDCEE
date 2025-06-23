@@ -24,6 +24,10 @@ export class RegisterSellerComponent implements OnInit {
    email: string = "";
    name: string = "";
    surname: string = "";
+   nif: string = ""; 
+   company: string = "";
+   adress: string = "";
+   phone: string = "";  
    password: string = "";
    repeat_password: string = "";
    acceptTerms: boolean = false;
@@ -42,16 +46,59 @@ export class RegisterSellerComponent implements OnInit {
      }
 
 
-     this.registerSellerForm = this.fb.group({
-      rol: ['emprendedor'],
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+    this.registerSellerForm = this.fb.group({
+      rol: ['emprendedor', Validators.required],
+      name: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(32),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      surname: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(32),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      company:['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      nif:['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      address: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(60),
+        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
+      ]],
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^0\d{10}$/)
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+      ]],
+     password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(10),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+
       repeat_password: ['', Validators.required],
       acceptTerms: [false, Validators.requiredTrue]
-     }, 
-     {validators: this.passwordMatchValidator });
+    }, 
+    {validators: this.passwordMatchValidator });
   }
 
   // Validador personalizado para que las contraseñas coincidan

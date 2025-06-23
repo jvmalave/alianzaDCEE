@@ -2,9 +2,11 @@ import mongoose,{Schema} from "mongoose";
 
 const UserSchema = new Schema({
   rol: {type: String, maxlength:30, require:true}, // 1: admin | 2: cliente | 3: emprendedor
-  name: {type: String, maxlength:250, require:true},
-  surname: {type: String, maxlength:250, require:false},
-  email: {type: String, maxlength:250, require:true, unique:true},
+  name: {type: String, maxlength:50, require:true},
+  surname: {type: String, maxlength:50, require:false},
+  company: {type: String, maxlength: 50, require:false},
+  address: { type: String, maxlength: 250, require:false},
+  email: {type: String, maxlength:50, require:true, unique:true},
   password: {type: String, maxlength:250, require:true},
   acceptTerms: {type: Boolean, require:false},
   avatar: {type: String, maxlength:250, require:false},
