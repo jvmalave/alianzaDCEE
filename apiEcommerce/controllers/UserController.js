@@ -26,7 +26,6 @@ export default{
         console.log(error);
     }
   },
-
   register_seller: async(req,res) => {
     try {
       const userC = await models.User.findOne({email: req.body.email});
@@ -46,8 +45,7 @@ export default{
         });
         console.log(error);
     }
-  },
-  
+  }, 
   register_admin: async(req,res) => {
     try {
       const userV = await models.User.findOne({email: req.body.email});
@@ -70,7 +68,6 @@ export default{
         console.log(error);
     }
   },
-
   login: async(req,res) => {
     try {
         const user = await models.User.findOne({email: req.body.email,state:1});

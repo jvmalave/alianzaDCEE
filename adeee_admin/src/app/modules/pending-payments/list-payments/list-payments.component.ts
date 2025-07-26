@@ -23,6 +23,7 @@ export class ListPaymentsComponent implements OnInit {
     this.paymentService.getPendingPayments().subscribe({
       next: (data) => {
         this.pagos = data;
+        console.log("DATOS-PAGOS", data)
         this.cargando = false;
       },
       error: (err) => {

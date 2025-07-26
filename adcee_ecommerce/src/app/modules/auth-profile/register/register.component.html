@@ -2,74 +2,126 @@
 
   <!-- Start Header -->
   <div class="signin-header">
-      <div class="row align-items-center">
-          <div class="col-md-6">
-            <a href="index.html" class="site-logo"><img src="./assets/images/logo/logo_adel.png" width="300px" height="300px" alt="logo adel"></a>
-          </div>
-          <!-- <div class="col-md-6">
-              <div class="singin-header-btn">
-                  <p>¿Ya eres cliente ?</p>
-                  <a href="sign-in.html" class="axil-btn btn-bg-secondary sign-up-btn">Registrate</a>
-              </div>
-          </div> -->
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <a href="index.html" class="site-logo">
+          <img src="./assets/images/logo/logo_adel.png" width="300px" height="300px" alt="logo adel" />
+        </a>
       </div>
+    </div>
   </div>
   <!-- End Header -->
 
-  <div class="row" >
-      <div class="col-xl-4 col-lg-6 ">
-        <div class="axil-signin-banner bg_image bg_image--10 ms-5">
-          <img src="./assets/images/saludo.png" width="ms-500px" alt="saludo">
-          <h4 class=" text-center mt-5">Alianza Digital En Línea</h4>
-          <h5 class=" text-center"> Un especio orientado al empoderamiento de la comunidad</h5>
+  <div class="row">
+    <div class="col-xl-4 col-lg-6">
+      <div class="axil-signin-banner bg_image bg_image--10 ms-5">
+        <img src="./assets/images/saludo.png" style="max-width: 500px" alt="saludo" />
+        <h4 class="text-center mt-5">Alianza Digital En Línea</h4>
+        <h5 class="text-center">Un espacio orientado al empoderamiento de la comunidad</h5>
+      </div>
+    </div>
+    <div class="col-lg-6 offset-xl-2">
+      <div class="axil-signin-form-wrap">
+        <div class="axil-signin-form">
+          <h3 class="title">¡Bienvenido!</h3>
+          <p class="b2 mb--55">Ingresa tus datos de registro</p>
+          <form [formGroup]="registroForm" (ngSubmit)="registro()" novalidate>
+            <!-- Nombres -->
+            <div class="form-group">
+              <label>Nombres: *</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="name" 
+              />
+              <div *ngIf="registroForm.get('name')?.touched && registroForm.get('name')?.invalid" class="text-danger">
+                <div *ngIf="registroForm.get('name')?.errors?.['required']">Upss... El nombre es obligatorio.</div>
+                <div *ngIf="registroForm.get('name')?.errors?.['minlength']">Upss ...El nombre debe tener al menos 2 caracteres.</div>
+                <div *ngIf="registroForm.get('name')?.errors?.['maxlength']">Upss ...El nombre debe tener un maximo de 32 caracteres.</div>
+                <div *ngIf="registroForm.get('name')?.errors?.['pattern']">Solo letras y números permitidos.</div>
+              </div>
+            </div>
+            <!-- Apellidos -->
+            <div class="form-group">
+              <label>Apellidos: *</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="surname" 
+              />
+              <div *ngIf="registroForm.get('surname')?.touched && registroForm.get('surname')?.invalid" class="text-danger">
+                <div *ngIf="registroForm.get('surname')?.errors?.['required']">Upss... El apellido es obligatorio.</div>
+                <div *ngIf="registroForm.get('surname')?.errors?.['minlength']">Upss ...El apellido debe tener al menos 2 caracteres.</div>
+                <div *ngIf="registroForm.get('surname')?.errors?.['maxlength']">Upss ...El apellido debe tener un maximo de 32 caracteres.</div>
+                <div *ngIf="registroForm.get('surname')?.errors?.['pattern']">Solo letras y números permitidos.</div>
+              </div>
+            </div>
+            <!-- Email -->
+            <div class="form-group">
+              <label>Email: *</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                formControlName="email" 
+              />
+              <div *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.invalid" class="text-danger">
+                <div *ngIf="registroForm.get('email')?.errors?.['required']">Upss...El email es obligatorio.</div>
+                <div *ngIf="registroForm.get('email')?.errors?.['email']">Upss... El email no es válido.</div>
+                <div *ngIf="registroForm.get('email')?.errors?.['minlength']">Upss...El email debe tener al menos 6 caracteres.</div>
+                <div *ngIf="registroForm.get('email')?.errors?.['maxlength']">Upss ...El email debe tener un maximo de 32 caracteres.</div>
+              </div>
+            </div>
+            <!-- Contraseña -->
+            <div class="form-group">
+              <label>Contraseña: *</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                formControlName="password" 
+              />
+              <div *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.invalid" class="text-danger">
+                <div *ngIf="registroForm.get('password')?.errors?.['required']">Upss... La contraseña es obligatoria.</div>
+                <div *ngIf="registroForm.get('password')?.errors?.['minlength']">Upss... La contraseña debe tener al menos 6 caracteres.</div>
+                <div *ngIf="registroForm.get('password')?.errors?.['maxlength']">Upss... La contraseña debe ser mayor a 10 caracteres.</div>
+                <div *ngIf="registroForm.get('password')?.errors?.['pattern']">Upss... Solo letras y números permitidos</div>
+              </div>
+            </div>
+            <!-- Repetir contraseña -->
+            <div class="form-group">
+              <label>Repetir Contraseña: *</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                formControlName="repeat_password" 
+              />
+              <div *ngIf="registroForm.get('repeat_password')?.touched && registroForm.get('repeat_password')?.invalid" class="text-danger">
+                La confirmación de la contraseña es obligatoria.
+              </div>
+              <div *ngIf="registroForm.errors?.['notMatching'] && registroForm.get('repeat_password')?.touched" class="text-danger">
+                Las contraseñas no coinciden.
+              </div>
+            </div>
+            <!-- Aceptar términos -->
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" formControlName="acceptTerms" id="acceptTerms" />
+              <label for="acceptTerms" class="form-check-label ml-2">Acepto los términos y condiciones *</label>
+              <div *ngIf="registroForm.get('acceptTerms')?.touched && registroForm.get('acceptTerms')?.invalid" class="text-danger">
+                Debes aceptar los términos y condiciones para continuar.
+              </div>
+            </div>
+            <!-- Botón -->
+            <div class="form-group">
+              <button
+                type="submit"
+                class="axil-btn btn-bg-primary submit-btn"
+                [disabled]="registroForm.invalid"
+              >
+                Registrarse
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="col-lg-6 offset-xl-2">
-          <div class="axil-signin-form-wrap">
-              <div class="axil-signin-form">
-                  <h3 class="title">¡Bienvenido!</h3>
-                  <p class="b2 mb--55">Ingresa tus datos de registro</p>
-                  <form class="singin-form">
-                      <!--Nombres -->
-                      <div class="form-group">
-                          <label>Nombres: *</label>
-                          <input type="text" class="form-control" name="name" [(ngModel)]="name">
-                      </div>
-                       <!-- Apellidos -->
-                      <div class="form-group">
-                        <label>Apellidos: *</label>
-                        <input type="text" class="form-control" name="surname" [(ngModel)]="surname">
-                      </div>
-                      <!-- Email -->
-                      <div class="form-group">
-                          <label>Email: *</label>
-                          <input type="email" class="form-control" name="email" [(ngModel)]="email">
-                      </div>
-                      <!-- Password -->
-                      <div class="form-group">
-                          <label>Contraseña: *</label>
-                          <input type="password" class="form-control" name="password" [(ngModel)]="password">
-                      </div>
-                      <!-- Repeat_password -->
-                      <div class="form-group">
-                        <label>Repetir Contraseña: *</label>
-                        <input type="password" class="form-control" name="repeat_password" [(ngModel)]="repeat_password">
-                      </div>
-                     <!-- condiciones y terminos -->
-                      <!-- <div>
-                        <a href="http:#" target="_blank" rel="noopener noreferrer">Ver los términos y condiciones </a>
-                      </div> -->
-                      <div class="form-group form-check">
-                        <input type="checkbox" [(ngModel)]="acceptTerms" name="acceptTerms" class="form-check-input" />
-                        <label for="acceptTerms" class="form-check-label ml-2">Acepto los términos y condiciones *</label>
-                      </div>
-                       <!-- Boton -->
-                      <div class="form-group">
-                          <button type="submit" class="axil-btn btn-bg-primary submit-btn" (click)="registro()">Registrarse</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
+    </div>
   </div>
 </div>

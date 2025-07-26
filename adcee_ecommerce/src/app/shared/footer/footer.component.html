@@ -31,7 +31,7 @@
                           <ul>
                               <li><a [routerLink]="['/perfil-del-cliente']">Mi cuenta</a></li>
                               <li><a [routerLink]="['/auth/registro-cliente']">Registro Cliente</a></li>
-                              <li><a [routerLink]="['/auth/registro-seller']">Registro Emprendedor</a></li>
+                              <li><a (click)="goToRegisterSellerForm()">Registro Emprendedor</a></li> 
                               <li><a [routerLink]="['/auth/login']">Autenticación Cliente</a></li>
                               <li><a [routerLink]="['/']">Vitrina</a></li>
                           </ul>

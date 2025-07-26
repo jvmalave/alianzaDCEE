@@ -99,11 +99,6 @@
                               <label>País: <span>*</span></label>
                               <select id="Region" [(ngModel)]="country" name="country">
                                   <option value="Venezuela">Venezuela</option>
-                                  <!-- <option value="4">England</option>
-                                  <option value="6">New Zealand</option>
-                                  <option value="5">Switzerland</option>
-                                  <option value="1">United Kindom (UK)</option>
-                                  <option value="2">United States (USA)</option> -->
                               </select>
                           </div>
                           <div class="form-group">
@@ -208,21 +203,21 @@
                                       <tr class="order-shipping">
                                           <td colspan="2">
                                               <div class="shipping-amount">
-                                                  <span class="title">Shipping Method</span>
+                                                  <span class="title">Método de Envío</span>
                                                   <span class="amount">$0.00</span>
                                               </div>
                                               <div class="input-group">
                                                   <input type="radio" id="radio1" name="shipping" checked>
-                                                  <label for="radio1">Free Shippping</label>
+                                                  <label for="radio1">Envío Gratis</label>
                                               </div>
-                                              <div class="input-group">
+                                              <!-- <div class="input-group">
                                                   <input type="radio" id="radio2" name="shipping">
                                                   <label for="radio2">Local</label>
                                               </div>
                                               <div class="input-group">
                                                   <input type="radio" id="radio3" name="shipping">
                                                   <label for="radio3">Flat rate</label>
-                                              </div>
+                                              </div> -->
                                           </td>
                                       </tr>
                                       <tr class="order-total">
@@ -273,8 +268,8 @@
                                           </div>
                                           <div class="form-group">
                                             <label>Monto pagado</label>
-                                            <input type="text" class="form-control" [(ngModel)]="pagoMovilData.montoBs" name="montoBsPagoMovil" required>
-                                            <small class="ps-3 text-danger" >* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                            <input type="text" class="form-control" [value]= "pagoMovilData.montoBs | number:'1.2-2'" name="montoBsPagoMovil" required  readonly>
+                                            <small class="ps-3 text-danger" >* </small><small>Tasa oficial BCV: {{ tasaBcv | number:'1.2-2'}} Bs./$ </small>
                                           </div>
                                           <div class="form-group">
                                             <label>Banco de donde se realizo el pago movil</label>
@@ -388,8 +383,8 @@
                                           </div>
                                           <div class="form-group">
                                             <label>Monto transferido</label>
-                                            <input type="text" class="form-control" [(ngModel)]="transferenciaData.montoBs" name="monto" required>
-                                            <small class="ps-3 text-danger">* </small><small>Tasa oficial BCV: {{ tasaBcv}} Bs./$ </small>
+                                            <input type="text" class="form-control" [value]="transferenciaData.montoBs | number: '1.2-2'" name="monto" required readonly>
+                                            <small class="ps-3 text-danger">* </small><small>Tasa oficial BCV: {{ tasaBcv | number: '1.2-2'}} Bs./$ </small>
                                           </div>
                                           <div class="form-group">
                                             <label>Banco emisor</label>

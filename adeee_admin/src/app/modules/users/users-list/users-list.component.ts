@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditUsersComponent } from '../components/edit-users/edit-users.component';
 import { DeleteUserComponent } from '../components/delete-user/delete-user.component';
 import { AuthService } from '../../auth/_services/auth.service';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-users-list',

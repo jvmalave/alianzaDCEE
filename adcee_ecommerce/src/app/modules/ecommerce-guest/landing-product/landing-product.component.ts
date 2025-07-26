@@ -53,9 +53,9 @@ export class LandingProductComponent implements OnInit{
     this.routerActived.queryParams.subscribe((resp:any) => {
       this.discount_id = resp["_id"];
     })
-    console.log(this.slug);
+    //console.log(this.slug);
     this.ecommerce_guest.showLandingProduct(this.slug, this.discount_id).subscribe((resp:any) => {
-      console.log(resp);
+      //console.log(resp);
       this.product_selected = resp.product;
       this.related_products = resp.related_products;
       this.SALE_FLASH = resp.SALE_FLASH;
@@ -68,7 +68,7 @@ export class LandingProductComponent implements OnInit{
       if (resp.user && resp.user.company) {
       this.company_name = resp.user.company;
 
-      console.log("COMPANY", this.company_name )
+      //console.log("COMPANY", this.company_name )
     }
   });
 }
@@ -108,7 +108,7 @@ export class LandingProductComponent implements OnInit{
 
   getDiscountModal(){
     let discount =  0;
-    console.log(this.SALE_FLASH);
+    //console.log(this.SALE_FLASH);
     if(this.SALE_FLASH){
       if(this.SALE_FLASH.type_discount == 1){
         return this.SALE_FLASH.discount*this.product_selected_modal.price_usd*0.01;
@@ -139,7 +139,7 @@ export class LandingProductComponent implements OnInit{
 
 
   addCart(product:any){
-    console.log(product);
+    //console.log(product);
     if (!this.cartService._authService.user){
       alertDanger('Upss! Necesitas autenticarte para poder agregar productos al carrito de compras');
       return;

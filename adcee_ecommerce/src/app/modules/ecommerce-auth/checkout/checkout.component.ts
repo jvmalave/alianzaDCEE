@@ -94,16 +94,21 @@ export class CheckoutComponent implements OnInit {
     })
     this.cartService.currentDataCart$.subscribe((resp:any) => {
       console.log(resp);
-      this.tasaBcv = 86.85;
+      this.tasaBcv = 106.86;
       this.listCarts = resp;
       this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
       this.pagoMovilData.monto = this.totalCarts;
-      this.pagoMovilData.montoBs = this.totalCarts * this.tasaBcv;
+      //this.pagoMovilData.montoBs = this.totalCarts * this.tasaBcv;
+      this.pagoMovilData.montoBs = this.redondearDosDecimales(this.totalCarts * this.tasaBcv);
       this.transferenciaData.monto = this.totalCarts;
-      this.transferenciaData.montoBs = this.totalCarts * this.tasaBcv;
+      this.transferenciaData.montoBs =  this.redondearDosDecimales(this.totalCarts * this.tasaBcv);
       this.pagoMovilData.moneda = "Bs"
       this.transferenciaData.moneda = "Bs"
     })
+
+    this.cartService.cart.subscribe((cartItems: any[]) => {
+    this.listCarts = cartItems;
+    });
     
     paypal.Buttons({
       // optional styling for buttons
@@ -131,7 +136,7 @@ export class CheckoutComponent implements OnInit {
             purchase_units: [
               {
                 amount: {
-                    description: "COMPRAR POR EL ECOMMERCE",
+                    description: "COMPRA EN ADEL",
                     value: this.totalCarts
                 }
               }
@@ -186,6 +191,10 @@ export class CheckoutComponent implements OnInit {
       }
     }).render(this.paypalElement?.nativeElement);
   }
+
+  redondearDosDecimales(valor: number): number {
+      return Math.round((valor + 0.00001) * 100) / 100;
+      }
 
   store(){
     if(this.address_client_selected){
@@ -343,7 +352,14 @@ export class CheckoutComponent implements OnInit {
   }
   // Método para procesar el pago
   procesarPago() {
-
+    if(this.listCarts.length == 0){
+      alertDanger(" Upss! El carro esta vacío. No se puede procesar la orden");
+      return;
+    }
+    if(!this.address_client_selected){
+      alertDanger("Upss! Debe seleccionar una dirección de envío");
+      return;
+    }
     const products = this.listCarts.map((item: any) => ({
       product: item.product._id || item.product,
       seller_id: item.product.seller_id,
@@ -363,7 +379,6 @@ export class CheckoutComponent implements OnInit {
     };
     console.log("DATA-PAY",paymentData);
 
-
     this.paymentService.createPayment(paymentData).subscribe({
       next: (response:any) => {
         console.log("RESP", response);
@@ -371,12 +386,30 @@ export class CheckoutComponent implements OnInit {
         this.pagoProcesado = true;
         this.paymentReference = response.reference;
         console.log('Pago registrado:', response);
+
+        // Limpia carrito desde el servicio
+      this.cartService.resetCart();
+
+      // Limpia dirección seleccionada
+      //this.address_client_selected.reset()
+      
+
+      // Limpia datos de pago
+      this.selectedPaymentMethod = "";
+      this.pagoMovilData = {};
+      this.transferenciaData = {};
+
+      alertSuccess("¡Super!, Tu pago está en estatus 'Pendiente' en proceso de confirmación");
+
       },
       error: (err:any) => {
         // Maneja el error
         console.error('Error al registrar pago:', err);
       }
     });
+     
+     
+
   }
 
   // Método para manejar la selección de archivo

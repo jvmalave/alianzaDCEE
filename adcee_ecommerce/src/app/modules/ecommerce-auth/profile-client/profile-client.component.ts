@@ -42,10 +42,6 @@ export class ProfileClientComponent implements OnInit {
   description:any = null;
   sale_detail_selected:any = null;
 
-
-
-
-
   constructor(
     public authEcommerceService: EcommerceAuthService 
   
@@ -64,7 +60,7 @@ export class ProfileClientComponent implements OnInit {
 
     }
     this.authEcommerceService.showProfileClient(data).subscribe((resp:any) => {
-      console.log(resp);
+      //console.log("DATA:",resp);
       this.sale_orders = resp.sale_orders;
       this.listAddressClient = resp.address_client;
     })
@@ -78,6 +74,7 @@ export class ProfileClientComponent implements OnInit {
   viewDetailSale(order:any){
     this.is_detail_sale = true;
     this.order_selected = order;
+    console.log("ORDER-SELC",this.order_selected)
   }
 
   goHome(){

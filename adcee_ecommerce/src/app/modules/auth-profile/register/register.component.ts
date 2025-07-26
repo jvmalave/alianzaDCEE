@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from '../_service/auth.service';
 import { Router } from '@angular/router';
 
-
-
-declare function alertDanger([]):any; 
-declare function alertSuccess([]):any;
+declare function alertDanger(message: string): any;
+declare function alertSuccess(message: string): any;
 
 @Component({
   selector: 'app-register',
@@ -13,56 +12,86 @@ declare function alertSuccess([]):any;
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  [x: string]: any;
 
-  email: string = "";
-  name: string = "";
-  surname: string = "";
-  password: string = "";
-  repeat_password: string = "";
-  acceptTerms: boolean = false;
+  registroForm!: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     public AuthService: AuthService,
-    public router: Router,
-  ) {
-    
-  }
+    public router: Router
+  ) { }
 
-  ngOnInit():void {
-     if(this.AuthService.user){
-       this.router.navigate(['/']);
+  ngOnInit(): void {
+    if (this.AuthService.user) {
+      this.router.navigate(['/']);
     }
 
+    // Crear el formulario reactivo con validaciones
+    this.registroForm = this.fb.group({
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+      ]],
+      name: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(32),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      surname: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(32),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(10),
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ]],
+      repeat_password: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue]
+    }, {
+      validators: this.passwordMatchValidator
+    });
+  }
+
+  // Validador personalizado para comprobar que password y repeat_password coinciden
+  passwordMatchValidator(group: AbstractControl) {
+    const pass = group.get('password')?.value;
+    const repeatPass = group.get('repeat_password')?.value;
+    return pass === repeatPass ? null : { notMatching: true };
   }
 
   registro() {
-    if(!this.email ||
-      !this.name ||
-      !this.surname ||
-      !this.password ||
-      !this.repeat_password ||
-      !this.acceptTerms 
-    ){
-      alertDanger("Upss! Todos los campos son requeridos");
+    if (this.registroForm.invalid) {
+      alertDanger("Upss! Por favor completa correctamente todos los campos");
+      return;
     }
-    if(this.password !=
-      this.repeat_password){
-        alertDanger("Upss!  Las contraseñas deben ser iguales")
-      }
-    let data = {
-      email: this.email,
-      name: this.name,
-      surname: this.surname,
-      password: this.password,
-      acceptTerms: this.acceptTerms,
-      rol: "cliente",
+
+    // Extraer valores del formulario
+    const data = {
+      email: this.registroForm.value.email,
+      name: this.registroForm.value.name,
+      surname: this.registroForm.value.surname,
+      password: this.registroForm.value.password,
+      acceptTerms: this.registroForm.value.acceptTerms,
+      rol: "cliente"
     };
 
-    this.AuthService.registro(data).subscribe((resp:any) => {
-      console.log(resp);
-      alertSuccess("Super! el registro se realizó satisfactoriamente")
-      this.router.navigate(["/auth/login"]);
-    });
+    this.AuthService.registro(data).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        alertSuccess("¡Super! El registro se realizó satisfactoriamente");
+        this.router.navigate(["/auth/login"]);
+      },
+      (error) => {
+        alertDanger("Hubo un error al registrar el usuario");
+        console.error(error);
+      }
+    );
   }
 }

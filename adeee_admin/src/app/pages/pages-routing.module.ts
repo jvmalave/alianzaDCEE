@@ -109,6 +109,13 @@ const routes: Routes = [
           (m) => m.DiscountModule
         ),
     },
+    {
+      path: 'academia',
+      loadChildren: () =>
+        import('../modules/academy/academy.module').then(
+          (m) => m.AcademyModule
+        ),
+    },
       {
         path: '',
         redirectTo: '/dashboard',

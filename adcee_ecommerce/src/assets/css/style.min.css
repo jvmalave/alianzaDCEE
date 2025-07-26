@@ -4167,6 +4167,14 @@ button.axil-btn.wishlist-btn:hover:before {
   color: var(--color-secondary)
 }
 
+.title-highlighter.highlighter-black {
+  color: var(--color-black)
+}
+
+.title-highlighter.highlighter-light {
+  color: var(--color-light)
+}
+
 .title-highlighter.highlighter-secondary i {
   background-color: var(--color-secondary);
   color: var(--color-white)

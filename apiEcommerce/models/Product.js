@@ -16,7 +16,7 @@ const ProductSchema = new Schema({
   tags:{type:String, required:true},
   type_inventario:{type:Number, default:1}, // 1: unico, 2: multiple
   condition:{type:Number, required:true}, // 1:nuevo, 2:usado, 3:donación
-  seller_id: { type:Schema.ObjectId, ref: 'User' } // Id del emprendedor propietario del producto
+  seller_id: { type:Schema.ObjectId, ref: 'user' } // Id del emprendedor propietario del producto
 },{
   timestamps:true,
 });

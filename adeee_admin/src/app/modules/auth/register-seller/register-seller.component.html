@@ -138,7 +138,6 @@
                           <div *ngIf="registerSellerForm.get('email')?.errors?.email">Upss... El email no es válido.</div>
                           <div *ngIf="registerSellerForm.get('email')?.errors?.minlength">Upss...El email debe tener al menos 6 caracteres.</div>
                           <div *ngIf="registerSellerForm.get('email')?.errors?.maxlength">Upss ...El email debe tener un maximo de 32 caracteres.</div>
-                          
                         </div>
                       </div>
                       <!-- password -->
@@ -155,7 +154,11 @@
                       <!-- repeat-password -->
                       <div class="form-group">
                         <label>Repetir Contraseña: *</label>
-                        <input type="password" class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" formControlName="repeat_password">
+                        <input 
+                          type="password" 
+                          class="form-control form-control-solid h-auto py-5 px-4 rounded-lg" 
+                          formControlName="repeat_password"
+                        >
                         <div *ngIf="registerSellerForm.get('repeat_password')?.touched && registerSellerForm.get('repeat_password')?.invalid" class="text-danger">
                           La confirmación de la contraseña es obligatoria.
                         </div>

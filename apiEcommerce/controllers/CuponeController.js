@@ -121,27 +121,6 @@ export default {
           });
       }
   },
-  // list: async(req,res) => {
-  //     try {
-  //         let search = req.query.search;
-
-  //         let cupones = await models.Cupone.find({
-  //             $or:[
-  //                 {"code": new RegExp(search, "i")},
-  //             ]
-  //         }).sort({'createdAt': -1});
-
-  //         res.status(200).json({
-  //             message: 200,
-  //             cupones: cupones,
-  //         });
-
-  //     } catch (error) {
-  //         res.status(500).send({
-  //             message: "OCURRIO UN ERROR",
-  //         });
-  //     }
-  // },
   
   list: async (req, res) => {
     try {

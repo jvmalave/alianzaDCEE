@@ -14,8 +14,10 @@
                 <th>Referencia</th>
                 <th>Monto (Bs)</th>
                 <th>Método</th>
+                <th>Teléfono</th>
+                <th>Banco</th>
                 <th>Productos</th>
-                <th>Usuario</th>
+                <th>Cliente</th>
                 <th>Fecha</th>
                 <th>Acciones</th>
               </tr>
@@ -23,26 +25,28 @@
             <tbody>
               <tr *ngFor="let pago of pagos">
                 <td>{{ pago.n_transaction }}</td>
-                <td>{{ pago.total_Bs | currency:'VES':'symbol' }}</td>
+                <td>{{ pago.total_Bs | currency:'Bs.':'symbol' }}</td>
                 <td>{{ pago.method_payment }}</td>
+                <td>{{ pago?.number_phone || 'N/A' }}</td>
+                <td>{{ pago.name_bank }} </td>
                 <td>
                   <ul>
                     <li *ngFor="let item of pago.products">
-                      {{ item.product.name }} x {{ item.quantity }}
+                      {{ item.product_title }} x {{ item.quantity }} <br/> ${{ item.product_price_usd}}
                       <br />
                       <small>
-                        <strong>Emprendedor:</strong> {{ item.seller_id?.company || 'N/A' }}<br />
-                        <strong>Email:</strong> {{ item.seller_id?.email || 'N/A' }}<br />
-                        <strong>Teléfono:</strong> {{ item.seller_id?.phone || 'N/A' }}
+                        <strong>Emprendedor:</strong> {{ item.seller_company || 'N/A' }}<br />
+                        <strong>Email:</strong> {{ item.seller_email || 'N/A' }}<br />
+                        <strong>Teléfono:</strong> {{ item.seller_phone || 'N/A' }}
                       </small>
                     </li>
                   </ul>
                 </td>
-                <td>{{ pago.user.name }}<br />{{ pago.user.email }}</td>
-                <td>{{ pago.createdAt | date:'short' }}</td>
+                <td>{{ pago.user.name }} {{pago.user.surname}}<br /><small><strong>Email:</strong> {{ pago.user.email }}</small></td>
+                <td><small>{{ pago.createdAt | date:'short' }}</small></td>
                 <td>
-                <button class="btn btn-success btn-sm" (click)="confirmarPago(pago._id)">Confirmar</button>
-                <button class="btn btn-danger btn-sm" (click)="rechazarPago(pago._id)">Rechazar</button>
+                <button title="Confirmar" class="btn btn-success btn-sm me-2" (click)="confirmarPago(pago._id)"><i class="icon-sm flaticon2-check-mark mx-2"></i></button>
+                <button title="Rechazar" class="btn btn-danger btn-sm" (click)="rechazarPago(pago._id)"><i class="icon-sm flaticon2-cancel mx-2"></i></button>
                 </td>
               </tr>
             </tbody>

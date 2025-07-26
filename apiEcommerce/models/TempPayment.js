@@ -2,6 +2,8 @@
 import mongoose,{Schema}  from "mongoose";
 
 
+
+
 const tempPaymentSchema = new mongoose.Schema({
     user: { type:Schema.ObjectId, ref: 'user', required: true },
     method_payment: { type: String, enum: ['pagoMovil', 'transferencia'], required: true },
@@ -23,7 +25,10 @@ const tempPaymentSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('TempPayment', tempPaymentSchema);
+const TempPayment = mongoose.model('tempPayment', tempPaymentSchema);
+export default TempPayment;
+
+
 
 
 

@@ -7,6 +7,8 @@ import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
 import { CategoriesService } from '../../categories/_services/categories.service';
 import { AuthService } from '../../auth/_services/auth.service';
+import { UsersService } from '../../users/_services/users.service';
+
 
 
 @Component({
@@ -24,10 +26,11 @@ export class ListProductsComponent implements OnInit {
   search: any = null;
   categorie: any = null;
   condition: any = null;
-
+  product_seller_id: any = [];
   categories:any = [];
   currentRol: any = null;
   currentIdSeller: any = null;
+  company_name: any = null;
   
 
   constructor(
@@ -37,6 +40,7 @@ export class ListProductsComponent implements OnInit {
     public toaster: Toaster,
     public _categorieService:CategoriesService,
     private _authService: AuthService,
+    public _usersService: UsersService
   ) { }
 
   ngOnInit(): void {
@@ -65,8 +69,11 @@ export class ListProductsComponent implements OnInit {
     this._productService.allProducts(this.search, this.categorie, this.condition).subscribe((resp:any) => {
       console.log("PRODUCT",resp);
       this.products = resp.products;
+      this.product_seller_id = this.products.seller_id; 
     });
   }
+
+  
 
   sellerProducts(){
     this._productService.sellerProducts(this.search, this.categorie, this.condition).subscribe((resp:any) => {
@@ -79,8 +86,11 @@ export class ListProductsComponent implements OnInit {
     this.categorie = null;
     this.search = null;
     this.condition = null;
-    this.allProducts();
-    
+    if (this.currentRol === "admin"){
+      this.allProducts();
+    }else {
+      this.sellerProducts();
+    }
   }
 
   editProduct(product){

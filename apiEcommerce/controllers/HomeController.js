@@ -19,9 +19,6 @@ export default {
         if (productPromo) {
           productPromo = resourse.Product.product_list(productPromo);
         }
-            
-        
-
         let Categories = await models.Categorie.find({state:1}); 
         Categories = Categories.map((categorie) => {
           return resourse.Categorie.categorie_list(categorie);
@@ -194,7 +191,6 @@ export default {
       });
     }
   },
-
   search_product: async(req, res) =>{
     try {
       var TIME_NOW = req.query.TIME_NOW;
@@ -246,7 +242,6 @@ export default {
       });
     }
   },
-
   profile_client: async(req, res) =>{
     try {
       let user_id = req.body.user_id;
@@ -256,12 +251,8 @@ export default {
       let sale_orders = [];
 
       for (const order of Orders) {
-        let detail_orders = await models.SaleDetail.find({sale: order._id}).populate({
-          path: "product",
-          populate: {
-             path: "categorie"
-          },
-        }).populate("variedad");
+        let detail_orders = await models.SaleDetail.find({ sale: order._id }).populate('product').exec();
+        //console.log("DETAIL-ORDER with product populated:", detail_orders);
         let sale_address = await models.SaleAddress.find({sale: order._id});
         let collection_detail_orders = [];
         for (const detail_order of detail_orders) {
@@ -357,7 +348,6 @@ export default {
        });
      }
    },
-
    config_initial: async (req, res) => {
     try {
       let categories = await models.Categorie.find({state: 1});

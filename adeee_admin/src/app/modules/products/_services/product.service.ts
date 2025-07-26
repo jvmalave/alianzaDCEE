@@ -77,7 +77,7 @@ export class ProductService {
         if (condition) {
           LINK += "&condition=" + condition;
         }
-        let URL = URL_SERVICIOS + "/products/list-seller" + LINK;
+        let URL = URL_SERVICIOS +"/products/list-seller" + LINK;
         return this.http.get(URL, { headers: headers }).pipe(
           finalize(() => this.isLoadingSubject.next(false))
         );

@@ -142,6 +142,21 @@ if (userRol$ === 'admin'){
             }
           ]
         },
+         {
+          title: 'ACADEMIA ADEL',
+          root: true,
+          name: "academia",
+          bullet: 'dot',
+          icon: 'flaticon2-user-outline-symbol',
+          svg: './assets/media/svg/icons/Home/Library.svg',
+          page: '/academia',
+          submenu: [
+            {
+              title: 'Cursos disponible',
+              page: '/academia/lista-de-cursos',
+            }
+          ]
+        },
       ]
   
   }
@@ -259,6 +274,21 @@ if (userRol$ === 'admin'){
             {
               title: 'Ver Mis Descuentos',
               page: '/descuento/listar-descuento',
+            }
+          ]
+        },
+        {
+          title: 'ACADEMIA ADEL',
+          root: true,
+          name: "academia",
+          bullet: 'dot',
+          icon: 'flaticon2-user-outline-symbol',
+          svg: './assets/media/svg/icons/Home/Library.svg',
+          page: '/academia',
+          submenu: [
+            {
+              title: 'Cursos disponible',
+              page: '/academy/lista-de-cursos',
             }
           ]
         },

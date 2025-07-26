@@ -3,7 +3,7 @@ import models from "../models";
 export default{
   register: async(req,res) => {
     try {
-      console.log(req.body);
+      //console.log(req.body);
 
       let review = await models.Review.create(req.body);
 
@@ -38,5 +38,4 @@ export default{
         });
     }
   },
-
 }

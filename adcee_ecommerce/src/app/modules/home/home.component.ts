@@ -197,11 +197,6 @@ export class HomeComponent implements OnInit {
   goToRegisterSellerForm(){
      window.location.href = URL_FROTEND_ADM+"auth/registro-seller"
    }
-
-  openCreate_tienda(){
-
-  }
-  
 }
 
 

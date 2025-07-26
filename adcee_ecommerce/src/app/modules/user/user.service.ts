@@ -24,8 +24,8 @@ export class UserService {
      }
 
   getUserById(id: string) {
-  let headers = new HttpHeaders({'token': this.authservice.token});
-  return this.http.get(`${URL_SERVICIOS.replace(/\/$/, '')}/users/${id}`,{ headers });
+  // let headers = new HttpHeaders({'token': this.authservice.token});
+  return this.http.get(`${URL_SERVICIOS.replace(/\/$/, '')}/users/${id}`);
   }
 }
 

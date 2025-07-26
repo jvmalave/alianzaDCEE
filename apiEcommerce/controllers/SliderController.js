@@ -80,7 +80,6 @@ export default {
     try {
         var img = req.params['img'];
         
-
         fs.stat('./uploads/slider/'+ img, function(err){
             if(!err){
                 let path_img = './uploads/slider/'+img;

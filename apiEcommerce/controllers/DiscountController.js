@@ -240,5 +240,4 @@ export default {
       res.status(500).json({ message: "Error al obtener configuración de descuentos" });
     }
   },
-
 }

@@ -7,7 +7,6 @@ export default{
   register: async(req,res) =>{
     try {
       let data = req.body;
-    
       let valid_Product = await models.Product.findOne({title:data.title});
       if(valid_Product){
         res.status(200).json({
@@ -78,6 +77,7 @@ export default{
   },
 
   list: async(req,res) =>{
+    //console.log("QUERY",req.query.search);
     try {
       var filter = [];
       if(req.query.search){
@@ -95,12 +95,13 @@ export default{
           {"condition": req.query.condition},
         );
       }
-  
       let products = await models.Product.find({
         $and: filter,
-      }).populate("categorie")
+      })
+      .populate("categorie")
+      .populate("seller_id");
 
-      //console.log("PRO",products);
+      //console.log("PRO-ALL",products);
   
       products = products.map(product => {
         return resourses.Product.product_list(product);
@@ -115,14 +116,13 @@ export default{
       });
     }
   },
-
   list_seller: async (req, res) => {
   try {
    
     // Obtenemos seller_id (puede venir de req.body, req.query o params, según tu diseño)
     const sellerId = req.user._id;
 
-    console.log(req.user);
+    //console.log("USER-SELLER-ID",req.user);
 
     if (!sellerId) {
       return res.status(400).json({ message: "seller_id es obligatorio" });
@@ -130,6 +130,8 @@ export default{
 
     // Creamos el filtro inicial con seller_id
     let filter = { seller_id: sellerId };
+
+    //console.log("FILTRO-INICIAL:", filter);
 
     // Agregamos condiciones adicionales si existen
     if (req.query.search) {
@@ -145,7 +147,7 @@ export default{
     // Ejecutamos la consulta con populate
     let products_seller = await models.Product.find(filter).populate("categorie");
 
-   // console.log("PRO", products_seller);
+    //console.log("PRO", products_seller);
 
     // Mapear productos según tu recurso
     products_seller = products_seller.map(product_seller => {
@@ -159,8 +161,6 @@ export default{
     res.status(500).send({ message: "OCURRIO UN PROBLEMA" });
   }
 },
-
-
   remove: async(req,res) =>{
     try {
       let _id = req.query._id;
@@ -170,7 +170,6 @@ export default{
         massage: "Super! El producto se eliminó satisfactoriamente"
       });
 
-      
     } catch (error) {
       res.status(500).send({
         message: "OCURRIO UN PROBLEMA"
@@ -178,7 +177,6 @@ export default{
     }
 
   },
-
   obtener_imagen: async(req,res) =>{
     try {
             var img = req.params['img'];
@@ -197,7 +195,6 @@ export default{
           });
         }
   },
-
   show: async(req,res) =>{
     try {
       var product_id = req.params.id;
@@ -217,7 +214,6 @@ export default{
     }
 
   },
-
   register_imagen: async(req,res) =>{
     try {
         var img_path = req.files.imagen.path;
@@ -247,7 +243,6 @@ export default{
     }
 
   },
-
   remove_imagen:async(req,res) =>{
     try {
        await models.Product.findByIdAndUpdate({_id: req.body._id}, {
@@ -269,7 +264,4 @@ export default{
     }
 
   },
-
-
-
 }

@@ -4,71 +4,113 @@
       style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
 </ng-container> -->
-<div class="modal-content">
+<div class="modal-content" [formGroup]="addUserForm">
   <div class="modal-header">
     <div class="modal-title h4" id="example-modal-sizes-title-lg">
-      <i class="icon-2x text-dark-50 flaticon-user-add mx-2"></i> Crear Usuario
+      <i class="icon-2x text-dark-50 flaticon-user-add mx-2"></i> Crear Usuario Admin
     </div>
   </div>
   <div class="overlay overlay-block cursor-default modal-body">
-    <!-- <ng-container *ngIf="isLoading$ | async">
-      <div class="overlay-layer bg-transparent">
-        <div class="spinner spinner-lg spinner-success"></div>
-      </div>
-    </ng-container> -->
-
     <div class="row">
       <div class="col-6">
         <div class="form-group">
           <label>Nombres: <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" placeholder="" [(ngModel)]="name" name="name">
-          <span class="form-text text-muted">Ingresa tus nombres completos.</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Ingresa tus nombres completos"
+          />
+          <div *ngIf="addUserForm.get('name')?.touched && addUserForm.get('name')?.invalid" class="text-danger">
+            <div *ngIf="addUserForm.get('name')?.errors?.required">Upss... El nombre es obligatorio.</div>
+            <div *ngIf="addUserForm.get('name')?.errors?.minlength">Upss ...El nombre debe tener al menos 2 caracteres.</div>
+            <div *ngIf="addUserForm.get('name')?.errors?.maxlength">Upss ...El nombre debe tener un maximo de 32 caracteres.</div>
+            <div *ngIf="addUserForm.get('name')?.errors?.pattern">Solo letras y números permitidos.</div>
+          </div>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
           <label>Apellidos: <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" placeholder="" [(ngModel)]="surname" name="surname">
-          <span class="form-text text-muted">Ingresa tus apellidos completos</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="surname"
+            placeholder="Ingresa tus apellidos completos"
+          />
+          <div *ngIf="addUserForm.get('surname')?.touched && addUserForm.get('surname')?.invalid" class="text-danger">
+            <div *ngIf="addUserForm.get('surname')?.errors?.required">Upss... El nombre es obligatorio.</div>
+            <div *ngIf="addUserForm.get('surname')?.errors?.minlength">Upss ...El nombre debe tener al menos 2 caracteres.</div>
+            <div *ngIf="addUserForm.get('surname')?.errors?.maxlength">Upss ...El nombre debe tener un maximo de 32 caracteres.</div>
+            <div *ngIf="addUserForm.get('surname')?.errors?.pattern">Solo letras y números permitidos.</div>
+          </div>
         </div>
       </div>
       <div class="col-12">
         <div class="form-group">
           <label>Dirección de correo: <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" placeholder="" [(ngModel)]="email" name="email">
-          <span class="form-text text-muted">Ingresa tu dirección de email</span>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Ingresa tu dirección de email"
+          />
+          <div *ngIf="addUserForm.get('email')?.touched && addUserForm.get('email')?.invalid" class="text-danger">
+            <div *ngIf="addUserForm.get('email')?.errors?.required">Upss...El email es obligatorio.</div>
+            <div *ngIf="addUserForm.get('email')?.errors?.email">Upss... El email no es válido.</div>
+            <div *ngIf="addUserForm.get('email')?.errors?.minlength">Upss...El email debe tener al menos 6 caracteres.</div>
+            <div *ngIf="addUserForm.get('email')?.errors?.maxlength">Upss ...El email debe tener un maximo de 32 caracteres.</div>
+          </div>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label for="">Contraseña: <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="" placeholder="******" [(ngModel)]="password" name="password">
+          <label>Contraseña: <span class="text-danger">*</span></label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="******"
+          />
+          <div *ngIf="addUserForm.get('password')?.touched && addUserForm.get('password')?.invalid" class="text-danger">
+            <div *ngIf="addUserForm.get('password')?.errors?.required">Upss... La contraseña es obligatoria.</div>
+            <div *ngIf="addUserForm.get('password')?.errors?.minlength">Upss... La contraseña debe tener al menos 6 caracteres.</div>
+            <div *ngIf="addUserForm.get('password')?.errors?.maxlength">Upss... La contraseña debe ser mayor a 10 caracteres.</div>
+            <div *ngIf="addUserForm.get('password')?.errors?.pattern">Upss... Solo letras y números permitidos</div>
+          </div>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label for="">Repetir Contraseña: <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="" placeholder="******" [(ngModel)]="repeat_password" name="repeat_password">
+          <label>Repetir Contraseña: <span class="text-danger">*</span></label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="repeat_password"
+            placeholder="******"
+          />
+          <div *ngIf="addUserForm.get('repeat_password')?.touched && addUserForm.get('repeat_password')?.invalid" class="text-danger">
+            La confirmación de la contraseña es obligatoria.
+          </div>
+          <div *ngIf="addUserForm.hasError('passwordMismatch') && addUserForm.get('repeat_password').touched" class="text-danger">
+            Las contraseñas no coinciden.
+          </div>
         </div>
       </div>
     </div>
-
-</div>
+  </div>
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-primary btn-elevate mr-2"
       (click)="save()"
+      [disabled]="addUserForm.invalid"
     >
       Registrar
     </button>
-    <button
-      type="button"
-      class="btn btn-light btn-elevate mr-2"
-      (click)="modal.dismiss()"
-    >
-      Cancel
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+      Cancelar
     </button>
-
   </div>
 </div>
+

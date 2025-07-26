@@ -9,6 +9,8 @@ export interface Payment {
   n_transaction: string;
   total_Bs: number;
   method_payment: string;
+  phone?: string;
+  bank: string;
   products: Array<{
     product: { name: string; price: number; seller_id?: any };
     quantity: number;
