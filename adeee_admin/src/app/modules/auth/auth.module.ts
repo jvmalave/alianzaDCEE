@@ -11,6 +11,8 @@ import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
 import { LoginSellerComponent } from './login-seller/login-seller.component';
 import { RegisterSellerComponent } from './register-seller/register-seller.component';
+import { TermsModalComponent } from '../shared/terms-modal/terms-modal.component'; 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -23,6 +25,8 @@ import { RegisterSellerComponent } from './register-seller/register-seller.compo
     AuthComponent,
     LoginSellerComponent,
     RegisterSellerComponent,
+    TermsModalComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -31,6 +35,7 @@ import { RegisterSellerComponent } from './register-seller/register-seller.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgbModule,
 
   ]
 })

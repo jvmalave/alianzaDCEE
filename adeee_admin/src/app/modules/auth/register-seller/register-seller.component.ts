@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-alert/noticy-alert.component';
+import { TermsModalComponent } from '../../shared/terms-modal/terms-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 declare function alertDanger([]):any; 
@@ -37,7 +39,8 @@ export class RegisterSellerComponent implements OnInit {
     private fb: FormBuilder,
     public AuthService: AuthService,
     public router: Router,
-    public toaster: Toaster
+    public toaster: Toaster,
+    private modalService: NgbModal
    )
    { }
 
@@ -45,33 +48,31 @@ export class RegisterSellerComponent implements OnInit {
     if(this.AuthService.user){
        this.router.navigate(['/']);
      }
-
-
     this.registerSellerForm = this.fb.group({
       rol: ['emprendedor', Validators.required],
       name: ['', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(32),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       surname: ['', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(32),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       company:['', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       decription_company:['', [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(250),
-        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       nif:['', [
         Validators.required,
@@ -83,7 +84,7 @@ export class RegisterSellerComponent implements OnInit {
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(60),
-        Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       phone: ['', [
         Validators.required,
@@ -132,6 +133,9 @@ export class RegisterSellerComponent implements OnInit {
       console.log("FORMULARIO INVALIDO");
       this.registerSellerForm.markAllAsTouched(); 
     }
+  }
+  openTermsModal() {
+    this.modalService.open(TermsModalComponent, { size: 'lg' });
   }
 }
 

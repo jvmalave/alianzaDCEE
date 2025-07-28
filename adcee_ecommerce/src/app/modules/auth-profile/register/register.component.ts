@@ -38,13 +38,13 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(32),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       surname: ['', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(32),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern('^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+( [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+)*$')
       ]],
       password: ['', [
         Validators.required,

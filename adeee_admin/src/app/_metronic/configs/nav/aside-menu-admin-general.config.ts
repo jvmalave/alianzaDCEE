@@ -288,7 +288,7 @@ if (userRol$ === 'admin'){
           submenu: [
             {
               title: 'Cursos disponible',
-              page: '/academy/lista-de-cursos',
+              page: '/academia/lista-de-cursos',
             }
           ]
         },

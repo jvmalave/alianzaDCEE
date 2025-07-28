@@ -136,48 +136,154 @@ export class EditNewProductComponent implements OnInit {
   removeTag(i){
     this.tags.splice(i,1);
   }
-  update(){
-    if(!this.title || !this.categorie || (this.condition !== "3" && (!this.price_bs || !this.price_usd)) || !this.description || !this.resumen || !this.sku || this.tags.length == 0) {
-      this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
+
+  update() {
+    if (!this.title) {
+    this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese el título del producto.'` });
+    return;
+    }
+    if (!this.sku) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese el SKU del producto.'` });
       return;
     }
-
-    // Verifica si la condición es "Donación" (3)
-    if (this.condition === "3") {
-      this.price_bs = 0;
-      this.price_usd = 0;
+    if (!this.categorie) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Seleccione una categoría.'` });
+      return;
     }
-
-    let formData = new FormData();
-    formData.append("_id", this.product_id);
-    formData.append("title", this.title);
-    formData.append("categorie", this.categorie);
-    formData.append("price_bs", String(this.price_bs)); // Convertir a String
-    formData.append("price_usd", String(this.price_usd)); // Convertir
-    formData.append("condition", this.condition);
-    formData.append("description", this.description);
-    formData.append("resumen", this.resumen);
-    formData.append("state", this.state);
-    formData.append("sku", this.sku);
-    formData.append("type_inventario",this.type_inventario);
-    formData.append("tags", JSON.stringify(this.tags));
-    formData.append("stock", this.stock);
-    if(this.imagen_file){
-      formData.append("imagen", this.imagen_file);
+    if (!this.condition) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Seleccione la condicion.'` });
+      return;
     }
-
-    this._productService.updateProduct(formData).subscribe((resp:any) => {
-      console.log(resp);
-
-      if(resp.code == 403){
-        this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! El producto ya existe, agregue otro nombre'`});
-        return;
-      }else{
-        this.toaster.open(NoticyAlertComponent,{text: `success-'Super! El producto se ha actualizaado satisfactoriamente'`});
+    // Validar price_bs y price_usd solo si la condición no es "Donación" (3)
+    if (this.condition !== "3") {
+      const priceBsNum = Number(this.price_bs);
+      if (this.price_bs === null || this.price_bs === undefined || isNaN(priceBsNum)) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en Bs, debe ser válido (solo números).'` });
         return;
       }
-    })
+      if (this.price_bs <=0) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en Bs no puede ser negativo o igual a 0.'` });
+        return;
+      }
+      const priceUsdNum = Number(this.price_usd);
+      if (this.price_usd === null || this.price_usd === undefined || isNaN(priceUsdNum)) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en USD, debe ser válido (solo números).'` });
+        return;
+      }
+      if (this.price_usd <= 0) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en USD no puede ser negativo o igual a 0.'` });
+        return;
+      }
+    }
+    
+    if (!this.resumen) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese el resumen del producto.'` });
+      return;
+    }
+    if (!this.description) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese la descripción del producto.'` });
+      return;
+    }
+    if (!this.tags || this.tags.length === 0) {
+      this.toaster.open(NoticyAlertComponent, { text: `danger-'Agregue al menos una etiqueta.'` });
+      return;
+    }
+  // if(!this.title || !this.categorie || (this.condition !== "3" && (!this.price_bs || !this.price_usd)) || !this.description || !this.resumen || !this.sku || this.tags.length == 0) {
+  //   this.toaster.open(NoticyAlertComponent, { text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
+  //   return;
+  // }
+
+  // Verifica si la condición es "Donación" (3)
+  if (this.condition === "3") {
+    this.price_bs = 0;
+    this.price_usd = 0;
   }
+  let formData = new FormData();
+  formData.append("_id", this.product_id);
+  formData.append("title", this.title);
+  formData.append("categorie", this.categorie);
+  formData.append("price_bs", String(this.price_bs)); // Convertir a String
+  formData.append("price_usd", String(this.price_usd)); // Convertir a String
+  formData.append("condition", this.condition);
+  formData.append("description", this.description);
+  formData.append("resumen", this.resumen);
+  formData.append("state", this.state);
+  formData.append("sku", this.sku);
+  formData.append("type_inventario", this.type_inventario);
+  formData.append("tags", JSON.stringify(this.tags));
+  formData.append("stock", String(this.stock)); // Asegúrate que sea string
+  if (this.imagen_file) {
+    formData.append("imagen", this.imagen_file);
+  }
+
+  this._productService.updateProduct(formData).subscribe({
+    next: (resp: any) => {
+      console.log("UPDATE", resp);
+
+      if (resp.code === 403) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'Upss! El producto ya existe, agregue otro nombre'` });
+        return;
+      } else {
+        this.toaster.open(NoticyAlertComponent, { text: `success-'Super! El producto se ha actualizado satisfactoriamente'` });
+        // Opcional: puedes limpiar campos o actualizar la vista aquí si lo deseas
+        return;
+      }
+    },
+    error: (error) => {
+      console.error("ERROR UPDATE", error);
+      // Captura los errores que envía el backend, por ejemplo errores de validación numérica
+      if (error.status === 400 && error.error && error.error.message) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'${error.error.message}'` });
+      } else {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'Ocurrió un error inesperado. Intente más tarde.'` });
+      }
+    }
+  });
+}
+
+
+  // update(){
+  //   if(!this.title || !this.categorie || (this.condition !== "3" && (!this.price_bs || !this.price_usd)) || !this.description || !this.resumen || !this.sku || this.tags.length == 0) {
+  //     this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! Necesita ingresar todos los campos del formulario'`});
+  //     return;
+  //   }
+
+  //    Verifica si la condición es "Donación" (3)
+  //   if (this.condition === "3") {
+  //     this.price_bs = 0;
+  //     this.price_usd = 0;
+  //   }
+
+  //   let formData = new FormData();
+  //   formData.append("_id", this.product_id);
+  //   formData.append("title", this.title);
+  //   formData.append("categorie", this.categorie);
+  //   formData.append("price_bs", String(this.price_bs)); // Convertir a String
+  //   formData.append("price_usd", String(this.price_usd)); // Convertir
+  //   formData.append("condition", this.condition);
+  //   formData.append("description", this.description);
+  //   formData.append("resumen", this.resumen);
+  //   formData.append("state", this.state);
+  //   formData.append("sku", this.sku);
+  //   formData.append("type_inventario",this.type_inventario);
+  //   formData.append("tags", JSON.stringify(this.tags));
+  //   formData.append("stock", this.stock);
+  //   if(this.imagen_file){
+  //     formData.append("imagen", this.imagen_file);
+  //   }
+
+  //   this._productService.updateProduct(formData).subscribe((resp:any) => {
+  //     console.log(resp);
+
+  //     if(resp.code == 403){
+  //       this.toaster.open(NoticyAlertComponent,{text: `danger-'Upss! El producto ya existe, agregue otro nombre'`});
+  //       return;
+  //     }else{
+  //       this.toaster.open(NoticyAlertComponent,{text: `success-'Super! El producto se ha actualizaado satisfactoriamente'`});
+  //       return;
+  //     }
+  //   })
+  // }
 
   listProducts(){
     this.router.navigateByUrl("/productos/lista-de-productos");

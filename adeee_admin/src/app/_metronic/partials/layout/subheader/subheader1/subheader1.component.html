@@ -24,7 +24,7 @@
       <!--begin::Page Heading-->
       <div class="d-flex align-items-baseline flex-wrap mr-5">
         <!--begin::Page Title-->
-        <ng-container *ngIf="title$ | async as _title">
+        <!-- <ng-container *ngIf="title$ | async as _title">
           <h5 class="text-dark font-weight-bold my-1 mr-5">
             {{ _title }}
             <ng-container *ngIf="subheaderDisplayDesc">
@@ -33,21 +33,22 @@
               </ng-container>
             </ng-container>
           </h5>
-        </ng-container>
+        </ng-container> -->
         <!--end::Page Title-->
 
         <!--begin::Breadcrumb-->
         <ul
-          class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm"
+          class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-m"
         >
           <li
             class="breadcrumb-item"
             *ngFor="let bc of breadcrumbs"
             routerLinkActive="active"
           >
-            <a [routerLink]="bc.linkPath" class="text-muted">
+          {{ bc.linkText }}
+            <!-- <a [routerLink]="bc.linkPath" class="text-muted">
               {{ bc.linkText }}
-            </a>
+            </a> -->
           </li>
         </ul>
         <!--end::Breadcrumb-->
