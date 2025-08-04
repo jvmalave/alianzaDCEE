@@ -36,19 +36,19 @@ export class HeaderComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
 
     this.ecommerceGuest.configInitial().subscribe((resp:any) => {
-      console.log(resp);
+      //console.log(resp);
       this.categories = resp.categories;
     })
     
     this.user = this.cartService._authService.user;
     this.cartService.currentDataCart$.subscribe((resp: any) => {
-      console.log(resp);
+      //console.log(resp);
       this.listCarts = resp;
       this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
     })
     if(this.cartService._authService.user){
       this.cartService.listCarts(this.cartService._authService.user._id).subscribe((resp:any) => {
-        console.log(resp);
+        //console.log(resp);
         // this.listCarts = resp.carts;
         
         resp.carts.forEach((cart:any) => {

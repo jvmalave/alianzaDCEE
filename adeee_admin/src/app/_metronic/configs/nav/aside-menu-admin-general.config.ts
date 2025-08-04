@@ -157,6 +157,22 @@ if (userRol$ === 'admin'){
             }
           ]
         },
+
+        {
+          title: 'CONFIGURACION',
+          root: true,
+          name: "customize",
+          bullet: 'dot',
+          icon: 'flaticon2-user-outline-symbol', 
+          svg: './assets/media/svg/icons/General/Settings-2.svg',
+          page: '/customize',
+          submenu: [
+            {
+              title: 'Actualizar Configuracion',
+              page: '/customize/c/lista-configuracion',
+            }
+          ]
+        },
       ]
   
   }

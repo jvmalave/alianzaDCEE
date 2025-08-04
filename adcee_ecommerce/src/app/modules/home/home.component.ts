@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {URL_FROTEND_ADM } from '../../config/config'
 
 
+
 declare var $:any;
 declare function HOMEINITTEMPLATE([]):any;
 declare function ModalProductDetail():any;
@@ -27,6 +28,18 @@ export class HomeComponent implements OnInit {
   product_selected: any = null;
   FlashSale:any = null;
   FlashPrductList:any =[];
+  newPrice_usd_porc_flash: any = 0;
+  newPrice_usd_porc_campaign: any = 0;
+  newPrice_usd_mon_flash: any = 0;
+  newPrice_usd_mon_campaign: any = 0;
+  newPrice_bs_porc_flash: any = 0;
+  newPrice_bs_porc_campaign: any = 0;
+  newPrice_bs_mon_flash: any = 0;
+  newPrice_bs_mon_campaign: any = 0;
+  tasaCambio_bcv: any = 0;
+  price_bs: any = 0;
+  campaign_discount: any = null;
+  
   
 
 
@@ -42,7 +55,7 @@ export class HomeComponent implements OnInit {
   ngOnInit():void {
     let TIME_NOW = new Date().getTime()
     this.homeService.listHome(TIME_NOW).subscribe((resp:any) =>{
-      console.log(resp);
+      console.log("ECOMMERCE",resp);
       this.sliders = resp.sliders;
       this.categories = resp.categories;
       this.productPromo = resp.productPromo;
@@ -51,8 +64,8 @@ export class HomeComponent implements OnInit {
       this.donation_products = resp.donation_products;
       this.FlashSale = resp.FlashSale;
       this.FlashPrductList = resp.campaign_products;
-     
-      
+      this.campaign_discount = resp.campaign_discount;
+    
       setTimeout(() => {
         if(this.FlashSale){
           var eventCounter = $(".sale-countdown");
@@ -73,6 +86,12 @@ export class HomeComponent implements OnInit {
         HOMEINITTEMPLATE($);
       }, 50);
     })
+
+    this.homeService.getConfig().subscribe((configResp: any) => {
+    // carga configuración dinámica
+    this.tasaCambio_bcv = configResp.tasaCambio_bcv;
+    console.log('Configuración cargada:', configResp);
+  });
   }
 
 
@@ -90,29 +109,131 @@ export class HomeComponent implements OnInit {
     }, 100);
   }
 
-  getCalNewPrice(product:any){
-    
-    if(this.FlashSale.type_discount == 1){
-      return product.price_usd - product.price_usd*this.FlashSale.discount*0.01;
-    }else{
-      return product.price_usd - this.FlashSale.discount
+
+
+  getPrice_bs(product:any){
+    this.price_bs = product.price_usd*this.tasaCambio_bcv;
+    return Math.round(this.price_bs*100)/100;
+  }
+
+
+  getCalNewPrice(product: any): number {
+  if (!product || !product.price_usd) {
+    return 0;
+  }
+
+  let price = product.price_usd;
+
+  // Aplicar descuento FlashSale si existe
+  if (product.FlashSale && product.FlashSale.state === 1) {  // asegúrate que el descuento esté activo
+    const flashDiscount = product.FlashSale.discount;
+    const flashTypeDiscount = product.FlashSale.type_discount;
+
+    if (flashTypeDiscount === 1) {
+      // Descuento porcentaje
+      price = price * (1 - flashDiscount / 100);
+    } else if (flashTypeDiscount === 2) {
+      // Descuento monto fijo
+      price = price - flashDiscount;
     }
   }
+
+  // Aplicar descuento campaña si existe
+  if (product.campaign_discount && product.campaign_discount.state === 1) {  // activo
+    let campaignDiscount = product.campaign_discount.discount;
+    let campaignTypeDiscount = product.campaign_discount.type_discount;
+
+    if (campaignTypeDiscount === 1) {
+      // Descuento porcentaje
+      price = price * (1 - campaignDiscount / 100);
+    } else if (campaignTypeDiscount === 2) {
+      // Descuento monto fijo
+      price = price - campaignDiscount;
+    }
+  }
+
+  // Evitar precio negativo
+  if (price < 0) price = 0;
+
+  // Redondear a 2 decimales
+  return Math.round(price * 100) / 100;
+}
+
+  getCalNewPriceBs(product: any): number {
+  if (!product || !product.price_usd) {
+    return 0;
+  }
+
+  let price = product.price_usd*this.tasaCambio_bcv;
+
+  // Aplicar descuento FlashSale si existe
+  if (product.FlashSale && product.FlashSale.state === 1) {  // asegúrate que el descuento esté activo
+    const flashDiscount = product.FlashSale.discount;
+    const flashTypeDiscount = product.FlashSale.type_discount;
+
+    if (flashTypeDiscount === 1) {
+      // Descuento porcentaje
+      price = price * (1 - flashDiscount / 100);
+    } else if (flashTypeDiscount === 2) {
+      // Descuento monto fijo
+      price = price - flashDiscount*this.tasaCambio_bcv;
+    }
+  }
+
+  // Aplicar descuento campaña si existe
+  if (product.campaign_discount && product.campaign_discount.state === 1) {  // activo
+    let campaignDiscount = product.campaign_discount.discount;
+    let campaignTypeDiscount = product.campaign_discount.type_discount;
+
+    if (campaignTypeDiscount === 1) {
+      // Descuento porcentaje
+      price = price * (1 - campaignDiscount / 100);
+    } else if (campaignTypeDiscount === 2) {
+      // Descuento monto fijo
+      price = price - campaignDiscount*this.tasaCambio_bcv;
+    }
+  }
+
+  // Evitar precio negativo
+  if (price < 0) price = 0;
+
+  // Redondear a 2 decimales
+  return Math.round(price * 100) / 100;
+}
 
   getDiscountProduct(bestProduct:any, is_sale_flash = null){
     
     if(is_sale_flash){
       if(this.FlashSale.type_discount == 1){// por porcentaje
-        return bestProduct.price_usd*this.FlashSale.discount*0.01;
+        return Math.round((bestProduct.price_usd*this.FlashSale.discount*0.01)*100)/100;
       }else{// por moneda
-        return this.FlashSale.discount;
+        return Math.round(this.FlashSale.discount*100)/100;
       }
     }else{
       if(bestProduct.campaign_discount){
         if(bestProduct.campaign_discount.type_discount == 1){// por porcentaje
-          return bestProduct.price_usd*bestProduct.campaign_discount.discount*0.01;
+          return Math.round((bestProduct.price_usd*bestProduct.campaign_discount.discount*0.01)*100)/100;
         }else{// por moneda
-          return bestProduct.campaign_discount.discount;
+          return Math.round(bestProduct.campaign_discount.discount*100)/100;
+        }
+      }
+    }
+    return 0;
+  }
+
+  getDiscountProductBs(bestProduct:any, is_sale_flash = null){
+    if(is_sale_flash){
+      if(this.FlashSale.type_discount == 1){// por porcentaje
+        return Math.round((bestProduct.price_usd*this.tasaCambio_bcv*this.FlashSale.discount*0.01)*100)/100;
+      }else{// por moneda
+        return Math.round(this.FlashSale.discount*this.tasaCambio_bcv*100)/100;
+      }
+    }else{
+      if(bestProduct.campaign_discount){
+        if(bestProduct.campaign_discount.type_discount == 1){// por porcentaje
+          return Math.round((bestProduct.price_usd*this.tasaCambio_bcv*bestProduct.campaign_discount.discount*0.01)*100)/100;
+        }else{// por moneda
+          return Math.round(bestProduct.campaign_discount.discount*this.tasaCambio_bcv*100)/100;
         }
       }
     }

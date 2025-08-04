@@ -16,6 +16,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { EditNewVariedadComponent } from './variedades/edit-new-variedad/edit-new-variedad.component';
 import { DeleteNewVariedadComponent } from './variedades/delete-new-variedad/delete-new-variedad.component';
 import { DeleteGaleriaImagenComponent } from './delete-galeria-imagen/delete-galeria-imagen.component'
+import { PipesModule } from "../../pipes/pipes.module";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DeleteGaleriaImagenComponent } from './delete-galeria-imagen/delete-gal
     CRUDTableModule,
     NgbModalModule,
     NgbDatepickerModule,
-    EditorModule, 
-  ]
+    EditorModule,
+    PipesModule
+]
 })
 export class ProductsModule { }

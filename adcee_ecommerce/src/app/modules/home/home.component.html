@@ -13,7 +13,7 @@
             <div class="col-lg-6 col-md-8">
                 <div class="inner">
                     <ul class="axil-breadcrumb">
-                        <li class="axil-breadcrumb-item"><a href="index.html" aria-current="page">Home</a></li>
+                        <li class="axil-breadcrumb-item"><a href="index.html" aria-current="page">Vitrina Adel</a></li>
                         
                     </ul>
                     <h2 class="title">Tu Tienda, Tu Gente, <br/>Tu Comunidad</h2>
@@ -92,12 +92,14 @@
                   <div class="col-lg-3" *ngIf="productPromo && productPromo.length > 0">
                       <div class="slider-product-box">
                           <div class="product-thumb">
-                              <a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">{{ productPromo[0].title }}>
+                              <a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">
                                   <img [src]="productPromo[0].imagen" alt="Product">
                               </a>
                           </div>
                           <h6 class="title"><a [routerLink]="['/landing-producto', productPromo[0].slug]" [queryParams]="{_id: productPromo[0]._id}">{{ productPromo[0].title }}</a></h6>
-                          <span class="price">$ {{  productPromo[0].price_usd }}</span>
+                          <span class="price">Bs. {{ getPrice_bs(productPromo[0]) | venezuelanCurrency}}</span>
+                          <br/>
+                          <span class="price"><small>Ref. {{ productPromo[0].price_usd | venezuelanCurrency}}</small></span>
                       </div>
                   </div>
                 </div>
@@ -134,7 +136,7 @@
                             </div>
                               <div class="product-hover-action">
                                   <ul class="cart-action">
-                                      <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
+                                      <li class="wishlist"><a [routerLink]="['/landing-producto', product.slug]" [queryParams]="{_id: FlashSale._id}"><i class="far fa-heart"></i></a></li>
                                       <li class="select-option"><a href="#" onclick="return false" (click)="addCart(product,1)">Agregar al Carrito</a></li>
                                       <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(product, FlashSale)"><i class="far fa-eye"></i></a></li>
                                   </ul>
@@ -147,8 +149,12 @@
                                         <br>
                                         <br>
                                   <div class="product-price-variant">
-                                      <span class="price old-price">$ {{ product.price_usd}}</span>
-                                      <span class="price current-price">$ {{ getCalNewPrice(product)}}</span>
+                                      <span class="price old-price">Bs.{{ getPrice_bs(product) | venezuelanCurrency}}</span>
+                                      <span class="price current-price">Bs. {{ getCalNewPriceBs(product) | venezuelanCurrency }}</span>
+                                      <br/>
+                                      <span class="price old-price"><small>Ref. {{ product.price_usd | venezuelanCurrency }}</small></span>
+                                      <span class="price current-price"><small>Ref. {{ getCalNewPrice(product) | venezuelanCurrency }}</small></span>
+                                      
                                   </div>
                               </div>
                           </div>
@@ -211,11 +217,11 @@
                                   <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                                 </ul>
                               </div>
-                            </div>
-                            <div class="label-block label-right" *ngIf="bestProduct.campaign_discount">
+                          </div>
+                          <div class="label-block label-right" *ngIf="bestProduct.campaign_discount">
                               <div class="product-badget" *ngIf="bestProduct.campaign_discount.type_discount == 1">{{bestProduct.campaign_discount.discount}}% Off</div>
                               <div class="product-badget" *ngIf="bestProduct.campaign_discount.type_discount == 2">$ {{bestProduct.campaign_discount.discount}} Off</div>
-                            </div>
+                          </div>
                           <div class="product-content">
                               <div class="inner">
                                   <div class="product-rating">
@@ -232,8 +238,14 @@
                                   <div class="product-price-variant">
                                     <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
                                         <br>
-                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">${{ bestProduct.price_usd }}</span> 
-                                    <span class="price current-price">$ {{ bestProduct.price_usd - getDiscountProduct(bestProduct) }} </span>
+                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                      Bs. {{ getPrice_bs(bestProduct) | venezuelanCurrency}}</span>
+                                    <span class="price current-price">Bs {{ (getPrice_bs(bestProduct) - getDiscountProductBs(bestProduct)) | venezuelanCurrency }}</span>
+                                    <br/>
+                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                      Ref. {{ bestProduct.price_usd | venezuelanCurrency }}</span> 
+                                    <span class="price current-price"><small>Ref. {{ bestProduct.price_usd - getDiscountProduct(bestProduct) | venezuelanCurrency }}</small></span>
+                                    
                                   </div>
                               </div>
                           </div>
@@ -294,7 +306,7 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                           <div class="axil-product product-style-one">
                               <div class="thumbnail">
-                                  <a [routerLink]="['/landing-producto', our_product.slug]">
+                                  <a [routerLink]="['/landing-producto', our_product.slug]" [queryParams]="getRouterDiscount(our_product)">
                                       <img data-sal="zoom-out" style="width:255px ; height:255px;object-fit: cover;" data-sal-delay="200" data-sal-duration="800"  class="main-img" [src]="our_product.imagen" alt="Product Images">
                                       <img class="hover-img" style="width:255px ; height:255px;object-fit: cover;" [src]="our_product.imagen_two" alt="Product Images2">
                                   </a>
@@ -310,7 +322,7 @@
                                                   Agregar al Carrito
                                               </a>
                                           </li> -->
-                                          <li class="wishlist"><a [routerLink]="['/landing-producto', our_product.slug]"><i class="far fa-heart"></i></a></li>
+                                          <li class="wishlist"><a [routerLink]="['/landing-producto', our_product.slug]"[queryParams]="getRouterDiscount(our_product)"><i class="far fa-heart"></i></a></li>
                                       </ul>
                                   </div>
                               </div>
@@ -326,14 +338,15 @@
                                         </span>
                                         <span class="rating-number">({{ our_product.count_review}})</span>
                                       </div>
-                                      <h5 class="title"><a [routerLink]="['/landing-producto', our_product.slug]"> {{ our_product.title }}</a></h5>
+                                      <h5 class="title"><a [routerLink]="['/landing-producto', our_product.slug]" [queryParams]="getRouterDiscount(our_product)"> {{ our_product.title }}</a></h5>
                                       <div class="product-price-variant">
                                         <span><small>Producto {{ our_product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
                                         <br>
-                                        <span class="price old-price" *ngIf="our_product.campaign_discount">${{ our_product.price_usd }}</span> 
-                                        <span class="price current-price">$ {{ our_product.price_usd - getDiscountProduct(our_product) }} </span>
-                                          <!-- <span class="price current-price">$ {{ our_product.price_usd }}</span> -->
-                                          <!-- <span class="price old-price">$49.99</span> -->
+                                        <span class="price old-price" *ngIf="our_product.campaign_discount">Bs. {{ getPrice_bs(our_product) | venezuelanCurrency}}</span> 
+                                        <span class="price current-price">Bs. {{ getPrice_bs(our_product) - getDiscountProductBs(our_product) | venezuelanCurrency }} </span>
+                                        <br>
+                                        <span class="price old-price" *ngIf="our_product.campaign_discount"><small>Ref. {{ our_product.price_usd | venezuelanCurrency}}</small></span> 
+                                        <span class="price current-price"><small>Ref. {{ our_product.price_usd - getDiscountProduct(our_product) | venezuelanCurrency}}</small></span>
                                       </div>
                                   </div>
                               </div>
@@ -704,14 +717,25 @@
                               </div>
                               <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title}}</a></h5>
                               <div class="product-price-variant">
+                                    <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                        <br>
+                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                      Bs. {{ getPrice_bs(bestProduct) | venezuelanCurrency}}</span>
+                                    <span class="price current-price">Bs {{ (getPrice_bs(bestProduct) - getDiscountProductBs(bestProduct)) | venezuelanCurrency }}</span>
+                                    <br/>
+                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                      Ref. {{ bestProduct.price_usd | venezuelanCurrency }}</span> 
+                                    <span class="price current-price"><small>Ref. {{ bestProduct.price_usd - getDiscountProduct(bestProduct) | venezuelanCurrency }}</small></span>
+                                    
                                   <!-- <span class="price old-price">$</span> -->
-                                  <span class="price current-price">$ {{ bestProduct.price_usd }}</span>
+                                   <!-- <span class="price current-price">$ {{ getPrice_bs(bestProduct) | venezuelanCurrency }}</span>
+                                   <br>
+                                  <span class="price current-price">$ {{ bestProduct.price_usd | venezuelanCurrency }}</span> -->
                               </div>
                           </div>
                           <div class="product-hover-action">
                               <ul class="cart-action justify-content-center">
                                   <li class="wishlist danger"><a [routerLink]="['/landing-producto', bestProduct.slug]"><i class="far fa-heart"></i></a></li>
-                                  <!-- <li class="select-option"><a href="#" onclick="return false" (click)="addCart(bestProduct)">Agregar al Carrito</a></li> -->
                                   <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal" (click)="OpenModal(bestProduct)"><i class="far fa-eye"></i></a></li>
                               </ul>
                           </div>
@@ -753,7 +777,6 @@
         <!-- End .container -->
     </div>
     <!-- Start register seller Area  -->
-
 </main>
 
 <!-- Start Service Area  -->
@@ -776,7 +799,7 @@
                         <img src="./assets/images/icons/service4.png" alt="Fast">
                     </div>
                     <div class="content">
-                        <h6 class="title py-3">Rápido &amp; Seguro</h6>
+                        <h6 class="title py-3">Seguro</h6>
                     </div>
                 </div>
             </div>
@@ -814,7 +837,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" *ngIf="product_selected">
                 <div class="single-product-thumb">
@@ -834,10 +857,19 @@
                                               <div class="product-badget">${{ product_selected.FlashSale.discount }} OFF</div>
                                             </div>
                                           </ng-container>
+                                          <ng-container *ngIf="product_selected.campaign_discount">
+                                            <div class="label-block label-right" *ngIf="product_selected.campaign_discount.type_discount == 1">
+                                              <div class="product-badget"> {{ product_selected.campaign_discount.discount }}% OFF</div>
+                                            </div>
+                                            <div class="label-block label-right" *ngIf="product_selected.campaign_discount.type_discount == 2">
+                                              <div class="product-badget">${{ product_selected.campaign_discount.discount }} OFF</div>
+                                            </div>
+                                          </ng-container>
+
                                           
                                           <div class="product-quick-view position-view">
                                               <a [href]="galeria.imagen" class="popup-zoom">
-                                                  <i class="far fa-search-plus"></i>
+                                                  <i class="fas fa-search-plus"></i>
                                               </a>
                                           </div>
                                         </div>
@@ -867,9 +899,35 @@
                                         </div>
                                     </div>
                                     <h3 class="product-title"> {{ product_selected.title }}</h3>
-                                    <span class="price-amount" *ngIf="!product_selected.FlashSale">$ {{ product_selected.price_usd }}</span>
+                                    <!-- Precio sin descuento: cuando NO hay FlashSale ni campaign_discount -->
+                                    <div *ngIf="!product_selected.FlashSale && !product_selected.campaign_discount">
+                                        <span class="price-amount">Bs. {{ getCalNewPriceBs(product_selected) | venezuelanCurrency}}
+                                          &nbsp;&nbsp;
+                                          <small>Ref. {{ product_selected.price_usd | venezuelanCurrency}}</small>
+                                        </span>
+                                    </div > 
+                                    <!-- Precio original tachado cuando hay FlashSale o campaign_discount -->
+                                     <div *ngIf="product_selected.FlashSale || product_selected.campaign_discount">
+                                       <span class="price-amount" >
+                                         Bs. <del>{{ getPrice_bs(product_selected) | venezuelanCurrency}}</del>
+                                         &nbsp;&nbsp;
+                                         <small>Ref. <del>{{ product_selected.price_usd | venezuelanCurrency}}</del></small>
+                                       </span>
+                                     </div>
+                                    <!-- Precio con descuento calculado (flash o campaña) -->
+                                     <div *ngIf="product_selected.FlashSale || product_selected.campaign_discount">
+                                       <span class="price-amount" >
+                                         Bs. {{ getCalNewPriceBs(product_selected) | venezuelanCurrency}}
+                                         &nbsp;&nbsp;
+                                         <small>Ref. {{ getCalNewPrice(product_selected) | venezuelanCurrency}}</small>
+                                       </span>
+                                     </div>
+
+                                    <!-- <span class="price-amount" *ngIf="!product_selected.FlashSale">$ {{ product_selected.price_usd }}</span>
                                     <span class="price-amount" *ngIf="product_selected.FlashSale">$ <del>{{ product_selected.price_usd }}</del></span>
-                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ {{ getCalNewPrice(product_selected) }}</span>
+                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ {{ getCalNewPrice(product_selected) }}</span> -->
+
+
                                     <ng-container *ngIf="product_selected.type_inventario == 1">
                                       <div *ngIf="product_selected.stock > 0">
                                         <ul class="product-meta">

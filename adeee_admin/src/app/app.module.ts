@@ -22,7 +22,7 @@ import { duration } from 'moment';
 import { DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { CustomizeModule } from './modules/customize/customize.module';
 
 
 
@@ -49,6 +49,7 @@ function appInitializer(authService: AuthService) {
     HttpClientModule,
     HighlightModule,
     ClipboardModule,
+    CustomizeModule,
    
     // #fake-start#
     environment.isMockEnabled

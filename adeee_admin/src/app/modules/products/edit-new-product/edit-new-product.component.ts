@@ -156,15 +156,15 @@ export class EditNewProductComponent implements OnInit {
     }
     // Validar price_bs y price_usd solo si la condición no es "Donación" (3)
     if (this.condition !== "3") {
-      const priceBsNum = Number(this.price_bs);
-      if (this.price_bs === null || this.price_bs === undefined || isNaN(priceBsNum)) {
-        this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en Bs, debe ser válido (solo números).'` });
-        return;
-      }
-      if (this.price_bs <=0) {
-        this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en Bs no puede ser negativo o igual a 0.'` });
-        return;
-      }
+      // const priceBsNum = Number(this.price_bs);
+      // if (this.price_bs === null || this.price_bs === undefined || isNaN(priceBsNum)) {
+      //   this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en Bs, debe ser válido (solo números).'` });
+      //   return;
+      // }
+      // if (this.price_bs <=0) {
+      //   this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en Bs no puede ser negativo o igual a 0.'` });
+      //   return;
+      // }
       const priceUsdNum = Number(this.price_usd);
       if (this.price_usd === null || this.price_usd === undefined || isNaN(priceUsdNum)) {
         this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en USD, debe ser válido (solo números).'` });
@@ -225,7 +225,7 @@ export class EditNewProductComponent implements OnInit {
         return;
       } else {
         this.toaster.open(NoticyAlertComponent, { text: `success-'Super! El producto se ha actualizado satisfactoriamente'` });
-        // Opcional: puedes limpiar campos o actualizar la vista aquí si lo deseas
+        
         return;
       }
     },

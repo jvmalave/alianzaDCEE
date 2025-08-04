@@ -6,7 +6,7 @@ import { ListCoursesComponent } from './list-courses/list-courses.component';
 const routes: Routes = [
   
 {
-  path: '',
+path: '',
 component: AcademyComponent,
 children:[
   {

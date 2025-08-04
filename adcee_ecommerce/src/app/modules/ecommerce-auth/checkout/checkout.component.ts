@@ -3,6 +3,7 @@ import { EcommerceAuthService } from '../_services/ecommerce-auth.service';
 import { CartService } from '../../ecommerce-guest/_services/cart.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { PaymentService } from '../_services/payment.service';
+import { HomeService } from '../../home/_services/home.service';
 
 interface Address {
   _id: string;
@@ -77,38 +78,39 @@ export class CheckoutComponent implements OnInit {
 
   address_client_selected:any = null;
   listCarts:any = [];
+  subtotalCarts:any = 0;
   totalCarts: any = 0;
-  tasaBcv: any = 0
+  tasaCambio_bcv: any = 0
+  porc_iva: any = 0;
+  monto_iva: any = 0
+  
   
 
   constructor(
     public authEcommerce: EcommerceAuthService,
     public cartService: CartService,
-    public paymentService: PaymentService
+    public paymentService: PaymentService,
+    public homeService: HomeService
   ) {}
 
   ngOnInit(): void {
     this.authEcommerce.listAddressClient(this.authEcommerce.authService.user._id).subscribe((resp:any) => {
       console.log(resp);
       this.listAddressClient = resp.address_client;
-    })
-    this.cartService.currentDataCart$.subscribe((resp:any) => {
+    });
+
+    this.cartService.currentDataCart$.subscribe((resp: any) => {
       console.log(resp);
-      this.tasaBcv = 106.86;
       this.listCarts = resp;
-      this.totalCarts = this.listCarts.reduce((sum:any,item:any) => sum + item.total, 0);
-      this.pagoMovilData.monto = this.totalCarts;
-      //this.pagoMovilData.montoBs = this.totalCarts * this.tasaBcv;
-      this.pagoMovilData.montoBs = this.redondearDosDecimales(this.totalCarts * this.tasaBcv);
-      this.transferenciaData.monto = this.totalCarts;
-      this.transferenciaData.montoBs =  this.redondearDosDecimales(this.totalCarts * this.tasaBcv);
-      this.pagoMovilData.moneda = "Bs"
-      this.transferenciaData.moneda = "Bs"
-    })
+      this.subtotalCarts = this.listCarts.reduce((sum: any, item: any) => sum + item.total, 0);
+      this.calcularMontos();
+    });
 
     this.cartService.cart.subscribe((cartItems: any[]) => {
     this.listCarts = cartItems;
     });
+
+    
     
     paypal.Buttons({
       // optional styling for buttons
@@ -190,11 +192,36 @@ export class CheckoutComponent implements OnInit {
           console.error('An error prevented the buyer from checking out with PayPal');
       }
     }).render(this.paypalElement?.nativeElement);
+
+    this.homeService.getConfig().subscribe((configResp: any) => {
+    // carga configuración dinámica
+    this.tasaCambio_bcv = configResp.tasaCambio_bcv;
+    this.porc_iva = configResp.porc_iva;
+    console.log('Configuración cargada-Checkout:', configResp);
+    this.calcularMontos();  // recalcular con los nuevos valores
+   });
+
   }
 
   redondearDosDecimales(valor: number): number {
       return Math.round((valor + 0.00001) * 100) / 100;
       }
+
+  calcularMontos() {
+  this.monto_iva = this.subtotalCarts * this.porc_iva * 0.01;
+  this.totalCarts = this.subtotalCarts + this.monto_iva;
+
+  this.pagoMovilData.monto = this.totalCarts;
+  this.pagoMovilData.montoBs = this.redondearDosDecimales(this.totalCarts * this.tasaCambio_bcv);
+  this.pagoMovilData.totalMontoBs = this.redondearDosDecimales(this.totalCarts * this.tasaCambio_bcv);
+
+  this.transferenciaData.monto = this.totalCarts;
+  this.transferenciaData.montoBs = this.redondearDosDecimales(this.totalCarts * this.tasaCambio_bcv);
+  this.transferenciaData.totalMontoBs = this.redondearDosDecimales(this.totalCarts * this.tasaCambio_bcv);
+
+  this.pagoMovilData.moneda = "Bs";
+  this.transferenciaData.moneda = "Bs";
+}
 
   store(){
     if(this.address_client_selected){
@@ -417,27 +444,7 @@ export class CheckoutComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  submitPagoMovil() {
-    const formData = new FormData();
-    formData.append('monto', this.pagoMovilData.monto);
-    formData.append('montoBs', this.pagoMovilData.montoBs);
-    formData.append('banco', this.pagoMovilData.banco);
-    formData.append('referencia', this.pagoMovilData.referencia);
-    formData.append('telefono', this.pagoMovilData.telefono);
-    if (this.selectedFile) {
-      formData.append('comprobante', this.selectedFile);
-    }
-  }
-  submitTransferencia() {
-    const formData = new FormData();
-    formData.append('monto', this.transferenciaData.monto);
-    formData.append('montoBs', this.transferenciaData.montoBs);
-    formData.append('banco', this.transferenciaData.banco);
-    formData.append('referencia', this.transferenciaData.referencia);
-    if (this.selectedFile) {
-      formData.append('comprobante', this.selectedFile);
-    }
-  }
+  
 }
 
 

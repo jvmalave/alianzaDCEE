@@ -4,6 +4,7 @@ import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-ale
 import { ProductService } from '../_services/product.service';
 import { CategoriesService } from '../../categories/_services/categories.service';
 import { AuthService } from '../../auth/_services/auth.service';
+import { CustomizeService } from '../../customize/services/customize.service';
 
 @Component({
   selector: 'app-add-new-product',
@@ -19,6 +20,7 @@ export class AddNewProductComponent implements OnInit {
   condition: any = "";
   price_usd: any = 0;
   price_bs: any = 0;
+  tasaCambio_bcv = 0;
   imagen_previzualizacion: any = null;
   imagen_file: any = null;
   description: any = null;
@@ -36,6 +38,7 @@ export class AddNewProductComponent implements OnInit {
     public _categorieService:CategoriesService,
     public toaster:Toaster,
     private _authService:AuthService,
+    public _customizeService:CustomizeService
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +48,7 @@ export class AddNewProductComponent implements OnInit {
       this.categories = resp.categories;
       this.loadServices();
     })
-    this.price_bs = 0;
+    
     this.price_usd = 0;
     this.seller_id = this._authService.user._id
     console.log("SELLER", this.seller_id)
@@ -100,15 +103,15 @@ export class AddNewProductComponent implements OnInit {
     }
     // Validar price_bs y price_usd solo si la condición no es "Donación" (3)
     if (this.condition !== "3") {
-      const priceBsNum = Number(this.price_bs);
-      if (this.price_bs === null || this.price_bs === undefined || isNaN(priceBsNum)) {
-        this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en Bs, debe ser válido (solo números).'` });
-        return;
-      }
-      if (this.price_bs <=0) {
-        this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en Bs no puede ser negativo o igual a 0.'` });
-        return;
-      }
+      // const priceBsNum = Number(this.price_bs);
+      // if (this.price_bs === null || this.price_bs === undefined || isNaN(priceBsNum)) {
+      //   this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en Bs, debe ser válido (solo números).'` });
+      //   return;
+      // }
+      // if (this.price_bs <=0) {
+      //   this.toaster.open(NoticyAlertComponent, { text: `danger-'El precio en Bs no puede ser negativo o igual a 0.'` });
+      //   return;
+      // }
       const priceUsdNum = Number(this.price_usd);
       if (this.price_usd === null || this.price_usd === undefined || isNaN(priceUsdNum)) {
         this.toaster.open(NoticyAlertComponent, { text: `danger-'Ingrese un precio en USD, debe ser válido (solo números).'` });

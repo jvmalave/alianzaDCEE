@@ -16,4 +16,10 @@ export class HomeService {
     let URL = URL_SERVICIOS+"/home/list?TIME_NOW="+TIME_NOW;
     return this.http.get(URL);
   }
+
+  getConfig() {
+    let URL = URL_SERVICIOS + "home/config_initial";
+  return this.http.get(URL);
+}
+
 }

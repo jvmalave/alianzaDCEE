@@ -7,12 +7,14 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { VenezuelanCurrencyPipe } from '../pipe/venezuelan-currency.pipe'
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    VenezuelanCurrencyPipe
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { RouterModule } from '@angular/router';
   ],
   exports:[
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    VenezuelanCurrencyPipe
   ]
 })
 export class SharedModule { }

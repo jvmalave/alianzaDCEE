@@ -3,6 +3,7 @@ import { EcommerceGuestService } from '../_services/ecommerce-guest.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CartService } from '../_services/cart.service';
 import { UserService } from '../../user/user.service';
+import { HomeService } from '../../home/_services/home.service';
 
 declare var $:any;
 declare function LandingProductDetail(): any;
@@ -29,8 +30,12 @@ export class LandingProductComponent implements OnInit{
   variedad_selected:any = null;
   variedad_selected_modal:any = null;
 
+  tasaCambio_bcv:any = 0;
+  
+
   discount_id:any;
   SALE_FLASH:any = null;
+  
 
   REVIEWS: any;
   AVG_REVIEW: any;
@@ -42,7 +47,8 @@ export class LandingProductComponent implements OnInit{
     public router: Router,
     public routerActived: ActivatedRoute,
     public cartService: CartService,
-    public userService: UserService
+    public userService: UserService,
+    public homeService: HomeService
 
   ){}
 
@@ -55,7 +61,7 @@ export class LandingProductComponent implements OnInit{
     })
     //console.log(this.slug);
     this.ecommerce_guest.showLandingProduct(this.slug, this.discount_id).subscribe((resp:any) => {
-      //console.log(resp);
+      console.log("LANDING",resp);
       this.product_selected = resp.product;
       this.related_products = resp.related_products;
       this.SALE_FLASH = resp.SALE_FLASH;
@@ -72,11 +78,16 @@ export class LandingProductComponent implements OnInit{
     }
   });
 }
-
       setTimeout(() => {
         LandingProductDetail();
       }, 50);
     })
+
+    this.homeService.getConfig().subscribe((configResp: any) => {
+    // carga configuración dinámica
+    this.tasaCambio_bcv = configResp.tasaCambio_bcv;
+    console.log('Configuración cargada-landing:', configResp);
+  });
   }
   
   OpenModal(bestProduct:any, FlashSale:any = null){
@@ -94,13 +105,52 @@ export class LandingProductComponent implements OnInit{
     }, 100);
   }
 
+  getPrice_bs(){
+    const price_bs = this.product_selected.price_usd*this.tasaCambio_bcv;
+    return Math.round(price_bs*100)/100;
+  }
+
   getDiscount(){
     let discount =  0;
     if(this.SALE_FLASH){
       if(this.SALE_FLASH.type_discount == 1){
-        return this.SALE_FLASH.discount*this.product_selected.price_usd*0.01;
+        return Math.round(this.SALE_FLASH.discount*this.product_selected.price_usd*0.01*100)/100;
       }else{
-        return this.SALE_FLASH.discount;
+        return Math.round(this.SALE_FLASH.discount*100)/100;
+      }
+    }
+    return discount; 
+  }
+
+
+  getDiscount1(){
+  
+    if(this.SALE_FLASH){
+      if(this.SALE_FLASH.type_discount == 1){// por porcentaje
+        return Math.round((this.product_selected.price_usd*this.SALE_FLASH.discount*0.01)*100)/100;
+      }else{// por moneda
+        return Math.round(this.SALE_FLASH.discount*100)/100;
+      }
+    }else{
+      if(this.SALE_FLASH.campaign_discount){
+        if(this.SALE_FLASH.campaign_discount.type_discount == 1){// por porcentaje
+          return Math.round((this.SALE_FLASH.price_usd*this.SALE_FLASH.campaign_discount.discount*0.01)*100)/100;
+        }else{// por moneda
+          return Math.round(this.SALE_FLASH.campaign_discount.discount*100)/100;
+        }
+      }
+    }
+    return 0;
+  }
+
+
+  getDiscountBs(){
+    let discount =  0;
+    if(this.SALE_FLASH){
+      if(this.SALE_FLASH.type_discount == 1){
+        return Math.round(this.SALE_FLASH.discount*this.product_selected.price_usd*this.tasaCambio_bcv*0.01*100)/100;
+      }else{
+        return Math.round(this.SALE_FLASH.discount*this.tasaCambio_bcv*100)/100;
       }
     }
     return discount; 

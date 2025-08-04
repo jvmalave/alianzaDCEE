@@ -193,18 +193,22 @@
                                     <ng-container *ngFor="let cart of listCarts">
                                       <tr class="order-product">
                                           <td>{{ cart.product.title }}<p class="quantity">x{{ cart.cantidad }}</p></td>
-                                          <td>$ {{ cart.total }}</td>
+                                          <td>Ref. {{ cart.total | venezuelanCurrency}}</td>
                                       </tr>
                                     </ng-container>
                                       <tr class="order-subtotal">
                                           <td>Subtotal</td>
-                                          <td>$ {{ totalCarts }}</td>
+                                          <td>Ref. {{ subtotalCarts | venezuelanCurrency}}</td>
+                                      </tr>
+                                      <tr class="order-tax">
+                                          <td>IVA</td>
+                                          <td>Ref. {{ monto_iva | venezuelanCurrency}}</td>
                                       </tr>
                                       <tr class="order-shipping">
                                           <td colspan="2">
                                               <div class="shipping-amount">
                                                   <span class="title">Método de Envío</span>
-                                                  <span class="amount">$0.00</span>
+                                                  <span class="amount">Ref. 0,00 </span>
                                               </div>
                                               <div class="input-group">
                                                   <input type="radio" id="radio1" name="shipping" checked>
@@ -222,7 +226,7 @@
                                       </tr>
                                       <tr class="order-total">
                                           <td>Total</td>
-                                          <td class="order-total-amount">$ {{ totalCarts }}</td>
+                                          <td class="order-total-amount">Ref. {{ totalCarts  | venezuelanCurrency}}</td>
                                       </tr>
                                   </tbody>
                               </table>
@@ -268,8 +272,8 @@
                                           </div>
                                           <div class="form-group">
                                             <label>Monto pagado</label>
-                                            <input type="text" class="form-control" [value]= "pagoMovilData.montoBs | number:'1.2-2'" name="montoBsPagoMovil" required  readonly>
-                                            <small class="ps-3 text-danger" >* </small><small>Tasa oficial BCV: {{ tasaBcv | number:'1.2-2'}} Bs./$ </small>
+                                            <input type="text" class="form-control" [value]= "pagoMovilData.totalMontoBs | venezuelanCurrency" name="montoBsPagoMovil" required  readonly>
+                                            <small class="ps-3 text-danger" >* </small><small>Tasa oficial BCV: {{ tasaCambio_bcv | venezuelanCurrency}} Bs./$ </small>
                                           </div>
                                           <div class="form-group">
                                             <label>Banco de donde se realizo el pago movil</label>
@@ -383,8 +387,8 @@
                                           </div>
                                           <div class="form-group">
                                             <label>Monto transferido</label>
-                                            <input type="text" class="form-control" [value]="transferenciaData.montoBs | number: '1.2-2'" name="monto" required readonly>
-                                            <small class="ps-3 text-danger">* </small><small>Tasa oficial BCV: {{ tasaBcv | number: '1.2-2'}} Bs./$ </small>
+                                            <input type="text" class="form-control" [value]="transferenciaData.totalMontoBs | venezuelanCurrency" name="monto" required readonly>
+                                            <small class="ps-3 text-danger">* </small><small>Tasa oficial BCV: {{ tasaCambio_bcv | venezuelanCurrency}} Bs./$ </small>
                                           </div>
                                           <div class="form-group">
                                             <label>Banco emisor</label>

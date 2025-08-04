@@ -11,6 +11,7 @@ import AddressClient from './AddressClient'
 import Sale from './Sale'
 import Review from './Review'
 import Payment from './Payment'
+import Config from './Config';
 import express from 'express'
 
 
@@ -33,6 +34,7 @@ router.use('/address_client', AddressClient);
 router.use('/sale', Sale);
 router.use('/review', Review);
 router.use('/payment', Payment);
+router.use('/config', Config)
 
 
 export default router;

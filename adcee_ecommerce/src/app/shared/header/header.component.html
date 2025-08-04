@@ -14,15 +14,9 @@
                       </a> -->
                   </div>
               </div>
-              <div class="col-lg-10 col-sm-9 col-7">
+              <div class="col-lg-10 col-sm-9 col-9">
                   <div class="header-top-dropdown dropdown-box-style">
-                    <h1 class="title">Alianza Digital en Línea</h1>
-                      <!-- <div class="axil-search">
-                          <button type="submit" class="icon wooc-btn-search">
-                              <i class="far fa-search"></i>
-                          </button>
-                          <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="¿Qué deseas observar?...." autocomplete="off">
-                      </div> -->
+                     <h1 class="title">Alianza Digital en Línea "El Encantado"</h1>
                       <!-- <div class="dropdown">
                           <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               USD
@@ -45,6 +39,13 @@
                       </div> -->
                   </div>
               </div>
+              
+               <div class="axil-search">
+                          <button type="submit" class="icon wooc-btn-search">
+                              <i class="fal fa-search"></i>
+                          </button>
+                          <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="¿Qué deseas observar?...." autocomplete="off">
+                      </div> 
           </div>
       </div>
   </div>
@@ -423,7 +424,7 @@
   </div>
   <!-- End Mainmenu Area  -->
 </header>
-<!-- Header Search Modal End -->
+<!-- Header Search Modal Start -->
  
 <div class="header-search-modal" id="header-search-modal">
   <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
@@ -432,14 +433,14 @@
           <form action="#">
               <div class="input-group">
                   <input type="search" class="form-control" [(ngModel)]="search_product" (keyup.enter)="searchProduct()" name="prod-search" id="prod-search" #filter placeholder="Escribe el nombre de lo deseas buscar...">
-                  <button type="submit" class="axil-btn btn-bg-primary"><i class="far fa-search"></i></button> 
+                  <button type="submit" class="axil-btn btn-bg-primary"><i class="fal fa-search"></i></button> 
               </div>
           </form>
       </div>
       <div class="card-body">
           <div class="search-result-header">
               <h6 class="title">{{products_search.length}} Resultados encontrados</h6>
-              <a href="shop.html" class="view-all">Ver todos</a>
+              <a href="#" class="view-all">Ver todos</a>
           </div>
           <div class="psearch-results">
             <ng-container *ngFor="let product of products_search">

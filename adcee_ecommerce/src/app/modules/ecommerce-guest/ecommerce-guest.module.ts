@@ -15,7 +15,8 @@ import { FiltersProductsComponent } from './filters-products/filters-products.co
   declarations: [
     EcommerceGuestComponent,
     LandingProductComponent,
-    FiltersProductsComponent
+    FiltersProductsComponent,
+    
   ],
   imports: [
     CommonModule,

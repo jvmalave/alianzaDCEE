@@ -1,4 +1,5 @@
 import models from "../models";
+import Config from '../models/Config'; 
 import resourse from "../resourses";
 import bcrypt from "bcryptjs"
 
@@ -348,18 +349,29 @@ export default {
        });
      }
    },
+
    config_initial: async (req, res) => {
     try {
       let categories = await models.Categorie.find({state: 1});
       let variedades =  await models.Variedad.find({});
-
+      const config = await Config.findOne({});
+      if (!config) {
+        return res.status(200).json({
+        tasaCambio_bcv: 0,
+        porc_iva: 0,
+        fecha_actualizacion: null,
+      });
+      }
       res.status(200).json({
         categories:categories,
-        variedades: variedades,
+        variedades:variedades,
+        tasaCambio_bcv: config.tasaCambio_bcv,
+        porc_iva: config.porc_iva,
+        fecha_actualizacion: config.fecha_actualizacion
       });
       
     } catch (error) {
-      console.log(error);
+      console.error('Error en config_initial:',error);
        res.status(500).send({
          message: "OCURRIÓ UN PROBLEMA"
        });

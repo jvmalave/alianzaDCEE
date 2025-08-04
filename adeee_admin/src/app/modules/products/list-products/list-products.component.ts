@@ -8,6 +8,8 @@ import { NoticyAlertComponent } from 'src/app/componets/notifications/noticy-ale
 import { CategoriesService } from '../../categories/_services/categories.service';
 import { AuthService } from '../../auth/_services/auth.service';
 import { UsersService } from '../../users/_services/users.service';
+import { CustomizeService } from '../../customize/services/customize.service';
+import { Product } from '../../e-commerce/_models/product.model';
 
 
 
@@ -31,6 +33,9 @@ export class ListProductsComponent implements OnInit {
   currentRol: any = null;
   currentIdSeller: any = null;
   company_name: any = null;
+  tasaCambio_bcv: number = 0;
+  priceBs:any = 0;
+  priceUsd:any = 0;
   
 
   constructor(
@@ -40,12 +45,14 @@ export class ListProductsComponent implements OnInit {
     public toaster: Toaster,
     public _categorieService:CategoriesService,
     private _authService: AuthService,
-    public _usersService: UsersService
+    public _usersService: UsersService,
+    public _custimizerService: CustomizeService
   ) { }
 
   ngOnInit(): void {
     this.isLoading$ = this._productService.isLoading$;
     this.allProducts();
+    this.tasaCambioCurrent();
     this.sellerProducts();
     this._categorieService.allCategories().subscribe((resp:any) =>{
       console.log(resp);
@@ -73,14 +80,26 @@ export class ListProductsComponent implements OnInit {
     });
   }
 
-  
+
 
   sellerProducts(){
     this._productService.sellerProducts(this.search, this.categorie, this.condition).subscribe((resp:any) => {
       console.log("SELLER-PRODUCT",resp);
       this.products_seller = resp.products_seller;
+      this.priceUsd = resp.price_usd
     })
   }
+
+
+  tasaCambioCurrent(){
+    this._custimizerService.getConfig().subscribe((resp:any) => {
+      this.tasaCambio_bcv = resp.tasaCambio_bcv;
+      console.log("TC:", this.tasaCambio_bcv)
+    })
+
+    return this.tasaCambio_bcv
+}
+
 
   refresh(){
     this.categorie = null;
