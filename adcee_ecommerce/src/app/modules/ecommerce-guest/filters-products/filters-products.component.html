@@ -6,7 +6,7 @@
               <div class="col-lg-6 col-md-8">
                   <div class="inner">
                       <ul class="axil-breadcrumb">
-                          <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
+                          <li class="axil-breadcrumb-item"><a href="index.html">Vitrina Adel</a></li>
                           <li class="separator"></li>
                           <li class="axil-breadcrumb-item active" aria-current="page">Explora</li>
                       </ul>
@@ -24,6 +24,13 @@
       </div>
   </div>
   <!-- End Breadcrumb Area  -->
+   <!-- Start tasa cambio area -->
+  <div class="axil-main-slider-area main-slider-style-2 main-slider-style-8">
+    <div class="container mt-4 text-center text-secondary" >
+      <b><Small><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</Small></b>
+    </div>
+  </div>
+  <!-- End Tasa Cambio area --> 
 
   <!-- Start Shop Area  -->
   <div class="axil-shop-area axil-section-gap bg-color-white">
@@ -114,7 +121,7 @@
                           <div class="axil-shop-top mb--40">
                               <div class="category-select align-items-center justify-content-lg-end justify-content-between">
                                   <!-- Start Single Select  -->
-                                  <span class="filter-results">Mostrando 1-12 of 84 resultados</span>
+                                  <span class="filter-results">Mostrando {{ products.length}} of {{ products.length}} resultados</span>
                                   <!-- <select class="single-select">
                                       <option>Short by Latest</option>
                                       <option>Short by Oldest</option>
@@ -154,10 +161,17 @@
                                 <div class="inner">
                                     <h5 class="title"><a [routerLink]="['/landing-producto', product.slug]" [queryParams]="getRouterDiscount(product)">{{  product.title }}</a></h5>
                                     <div class="product-price-variant">
+                                      <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor: {{ product.sellerCompany }}</small></span>
+                                      <br>
                                       <span><small>Producto {{ product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
                                       <br>
-                                  <span class="price old-price" *ngIf="product.campaign_discount">${{ product.price_usd }}</span> 
-                                  <span class="price current-price">$ {{ product.price_usd - getDiscountProduct(product) }} </span>
+                                      <span class="price old-price" *ngIf="product.campaign_discount">
+                                      Bs. {{ getPrice_bs(product) | venezuelanCurrency}}</span>
+                                      <span class="price current-price">Bs {{ (getPrice_bs(product) - getDiscountProductBs(product)) | venezuelanCurrency }}</span>
+                                      <br/>
+                                      <span class="price old-price" *ngIf="product.campaign_discount">
+                                      Ref. {{ product.price_usd | venezuelanCurrency }}</span> 
+                                      <span class="price current-price"><small>Ref. {{ product.price_usd - getDiscountProduct(product) | venezuelanCurrency }}</small></span>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +216,7 @@
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
           </div>
           <div class="modal-body" *ngIf="product_selected">
               <div class="single-product-thumb">
@@ -225,7 +239,7 @@
                                         
                                         <div class="product-quick-view position-view">
                                             <a [href]="galeria.imagen" class="popup-zoom">
-                                                <i class="far fa-search-plus"></i>
+                                                <i class="fas fa-search-plus"></i>
                                             </a>
                                         </div>
                                       </div>
@@ -255,14 +269,66 @@
                                       </div>
                                   </div>
                                   <h3 class="product-title"> {{ product_selected.title }}</h3>
-                                  <span class="price-amount" *ngIf="!product_selected.campaign_discount">$ {{ product_selected.price_usd }}</span>
+
+                                  <div *ngIf="!product_selected.campaign_discount">
+                                        <span class="price-amount">Bs. {{ getCalNewPriceBs(product_selected) | venezuelanCurrency}}
+                                          &nbsp;&nbsp;
+                                          <small>Ref. {{ product_selected.price_usd | venezuelanCurrency}}</small>
+                                        </span>
+                                    </div > 
+                                    <!-- Precio original tachado cuando hay FlashSale o campaign_discount -->
+                                     <div *ngIf="product_selected.campaign_discount">
+                                       <span class="price-amount" >
+                                         Bs. <del>{{ getPrice_bs(product_selected) | venezuelanCurrency}}</del>
+                                         &nbsp;&nbsp;
+                                         <small>Ref. <del>{{ product_selected.price_usd | venezuelanCurrency}}</del></small>
+                                       </span>
+                                     </div>
+                                    <!-- Precio con descuento calculado (flash o campaña) -->
+                                     <div *ngIf="product_selected.campaign_discount">
+                                       <span class="price-amount" >
+                                         Bs. {{ getCalNewPriceBs(product_selected) | venezuelanCurrency}}
+                                         &nbsp;&nbsp;
+                                         <small>Ref. {{ getCalNewPrice(product_selected) | venezuelanCurrency}}</small>
+                                       </span>
+                                     </div>
+
+
+
+
+
+                                  <!-- <span class="price-amount" *ngIf="!product_selected.campaign_discount">$ {{ product_selected.price_usd }}</span>
                                   <span class="price-amount" *ngIf="product_selected.campaign_discount">$ <del>{{ product_selected.price_usd }}</del></span>
-                                  <span class="price-amount" *ngIf="product_selected.campaign_discount">$ {{ getCalNewPrice(product_selected) }}</span>
-                                  <ul class="product-meta">
-                                      <li><i class="fal fa-check"></i>In stock</li>
-                                      <li><i class="fal fa-check"></i>Free delivery available</li>
-                                      <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
-                                  </ul>
+                                  <span class="price-amount" *ngIf="product_selected.campaign_discount">$ {{ getCalNewPrice(product_selected) }}</span> -->
+
+                                  <div class="mb-3">
+                                    <span><i class="fal fa-store fa-primary me-3"></i>Emprendimiento: <strong>{{ product_selected.sellerCompany}}</strong></span><br>
+                                    <span class= "text-secondary"><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</span>
+                                  </div>
+                                  <ng-container *ngIf="product_selected.type_inventario == 1">
+                                      <div *ngIf="product_selected.stock > 0">
+                                        <ul class="product-meta">
+                                          <li><i class="fal fa-check"></i>Producto en stock</li>
+                                          <li><i class="fal fa-check"></i>{{ product_selected.stock }} Unidades disponibles</li>
+                                          <!-- <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li> -->
+                                        </ul>
+                                      </div>
+                                      <div *ngIf="product_selected.stock == 0">
+                                        <ul class="product-meta">
+                                          <li><i class="fal fa-check"></i>Producto no disponible</li>
+                                          <!-- <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li> -->
+                                        </ul>
+                                      </div>
+                                  </ng-container>
+                                  <ng-container *ngIf="product_selected.type_inventario == 2">
+                                      <ul class="product-meta">
+                                        <li><i class="fal fa-check"></i>In stock</li>
+                                        <ng-container *ngFor="let variedad of product_selected.variedades">
+                                          <li><i class="fal fa-check"></i>{{ variedad.valor}} - {{ variedad.stock }} unidades disponibles</li>
+                                        </ng-container>
+                                      </ul>
+                                  </ng-container>
+
                                   <p class="description"> {{ product_selected.resumen}}</p>
 
                                   <div class="product-variations-wrapper">

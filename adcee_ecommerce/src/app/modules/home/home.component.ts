@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './_services/home.service';
 import { CartService } from '../ecommerce-guest/_services/cart.service';
+import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
 import {URL_FROTEND_ADM } from '../../config/config'
 
@@ -48,6 +49,7 @@ export class HomeComponent implements OnInit {
     public homeService: HomeService,
     public cartService: CartService,
     public router: Router,
+    public userService: UserService,
     
   ) {}
 
@@ -56,6 +58,7 @@ export class HomeComponent implements OnInit {
     let TIME_NOW = new Date().getTime()
     this.homeService.listHome(TIME_NOW).subscribe((resp:any) =>{
       console.log("ECOMMERCE",resp);
+      console.log ("BEST", resp.best_products)
       this.sliders = resp.sliders;
       this.categories = resp.categories;
       this.productPromo = resp.productPromo;
@@ -85,14 +88,44 @@ export class HomeComponent implements OnInit {
         
         HOMEINITTEMPLATE($);
       }, 50);
+
+
+      this.updateSellerCompanies([
+        this.bestProducts,
+        this.our_products,
+        this.donation_products,
+        this.FlashPrductList
+      ]);
+
     })
 
+  
     this.homeService.getConfig().subscribe((configResp: any) => {
     // carga configuración dinámica
     this.tasaCambio_bcv = configResp.tasaCambio_bcv;
     console.log('Configuración cargada:', configResp);
-  });
+  })
+      
+    
   }
+
+
+  updateSellerCompanies(productLists: any[][]) {
+    productLists.forEach(products => {
+      if (Array.isArray(products)) {
+        products.forEach(item => {
+          if (item && item.seller_id) {
+            this.userService.getUserById(item.seller_id).subscribe((resp: any) => {
+              if (resp.user && resp.user.company) {
+                item.sellerCompany = resp.user.company;
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  
 
 
   OpenModal(bestProduct:any, FlashSale:any = null){

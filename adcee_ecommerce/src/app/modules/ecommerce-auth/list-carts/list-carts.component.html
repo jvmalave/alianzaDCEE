@@ -1,4 +1,11 @@
 <main class="main-wrapper">
+  <!-- Start tasa cambio area -->
+  <div class="axil-main-slider-area main-slider-style-2 main-slider-style-8">
+    <div class="container mt-2 text-center text-secondary" >
+      <b><Small><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</Small></b>
+    </div>
+  </div>
+  <!-- End Tasa Cambio area --> 
 
   <!-- Start Cart Area  -->
   <div class="axil-product-cart-area axil-section-gap">
@@ -30,7 +37,7 @@
                               </a>
                             </td>
                             <td class="product-thumbnail">
-                              <a href="single-product.html"><img [src]="cart.product.imagen" alt="Digital Product"></a>
+                              <a href="single-product.html"><img [src]="cart.product.imagen" alt="{{ cart.product.title }}"></a>
                             </td>
                             <td class="product-title">{{ cart.product.title }}
                               <ng-container *ngIf="cart.variedad">

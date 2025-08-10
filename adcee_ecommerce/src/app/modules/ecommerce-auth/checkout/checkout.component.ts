@@ -78,6 +78,7 @@ export class CheckoutComponent implements OnInit {
 
   address_client_selected:any = null;
   listCarts:any = [];
+  cart_id: any = null;
   subtotalCarts:any = 0;
   totalCarts: any = 0;
   tasaCambio_bcv: any = 0
@@ -100,8 +101,17 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
-      console.log(resp);
-      this.listCarts = resp;
+      console.log("DataCart",resp);
+
+      this.listCarts = resp ?? [];
+
+      if (Array.isArray(this.listCarts) &&    this.listCarts.length > 0) {
+        this.cart_id = this.listCarts[0]._id;
+      } else {
+        this.cart_id = null; // O manejar caso sin carrito
+      }
+  
+      console.log("ID", this.cart_id)
       this.subtotalCarts = this.listCarts.reduce((sum: any, item: any) => sum + item.total, 0);
       this.calcularMontos();
     });
@@ -415,7 +425,13 @@ export class CheckoutComponent implements OnInit {
         console.log('Pago registrado:', response);
 
         // Limpia carrito desde el servicio
-      this.cartService.resetCart();
+      
+      this.cartService.deleteCart(this.cart_id).subscribe((resp:any) =>{
+        console.log("DELETE",resp);
+        this.cartService.removeItemCart(this.listCarts);
+        this.cartService.resetCart();
+      })
+      
 
       // Limpia dirección seleccionada
       //this.address_client_selected.reset()

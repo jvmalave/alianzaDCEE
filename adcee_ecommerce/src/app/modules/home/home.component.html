@@ -29,7 +29,15 @@
         </div>
     </div>
   </div>
-<!-- End Breadcrumb Area  -->
+  <!-- End Breadcrumb Area  -->
+
+  <!-- Start tasa cambio area -->
+  <div class="axil-main-slider-area main-slider-style-2 main-slider-style-8">
+    <div class="container mt-4 text-center text-secondary" >
+      <b><Small><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</Small></b>
+    </div>
+  </div>
+  <!-- End Tasa Cambio area --> 
 
     <!-- Start Slider Area -->
     <div class="axil-main-slider-area main-slider-style-2 main-slider-style-8">
@@ -145,9 +153,10 @@
                           <div class="product-content">
                               <div class="inner"> 
                                   <h5 class="title"><a [routerLink]="['/landing-producto', product.slug]" [queryParams]="{_id: FlashSale._id}">{{ product.title }}</a></h5>
-                                  <span><small>Producto {{ product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
-                                        <br>
-                                        <br>
+                                    <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor:{{ product.sellerCompany }}</small></span>
+                                    <br>
+                                    <span><small>Producto {{ product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                    <br>
                                   <div class="product-price-variant">
                                       <span class="price old-price">Bs.{{ getPrice_bs(product) | venezuelanCurrency}}</span>
                                       <span class="price current-price">Bs. {{ getCalNewPriceBs(product) | venezuelanCurrency }}</span>
@@ -236,8 +245,10 @@
                                   </div>
                                   <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]" [queryParams]="getRouterDiscount(bestProduct)"> {{bestProduct.title }}</a></h5>
                                   <div class="product-price-variant">
+                                    <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor: {{ bestProduct.sellerCompany}}</small></span>
+                                    <br>
                                     <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
-                                        <br>
+                                    <br>
                                     <span class="price old-price" *ngIf="bestProduct.campaign_discount">
                                       Bs. {{ getPrice_bs(bestProduct) | venezuelanCurrency}}</span>
                                     <span class="price current-price">Bs {{ (getPrice_bs(bestProduct) - getDiscountProductBs(bestProduct)) | venezuelanCurrency }}</span>
@@ -340,6 +351,8 @@
                                       </div>
                                       <h5 class="title"><a [routerLink]="['/landing-producto', our_product.slug]" [queryParams]="getRouterDiscount(our_product)"> {{ our_product.title }}</a></h5>
                                       <div class="product-price-variant">
+                                        <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor: {{  our_product.sellerCompany }}</small></span>  
+                                        <br>
                                         <span><small>Producto {{ our_product.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
                                         <br>
                                         <span class="price old-price" *ngIf="our_product.campaign_discount">Bs. {{ getPrice_bs(our_product) | venezuelanCurrency}}</span> 
@@ -393,6 +406,8 @@
                                         </div>
                                           <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title }}</a></h5>
                                           <div class="product-price-variant">
+                                            <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor: {{ bestProduct.sellerCompany }}</small></span>
+                                            <br>
                                             <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
                                             <br>
                                             <span class="price old-price" *ngIf="bestProduct.campaign_discount">${{ bestProduct.price_usd }}</span> 
@@ -514,6 +529,9 @@
                                         <span class="rating-number">(64)</span>
                                     </div> -->
                                     <h5 class="title"><a [routerLink]="['/landing-producto', donation_product.slug]"> {{ donation_product.title }}</a></h5>
+                                    <div class="product-price-variant">
+                                      <span><small><i class="fal fa-store fa-primary me-3"></i>Donante: {{ donation_product.sellerCompany }}</small></span>
+                                    </div>
                                     <!-- <div class="product-price-variant">
                                         <span class="price current-price">$ {{ our_product.price_usd }}</span>
                                         <span class="price old-price">$49.99</span>
@@ -717,20 +735,22 @@
                               </div>
                               <h5 class="title"><a [routerLink]="['/landing-producto', bestProduct.slug]">{{ bestProduct.title}}</a></h5>
                               <div class="product-price-variant">
-                                    <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
-                                        <br>
-                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
-                                      Bs. {{ getPrice_bs(bestProduct) | venezuelanCurrency}}</span>
-                                    <span class="price current-price">Bs {{ (getPrice_bs(bestProduct) - getDiscountProductBs(bestProduct)) | venezuelanCurrency }}</span>
-                                    <br/>
-                                    <span class="price old-price" *ngIf="bestProduct.campaign_discount">
-                                      Ref. {{ bestProduct.price_usd | venezuelanCurrency }}</span> 
-                                    <span class="price current-price"><small>Ref. {{ bestProduct.price_usd - getDiscountProduct(bestProduct) | venezuelanCurrency }}</small></span>
-                                    
-                                  <!-- <span class="price old-price">$</span> -->
-                                   <!-- <span class="price current-price">$ {{ getPrice_bs(bestProduct) | venezuelanCurrency }}</span>
-                                   <br>
-                                  <span class="price current-price">$ {{ bestProduct.price_usd | venezuelanCurrency }}</span> -->
+                                <span><small><i class="fal fa-store fa-primary me-3"></i>Emprendedor: {{ bestProduct.sellerCompany }}</small></span>
+                                <br>
+                                <span><small>Producto {{ bestProduct.condition == 1 ? "Nuevo" : "Usado" }}</small></span>
+                                <br>
+                                <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                  Bs. {{ getPrice_bs(bestProduct) | venezuelanCurrency}}</span>
+                                <span class="price current-price">Bs {{ (getPrice_bs(bestProduct) - getDiscountProductBs(bestProduct)) | venezuelanCurrency }}</span>
+                                <br/>
+                                <span class="price old-price" *ngIf="bestProduct.campaign_discount">
+                                  Ref. {{ bestProduct.price_usd | venezuelanCurrency }}</span> 
+                                <span class="price current-price"><small>Ref. {{ bestProduct.price_usd - getDiscountProduct(bestProduct) | venezuelanCurrency }}</small></span>
+                                
+                              <!-- <span class="price old-price">$</span> -->
+                                <!-- <span class="price current-price">$ {{ getPrice_bs(bestProduct) | venezuelanCurrency }}</span>
+                                <br>
+                              <span class="price current-price">$ {{ bestProduct.price_usd | venezuelanCurrency }}</span> -->
                               </div>
                           </div>
                           <div class="product-hover-action">
@@ -865,8 +885,6 @@
                                               <div class="product-badget">${{ product_selected.campaign_discount.discount }} OFF</div>
                                             </div>
                                           </ng-container>
-
-                                          
                                           <div class="product-quick-view position-view">
                                               <a [href]="galeria.imagen" class="popup-zoom">
                                                   <i class="fas fa-search-plus"></i>
@@ -923,11 +941,12 @@
                                        </span>
                                      </div>
 
-                                    <!-- <span class="price-amount" *ngIf="!product_selected.FlashSale">$ {{ product_selected.price_usd }}</span>
-                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ <del>{{ product_selected.price_usd }}</del></span>
-                                    <span class="price-amount" *ngIf="product_selected.FlashSale">$ {{ getCalNewPrice(product_selected) }}</span> -->
+                                     <div class="mb-3">
+                                        <span><i class="fal fa-store fa-primary me-3"></i>Emprendimiento: <strong>{{ product_selected.sellerCompany }}</strong></span><br>
+                                        <span class= "text-secondary"><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</span>
+                                      </div>
 
-
+                                    
                                     <ng-container *ngIf="product_selected.type_inventario == 1">
                                       <div *ngIf="product_selected.stock > 0">
                                         <ul class="product-meta">

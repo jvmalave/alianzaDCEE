@@ -492,7 +492,7 @@
           <ng-container *ngFor="let cart of listCarts">
             <li class="cart-item">
                 <div class="item-img">
-                    <a href="single-product.html"><img [src]="cart.product.imagen" alt="Commodo Blown Lamp"></a>
+                    <a href="single-product.html"><img [src]="cart.product.imagen" alt="{{ cart.product.title}}"></a>
                     <button class="close-btn" (click)="removeCart(cart)"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="item-content">

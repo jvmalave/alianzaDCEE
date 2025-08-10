@@ -7,7 +7,7 @@
             <div class="col-lg-6 col-md-8">
                 <div class="inner">
                     <ul class="axil-breadcrumb">
-                        <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="axil-breadcrumb-item"><a href="index.html">Vitrina Adel</a></li>
                         <li class="separator"></li>
                         <li class="axil-breadcrumb-item active" aria-current="page">Mi Cuenta</li>
                     </ul>
@@ -90,6 +90,7 @@
                             <div>
                               <p><i class="fal fa-store fa-primary me-3"></i>Emprendimiento: <strong>{{ company_name }}</strong></p>
                             </div>
+                            <p class="mb-4 text-secondary"><i class="fa fa-money me-3"></i>1 Ref = Bs. {{ tasaCambio_bcv | venezuelanCurrency}} - (BCV)</p>
                             <div class="product-rating">
                                 <div class="star-rating">
                                   <i class="fas fa-star" [ngClass]="{'star-del': AVG_REVIEW < 1}"></i>
