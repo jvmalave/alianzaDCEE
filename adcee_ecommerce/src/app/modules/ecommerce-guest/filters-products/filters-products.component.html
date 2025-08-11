@@ -58,6 +58,24 @@
                               </ul>
                           </div>
                       </div>
+                       <div class="toggle-list product-categories active">
+                          <h6 class="title">EMPRENDEDORES</h6>
+                          <div class="shop-submenu">
+                            <select [(ngModel)]="seller_id" (change)="sellerSelected(seller_id)" class="form-select form-select-lg mb-3" aria-label=".form-select-lg" name="sellerSelect">
+                              <option class="seller" value="">Todos los emprendedores</option>
+                              <option class="seller" *ngFor="let seller of sellers" [value]="seller._id">
+                                {{ seller.company }}
+                              </option>
+                            </select>
+                            <!-- <select id="seller-select" [(ngModel)]="sellerId_selected" class="form-control">
+                              <option value="">Todos los emprendedores</option>
+                              <option *ngFor="let seller of sellers" [value]="seller._id">
+                                {{ seller.company }}
+                              </option>
+                            </select> -->
+                          </div>
+                      </div>
+                      
                       <div class="toggle-list product-categories product-gender active">
                           <h6 class="title">DESCUENTO</h6>
                           <div class="shop-submenu">
@@ -138,6 +156,10 @@
                   </div>
                   <!-- End .row -->
                   <div class="row row--15">
+                    <ng-container *ngIf="products.length === 0">
+                      <p class="text-center my-5 fs-3">No hay productos que coincidan con los criterios de busqueda</p>
+                    </ng-container>
+                    
                     <ng-container *ngFor="let product of products">
                       <div class="col-xl-4 col-sm-6">
                         <div class="axil-product product-style-one mb--30">

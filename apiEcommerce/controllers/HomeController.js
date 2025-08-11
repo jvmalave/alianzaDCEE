@@ -380,6 +380,7 @@ export default {
    },
    filter_products: async(req,res) => {
     try {
+      console.log("FILTER-PRODUCT", req.body)
       var TIME_NOW = req.query.TIME_NOW;
       let search_product = req.body.search_product;
 
@@ -388,6 +389,7 @@ export default {
       let variedad_selected = req.body.variedad_selected;
       let price_min = req.body.price_min;
       let price_max = req.body.price_max;
+      let seller_id = req.body.seller_id;
 
       let filter = [
         { state:2 },
@@ -429,6 +431,14 @@ export default {
         if(VARIE){
           products_s.push(VARIE.product);
         }
+      }
+
+      if (search_product && search_product.trim() !== '') {
+        filter.push({ title: new RegExp(search_product.trim(), 'i') });
+      }
+
+      if (seller_id) {
+        filter.push({ seller_id: seller_id });
       }
 
       if(categories_s.length > 0){

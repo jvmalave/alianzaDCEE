@@ -21,7 +21,7 @@ export class FiltersProductsComponent implements OnInit{
 
   categories:any = [];
   variedades: any = [];
-
+  
   categories_salecteds: any = [];
 
   is_discount:any = 1; // 1: Todos los productos | 2: Productos con descuentos
@@ -32,6 +32,9 @@ export class FiltersProductsComponent implements OnInit{
 
   products:any = [];
   product_selected: any = null;
+
+  sellers: any[] = [];
+  seller_id: string | null = null;
 
   tasaCambio_bcv: any = 0;
 
@@ -48,12 +51,12 @@ export class FiltersProductsComponent implements OnInit{
       console.log(resp);
       this.categories = resp.categories;
       this.variedades = resp.variedades;
-
     })
     setTimeout(() => {
       priceRangeSlider()
     }, 50);
 
+    this.loadSellers();
     this.filterProduct();
   
     this.homeService.getConfig().subscribe((configResp: any) => {
@@ -79,25 +82,44 @@ export class FiltersProductsComponent implements OnInit{
     this.filterProduct();
   }
 
+  sellerSelected(seller_id:any){
+    this.seller_id = this.seller_id;
+    this.filterProduct();
+  }
+
   selectedVariedad(variedad:any){
     this.variedad_selected = variedad;
     this.filterProduct();
   }
 
+  loadSellers() {
+  this.userService.listSellers().subscribe(
+    (resp: any) => {
+      console.log("Sellers", resp);
+      this.sellers = resp.users; 
+    },
+    (error) => {
+      console.error('Error al cargar emprendedores:', error);
+    }
+  );
+}
+  
+
   filterProduct(){
+
     let data = {
     categories_salecteds: this.categories_salecteds,
     is_discount: this.is_discount,
     variedad_selected: this.variedad_selected._id ? this.variedad_selected : null,
     price_min: $("#amount-min").val(),
     price_max: $("#amount-max").val(),
+    seller_id: this.seller_id,
 
     }
+    console.log('Payload filterProduct:', data);
     this.ecommerceGuest.filterProduct(data).subscribe((resp:any) => {
       console.log("filterProduct",resp);
       this.products = resp.products;
-
-      //console.log("Prod",this.products)
 
       if (Array.isArray(this.products)) {
       this.products.forEach(item => {
@@ -112,9 +134,6 @@ export class FiltersProductsComponent implements OnInit{
     }
     })
   }
-  
-
-
 
   getDiscountProduct(product:any){
       if(product.campaign_discount){

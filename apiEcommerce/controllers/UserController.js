@@ -301,10 +301,24 @@ export default{
     try {
       const user = await models.User.findById(req.params.id);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
-      console.log("USER", user);
+      // console.log("USER", user);
       res.status(200).json({ user });
     } catch (error) {
       res.status(500).json({ message: "Error al obtener usuario" });
     }
-  }
+  },
+  //lista usuarios emprendedores
+  listSellers: async (req, res) => {
+    try {
+      // Buscar solo usuarios cuyo rol es 'seller'
+      const sellers = await models.User.find({ rol: 'emprendedor' })
+        .select('_id company')  // Trae solo campos esenciales
+        .lean();
+      res.status(200).json({ users: sellers });
+      console.log("SELLER", users)
+    } catch (error) {
+      console.error('Error listSellers:', error);
+      res.status(500).json({ message: 'Error al obtener la lista de emprendedores' });
+    }
+  },
 }

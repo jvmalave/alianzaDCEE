@@ -12,6 +12,7 @@ router.post("/register", UserController.register);
 router.post("/register_seller", UserController.register_seller);
 router.put("/update", UserController.update);
 router.get("/list",auth.verifyAdmin, UserController.list);
+router.get('/sellers', UserController.listSellers);
 router.post("/register_admin",auth.verifyAdmin, UserController.register_admin);
 router.post("/login", UserController.login);
 router.post("/login_admin", UserController.login_admin);

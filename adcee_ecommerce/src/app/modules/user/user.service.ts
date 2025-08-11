@@ -27,5 +27,10 @@ export class UserService {
   // let headers = new HttpHeaders({'token': this.authservice.token});
   return this.http.get(`${URL_SERVICIOS.replace(/\/$/, '')}/users/${id}`);
   }
+
+  listSellers() {
+  return this.http.get(`${URL_SERVICIOS.replace(/\/$/, '')}/users/sellers`);
+}
+
 }
 
